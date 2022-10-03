@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+  linter:
+    container_name: "muxer_linter"
+    image: "golangci/golangci-lint:v1.49.0-alpine"
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: golangci-lint run -v ./...
+
+  lintfixer:
+    container_name: "muxer_lintfixer"
+    build:
+      context: .
+      dockerfile: ./ops/Dockerfile-gci
+    volumes:
+      - .:/app:rw
+    working_dir: /app
+    command: ./ops/gci.sh
+
+  mocks:
+    image: mockery:local
+    build:
+      context: .
+      dockerfile: ./ops/Dockerfile-mockery
+    working_dir: /src
+    volumes:
+      - ./:/src
