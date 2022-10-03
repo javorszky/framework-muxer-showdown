@@ -1,0 +1,4 @@
+with-expecter: True
+dir: .
+all: True
+keeptree: True
