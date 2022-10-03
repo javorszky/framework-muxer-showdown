@@ -16,7 +16,7 @@ services:
     volumes:
       - .:/app:rw
     working_dir: /app
-    command: ./ops/gci.sh
+    command: sh ./ops/gci.sh
 
   mocks:
     image: mockery:local
