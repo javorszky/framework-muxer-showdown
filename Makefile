@@ -1,7 +1,7 @@
 SHELL=/bin/bash
 DOCKER_BUILDKIT=1
 
-.PHONY: test lint lintfix mocks
+.PHONY: test build lint lintfix mocks
 
 test:
 	go test ./...
@@ -9,11 +9,11 @@ test:
 build:
 	docker build -f ops/Dockerfile -t suborbital/muxer-util:latest .
 
-lint:
+lint: build
 	docker compose up linter
 
-lintfix:
+lintfix: build
 	docker compose up lintfixer
 
-mocks:
+mocks: build
 	docker compose up mocks
