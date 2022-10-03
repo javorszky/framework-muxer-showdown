@@ -6,6 +6,9 @@ DOCKER_BUILDKIT=1
 test:
 	go test ./...
 
+build:
+	docker build -f ops/Dockerfile -t suborbital/muxer-util:latest .
+
 lint:
 	docker compose up linter
 
