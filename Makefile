@@ -1,7 +1,7 @@
 SHELL=/bin/bash
 DOCKER_BUILDKIT=1
 
-.PHONY: test build lint lintfix mocks
+.PHONY: test build lint lintfix mocks start
 
 test:
 	go test ./...
@@ -17,3 +17,9 @@ lintfix: build
 
 mocks: build
 	docker compose up mocks
+
+start:
+	go run main.go
+
+hammer:
+	hey -z 30s -m GET -cpus 4 -c 200 http://localhost:9000/health

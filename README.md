@@ -11,3 +11,5 @@ Makefile has a docker build that produces a utility image with `gci`, `golangci-
 * `make lint`: runs golangci-lint with the configs from the [.golangci.yaml](.golangci.yaml) file.
 * `make lintfix`: runs gci on all `*.go` files recursively minus the `vendor` directory.
 * `make mocks`: runs mockery to generate mocked interfaces in all go files recursively minus the `vendor` directory with config from the [.mockery.yaml](.mockery.yaml) file.
+
+## net/http implementation

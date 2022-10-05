@@ -1,11 +1,10 @@
 package main
 
 import (
-	"time"
+	"os"
+	"os/signal"
 
 	"github.com/rs/zerolog"
-	"github.com/rs/zerolog/log"
-
 	"github.com/suborbital/framework-muxer-showdown/app"
 )
 
@@ -13,12 +12,24 @@ func main() {
 	// UNIX Time is faster and smaller than most timestamps
 	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
 
-	appLogger := log.With().Str("component", "app").Logger()
+	appLogger := zerolog.New(os.Stderr).With().Str("component", "app").Logger()
+
+	shutdownChan := make(chan os.Signal, 1)
+	errchan := make(chan error)
+
+	signal.Notify(shutdownChan, os.Kill, os.Interrupt)
 
 	a := app.New(appLogger)
 
-	a.Start()
+	go func() {
+		errchan <- a.Start()
+	}()
 
-	time.Sleep(3 * time.Second)
-	a.Stop()
+	select {
+	case sig := <-shutdownChan:
+		a.Stop(sig.String())
+
+	case err := <-errchan:
+		a.Stop(err.Error())
+	}
 }
