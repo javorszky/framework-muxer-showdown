@@ -22,30 +22,132 @@ Nested muxers are also very very easy to do, though we do need to keep a few thi
 
 Error handling is generally the weakest point as we'd need to respond from the end handlers directly, because none of the handlers have return arguments that we could catch.
 
+Path variables are a pain.
+
+Here are the details of each stuff:
+
 ### Details of criteria
 
 #### Context type
 
+Standard context inside the `*http.Request`.
+
 #### Standard library handling
+
+It is standard library, out of the box. :)
 
 #### Accessing raw Request and ResponseWriter
 
+`net/http` gives us really two ways of dealing with handlers. Either it's an `http.HandlerFunc`, or whatever implements the `http.Handler` interface. The latter has a `ServeHTTP` method, which itself is an `http.HandlerFunc`, so the two of them are mostly interchangeable. The signature for the func is
+```go
+func thing(w http.ResponseWriter, r *http.Request) {}
+```
+So yep, this is about as raw request as it gets.
+
+Routing is done via a muxer (multiplexer) like this:
+```go
+mux := http.NewServeMux()
+
+mux.Handle("/somepath", handlers.SomeHandlerFunc)
+mux.Handle("/otherpath", logic.ImplementsHandlerInterface)
+```
+
 #### Websocket
 
+I tried two ways of implementing websockets, one using the standard library websocket implementation at
+`"golang.org/x/net/websocket"`, the other using gobwas from `"github.com/gobwas/ws"` because initially I had a problem with getting the standard library websocket working as I kept getting 401.
+
+##### Using standard library
+
+The handler needs to be `websocket.Handler`, that one takes a connection. That's on the handler side, so inside all we really need is a for loop with receive and send bits.
+
+On the muxer side, we don't need to do anything, because the `websocket.Handler` implements the `http.Handler` interface, so we can just plug it in.
+
+The incoming request needs to have an `Origin` header present with a parseable URL as value, so in real world uses that won't be a problem, but Postman might catch you out in this.
+
+See `handlers.WSStd()` for how that works.
+
+##### Using gobwas
+
+We need to upgrade the request to a connecting using `ws.Upgrade`, and then it's a standard for loop. See `handlers.WS()` for how it works.
+
 #### Path specificity
+
+This is a super yes.
+
+* `/single` matches a single path: `/single`. And done, that's it.
+* `/single/` matches all paths that have `/single/` as a prefix, so `/single/`, `/single/bla`, `/single/ladies/put/a/ring/on/it`
+* `/single/long/thing` however matches a specific handler, even though it should also be covered by the `/single/` matcher. This is more specific, so matches first.
 
 #### Path variables
 
 #### Grouping
 
+This was super easy. Take a muxer, and put another muxer onto a path. The only important thing that we need to pay attention to are slashes and using `http.StripPrefix` like so:
+
+```go
+// Grouping
+groupMux := http.NewServeMux()
+// will handle /v1/hello
+groupMux.Handle("/hello", getMiddleware(handlers.Hello()))
+
+mux.Handle("/v1/", http.StripPrefix("/v1", groupMux))
+```
+The group prefix NEEDS to have the trailing slash on it, the `http.StripPrefix` needs to NOT have the trailing slash, and the paths in the nested muxer need to have the trailing slash. Otherwise it just works.
+
 #### Overlaps
+
+This is the situation where if we have a handler for a dynamic routing, like `/page/+pageslug` and `/page/contact`, because technically `contact` could also be a dynamic thing, but because path variables with `net/http` is HARD, I didn't check.
 
 #### General middleware
 
+Fairly easy, Middlewares look like this: `func(next http.Handler) http.Handler`, and then within them we call `next.ServeHTTP(w, r)`, and ... done.
+
+The one interesting thing I learned is that returning a `http.Handler` as a function you can do this:
+```go
+func SomeMiddleware(l zerolog.Logger, db package.Struct) func(http.Handler) http.Handler {
+    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+        // do the thing of the middleware here
+        l.Info().Msg("doing middleware work")
+
+        next.ServeHTTP(w, r)
+    })
+}
+```
+And then in the muxer we can do the following
+```go
+mux := http.NewServeMux()
+
+// option 1
+mux.Handle("/some-path", SomeMiddleware(l, db)(handlers.WhateverHandler))
+
+// option 2
+mw := SomeMiddleware(l, db)
+mux.Handle("/some-path", mw(handlers.WhateverHandler))
+```
+
 #### Error handling middleware
+
+Eh, so this is kinda. Technically we can shove errors into the request ctx, which I added a `web` package helper functions to do it for us, and then in an error handler middleware we can check the ctx, and act accordingly.
+
+The reason it's a `Kinda` and not a `Yes` is because in order to change the context on a pointer to a request, you need to do the following at the end of the handler:
+```go
+*r = *r.Clone(newCtx)
+```
+Yes, we assign a pointer to a pointer. And then dealing with error type checking using pointers is also kind of mindboggling, but otherwise it works as expected. It's just clunky.
 
 #### Context up and down
 
+As with the error handling, it can be done, but pointers = pointers, `request.Clone`, `request.WithContext`, but ... can be done. It's `Kinda`, because it's clunky.
+
+By up and down, I mean passing context from a middleware into a nested next handler (down), and grabbing a changed context from within a nested handler back to a middleware (up).
+
 #### Unit tests
+
+`httptest` just works with the standard library implementation.
+
+#### Path variables
+
+This is... eeeehhh... it _can_ be done, but it needs a LOT of work. There's this [super useful article by Ben Hoyt about different ways of handling dynamic routing](https://benhoyt.com/writings/go-routing/), which is easy to understand, and can work, but we'd need to actually build it ourselves, and this is why routers exist.
 
 #### Ecosystem
