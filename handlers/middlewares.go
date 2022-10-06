@@ -44,3 +44,25 @@ func PanicRecovery(next http.Handler) http.Handler {
 		next.ServeHTTP(w, r)
 	})
 }
+
+// Methods is a middleware that restricts the http methods by which a handler can be reached. This is important because
+// if a route is authenticated for example, but only deals with POST request, then a GET request would first encounter
+// the auth middleware before the method selection. Ideally we want to tell clients to choose the correct method before
+// we move on to handling other aspects of a request.
+func Methods(methods ...string) func(http.Handler) http.Handler {
+	allowed := make(map[string]struct{})
+	for _, method := range methods {
+		allowed[method] = struct{}{}
+	}
+
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if _, ok := allowed[r.Method]; !ok {
+				w.WriteHeader(http.StatusMethodNotAllowed)
+				return
+			}
+
+			next.ServeHTTP(w, r)
+		})
+	}
+}
