@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/hlog"
 	"github.com/suborbital/framework-muxer-showdown/errors"
 	"github.com/suborbital/framework-muxer-showdown/handlers"
 )
@@ -24,7 +25,22 @@ func New(l zerolog.Logger, errChan chan error) App {
 	stdLogs := stdLog.New(os.Stderr, "stdlogger", stdLog.Lmicroseconds)
 
 	mux := http.NewServeMux()
+
+	hlog.NewHandler(handlerLogger)
+
 	mux.Handle("/health", handlers.Health(handlerLogger))
+	mux.Handle("/authed", handlers.Auth(handlers.StandardHandlerFunc()))
+	mux.Handle("/panics", handlers.PanicRecovery(handlers.Panics()))
+	mux.Handle("/notfound", handlers.WillNotFound())
+	mux.Handle("/forbidden", handlers.WillFourOhThree())
+	mux.Handle("/unavailable", handlers.WillFiveOhThree())
+	mux.Handle("/server-error", handlers.WillFiveHundred())
+	mux.Handle("/unauthed", handlers.WillFourOhOne())
+	mux.Handle("/std-handler-func", handlers.StandardHandlerFunc())
+	mux.Handle("/std-handler-iface", handlers.StandardHandler())
+	mux.Handle("/std-handler-iface-raw", handlers.StdHandler{})
+	mux.Handle("/ws-std", handlers.WSStd(handlerLogger))
+	mux.Handle("/ws", handlers.WS())
 
 	return App{
 		logger: l,
@@ -52,8 +68,6 @@ func (a App) Start() error {
 func (a App) Stop(reason string) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
-
-	a.logger.Info().Msgf("this is the server: %#v", a.server)
 
 	_ = a.server.Shutdown(ctx)
 	a.logger.Info().Msgf("stopped app for reason %s", reason)
