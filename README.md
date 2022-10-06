@@ -13,3 +13,5 @@ Makefile has a docker build that produces a utility image with `gci`, `golangci-
 * `make mocks`: runs mockery to generate mocked interfaces in all go files recursively minus the `vendor` directory with config from the [.mockery.yaml](.mockery.yaml) file.
 
 ## net/http implementation
+
+See the tree here: https://github.com/suborbital/framework-muxer-showdown/tree/net/http
