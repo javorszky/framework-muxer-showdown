@@ -30,7 +30,6 @@ func main() {
 		appLogger.Error().Msg("doing the shutdown because shutdownchan did a thing")
 		a.Stop(sig.String())
 		os.Exit(0)
-
 	case err := <-errchan:
 		appLogger.Error().Msg("doing the shutdown because errchan did a thing")
 		a.Stop(err.Error())

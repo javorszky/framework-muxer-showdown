@@ -42,13 +42,26 @@ func New(l zerolog.Logger, errChan chan error) App {
 	mux.Handle("/ws-std", handlers.WSStd(handlerLogger))
 	mux.Handle("/ws", handlers.WS())
 
-	groupMux := http.NewServeMux()
-	groupMux.Handle("hello", handlers.Methods(http.MethodOptions, http.MethodGet)(handlers.Hello()))
+	mux.Handle("/app-error", handlers.ErrorCatcher(handlerLogger, errChan)(handlers.ReturnsApplicationError(handlerLogger)))
+	mux.Handle("/notfound-error", handlers.ErrorCatcher(handlerLogger, errChan)(handlers.ReturnsNotFoundError()))
+	mux.Handle("/request-error", handlers.ErrorCatcher(handlerLogger, errChan)(handlers.ReturnRequestError()))
+	mux.Handle("/shutdown-error", handlers.ErrorCatcher(handlerLogger, errChan)(handlers.ReturnsShutdownError()))
 
-	mux.Handle("/v1/", groupMux)
+	getMiddleware := handlers.Methods(http.MethodGet)
+
+	mux.Handle("/spec", getMiddleware(handlers.SingleRoot()))
+	mux.Handle("/spec/", getMiddleware(handlers.NonSpecificWithPrefix()))
+	mux.Handle("/spec/long/url/here", getMiddleware(handlers.SpecificLongRoute()))
+
+	// Grouping
+	groupMux := http.NewServeMux()
+	groupMux.Handle("/hello", getMiddleware(handlers.Hello()))
+
+	mux.Handle("/v1/", http.StripPrefix("/v1", groupMux))
 
 	return App{
-		logger: l,
+		logger:  l,
+		errChan: errChan,
 		server: &http.Server{
 			Addr:              "localhost:9000",
 			Handler:           mux,
