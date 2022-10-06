@@ -42,6 +42,11 @@ func New(l zerolog.Logger, errChan chan error) App {
 	mux.Handle("/ws-std", handlers.WSStd(handlerLogger))
 	mux.Handle("/ws", handlers.WS())
 
+	groupMux := http.NewServeMux()
+	groupMux.Handle("hello", handlers.Methods(http.MethodOptions, http.MethodGet)(handlers.Hello()))
+
+	mux.Handle("/v1/", groupMux)
+
 	return App{
 		logger: l,
 		server: &http.Server{
