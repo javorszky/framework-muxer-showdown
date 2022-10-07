@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"net/http"
 	"time"
 
 	"github.com/labstack/echo/v4"
@@ -20,7 +21,9 @@ func New(l zerolog.Logger, errChan chan error) App {
 
 	e := echo.New()
 
-	e.GET("/health", handlers.Health())
+	// Match allows you to list multiple methods. Other options are either the singular e.GET, e.POST, e.PUT, e.DELETE,
+	// e.PATCH, e.OPTIONS, e.HEAD
+	e.Match([]string{http.MethodGet, http.MethodOptions}, "/health", handlers.Health())
 
 	return App{
 		logger:  l,

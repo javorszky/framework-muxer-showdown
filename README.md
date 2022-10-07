@@ -18,11 +18,13 @@ Makefile has a docker build that produces a utility image with `gci`, `golangci-
 
 See the tree here: https://github.com/suborbital/framework-muxer-showdown/tree/echo
 
+API is nice, has a match-any method, a match-some method, and a match-single method handler.
+
 ### Details of criteria
 
 #### Context type
 
-It's a custom thing. :(
+It's a custom thing. :( Even though the standard `context.Context` is an interface. Technically, because both the std context, and echo's context are interfaces, we _could_ merge them both into a custom context and use that, but that's a bit annoying.
 
 #### Standard library handling
 
