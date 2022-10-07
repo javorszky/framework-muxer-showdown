@@ -6,7 +6,9 @@ import (
 	"time"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"github.com/rs/zerolog"
+
 	"github.com/suborbital/framework-muxer-showdown/handlers"
 )
 
