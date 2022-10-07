@@ -1,6 +1,8 @@
 package handlers
 
 import (
+	"net/http"
+
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/labstack/gommon/log"
@@ -30,4 +32,18 @@ func PanicRecovery() echo.MiddlewareFunc {
 		StackSize: 1 << 10, // 1 KB
 		LogLevel:  log.ERROR,
 	})
+}
+
+func ErrorHandler(err error, c echo.Context) {
+	if c.Response().Committed {
+		return
+	}
+
+	he, ok := err.(*echo.HTTPError)
+	if ok && he == echo.ErrMethodNotAllowed {
+		_ = c.NoContent(http.StatusMethodNotAllowed)
+		return
+	}
+
+	c.Echo().DefaultHTTPErrorHandler(err, c)
 }

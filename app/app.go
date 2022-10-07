@@ -21,6 +21,7 @@ func New(l zerolog.Logger, errChan chan error) App {
 	handlerLogger := l.With().Str("module", "requests").Logger()
 
 	e := echo.New()
+	e.HTTPErrorHandler = handlers.ErrorHandler
 
 	e.Use(handlers.Zerolog(handlerLogger))
 	e.Use(handlers.PanicRecovery())
