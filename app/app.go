@@ -19,9 +19,22 @@ type App struct {
 }
 
 func New(l zerolog.Logger, errChan chan error) App {
-	// handlerLogger := l.With().Str("module", "handlers").Logger()
+	handlerLogger := l.With().Str("module", "requests").Logger()
 
 	e := echo.New()
+
+	e.Use(middleware.RequestLoggerWithConfig(middleware.RequestLoggerConfig{
+		LogURI:    true,
+		LogStatus: true,
+		LogValuesFunc: func(c echo.Context, v middleware.RequestLoggerValues) error {
+			handlerLogger.Info().
+				Str("URI", v.URI).
+				Int("status", v.Status).
+				Msg("request")
+
+			return nil
+		},
+	}))
 
 	// Match allows you to list multiple methods. Other options are either the singular e.GET, e.POST, e.PUT, e.DELETE,
 	// e.PATCH, e.OPTIONS, e.HEAD
