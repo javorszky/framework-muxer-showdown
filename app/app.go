@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
 	"github.com/rs/zerolog"
 
 	"github.com/suborbital/framework-muxer-showdown/handlers"
@@ -23,18 +22,8 @@ func New(l zerolog.Logger, errChan chan error) App {
 
 	e := echo.New()
 
-	e.Use(middleware.RequestLoggerWithConfig(middleware.RequestLoggerConfig{
-		LogURI:    true,
-		LogStatus: true,
-		LogValuesFunc: func(c echo.Context, v middleware.RequestLoggerValues) error {
-			handlerLogger.Info().
-				Str("URI", v.URI).
-				Int("status", v.Status).
-				Msg("request")
-
-			return nil
-		},
-	}))
+	e.Use(handlers.Zerolog(handlerLogger))
+	e.Use(handlers.PanicRecovery())
 
 	// Match allows you to list multiple methods. Other options are either the singular e.GET, e.POST, e.PUT, e.DELETE,
 	// e.PATCH, e.OPTIONS, e.HEAD
