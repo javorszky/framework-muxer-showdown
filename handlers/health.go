@@ -1,6 +1,8 @@
 package handlers
 
 import (
+	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/rs/zerolog"
@@ -17,6 +19,14 @@ func Health(logger zerolog.Logger) http.HandlerFunc {
 		}
 		logger.Info().Msg("health handler called")
 
-		_, _ = w.Write([]byte(`{"message": "` + healthResponse + `"}`))
+		msg, err := json.Marshal(messageResponse{Message: healthResponse})
+		if err != nil {
+			logger.Err(err).Msg("json marshal error")
+			w.WriteHeader(http.StatusInternalServerError)
+			_, _ = w.Write([]byte(fmt.Sprintf("json marshal error: %s", err.Error())))
+			return
+		}
+
+		_, _ = w.Write(msg)
 	}
 }
