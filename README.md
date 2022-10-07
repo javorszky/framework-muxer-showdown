@@ -20,7 +20,7 @@ It's pretty powerful out of the box. Dealing with `http.Handler` and `http.Handl
 
 Nested muxers are also very very easy to do, though we do need to keep a few things in mind when nesting them.
 
-Error handling is generally the weakest point as we'd need to respond from the end handlers directly, because none of the handlers have return arguments that we could catch.
+Error handling is easy, once modifying the request context is done, and middlewares are implemented.
 
 Path variables are a pain.
 
@@ -30,7 +30,7 @@ Here are the details of each stuff:
 
 #### Context type
 
-Standard context inside the `*http.Request`.
+This is an embedded standar library `context.Context`. We can get it with `request.Context()`. See the error handling section on how to modify the request in a way that the changed context propagates to other parts of the codebase.
 
 #### Standard library handling
 
@@ -144,7 +144,11 @@ By up and down, I mean passing context from a middleware into a nested next hand
 
 #### Unit tests
 
-`httptest` just works with the standard library implementation.
+Super easy to do! Standar library's `httptest` package seamlessly integrates with the handlers. The tests are easy to set up and easy to understand, and do not actually need the app to be started, whether in docker container, or in a different process, so that's excellent!
+
+Moreover we can absolutely mock any dependant services, like database, loggers, tracers, etc, which would make life significantly easier too!
+
+See the code at [handlers/errors_test.go](handlers/errors_test.go)!
 
 #### Path variables
 
