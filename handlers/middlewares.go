@@ -34,6 +34,41 @@ func PanicRecovery() echo.MiddlewareFunc {
 	})
 }
 
+func MidOne(logger zerolog.Logger) echo.MiddlewareFunc {
+	return func(next echo.HandlerFunc) echo.HandlerFunc {
+		logger.Info().Str("middleware", "MidOne").Msg("hello!")
+
+		return next
+	}
+}
+
+func PathOne(logger zerolog.Logger) echo.MiddlewareFunc {
+	return func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(c echo.Context) error {
+			logger.Info().Str("middleware", "PathOne").Msg("Uh!")
+			return next(c)
+		}
+	}
+}
+
+func PathTwo(logger zerolog.Logger) echo.MiddlewareFunc {
+	return func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(c echo.Context) error {
+			logger.Info().Str("middleware", "PathTwo").Msg("Is this thing on?!")
+			return next(c)
+		}
+	}
+}
+
+func MidTwo(logger zerolog.Logger) echo.MiddlewareFunc {
+	return func(next echo.HandlerFunc) echo.HandlerFunc {
+		logger.Info().Str("middleware", "MidTwo").Msg("goodbye!")
+		return func(c echo.Context) error {
+			return next(c)
+		}
+	}
+}
+
 func ErrorHandler(err error, c echo.Context) {
 	if c.Response().Committed {
 		return

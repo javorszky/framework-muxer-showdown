@@ -30,6 +30,10 @@ func New(l zerolog.Logger, errChan chan error) App {
 	// e.PATCH, e.OPTIONS, e.HEAD
 	e.Match([]string{http.MethodGet, http.MethodOptions}, "/health", handlers.Health())
 
+	e.POST("/std-handler-func", echo.WrapHandler(handlers.StandardHandlerFunc()))
+	e.GET("/std-handler-iface", echo.WrapHandler(handlers.StandardHandler()))
+	e.GET("/std-handler-iface-raw", echo.WrapHandler(handlers.StdHandler{}))
+
 	return App{
 		logger:  l,
 		errChan: errChan,
