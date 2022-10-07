@@ -8,12 +8,16 @@ import (
 )
 
 type App struct {
-	logger zerolog.Logger
+	logger  zerolog.Logger
+	errChan chan error
 }
 
-func New(l zerolog.Logger) App {
+func New(l zerolog.Logger, errChan chan error) App {
+	handlerLogger := l.With().Str("module", "handlers").Logger()
+
 	return App{
-		logger: l,
+		logger:  l,
+		errChan: errChan,
 	}
 }
 
