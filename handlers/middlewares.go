@@ -7,6 +7,7 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/labstack/gommon/log"
 	"github.com/rs/zerolog"
+
 	"github.com/suborbital/framework-muxer-showdown/errors"
 )
 

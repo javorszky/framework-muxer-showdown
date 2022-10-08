@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"github.com/labstack/echo/v4"
+
 	localErrors "github.com/suborbital/framework-muxer-showdown/errors"
 )
 
