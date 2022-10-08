@@ -52,6 +52,9 @@ func New(l zerolog.Logger, errChan chan error) App {
 	e.GET("/server-error", handlers.ReturnsFiveHundred())
 	e.GET("/unavailable", handlers.ReturnsFiveOhThree())
 
+	// Auth middleware
+	e.Match([]string{http.MethodPost, http.MethodOptions}, "/authed", handlers.Auth(echo.WrapHandler(handlers.StandardHandlerFunc())))
+
 	return App{
 		logger:  l,
 		errChan: errChan,

@@ -120,3 +120,18 @@ func CustomErrorHandler(l zerolog.Logger, errchan chan error) func(err error, c 
 		_ = c.JSON(status, er)
 	}
 }
+
+func Auth(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		authHeader := c.Request().Header.Get("Authorization")
+		if authHeader == "" {
+			return c.NoContent(http.StatusUnauthorized)
+		}
+
+		if authHeader != "icandowhatiwant" {
+			return c.NoContent(http.StatusForbidden)
+		}
+
+		return next(c)
+	}
+}
