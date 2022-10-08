@@ -55,6 +55,10 @@ func New(l zerolog.Logger, errChan chan error) App {
 	// Auth middleware
 	e.Match([]string{http.MethodPost, http.MethodOptions}, "/authed", handlers.Auth(echo.WrapHandler(handlers.StandardHandlerFunc())))
 
+	// Grouping
+	g := e.Group("/v1")
+	g.GET("/hello", handlers.Hello())
+
 	return App{
 		logger:  l,
 		errChan: errChan,
