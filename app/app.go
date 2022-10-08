@@ -59,6 +59,11 @@ func New(l zerolog.Logger, errChan chan error) App {
 	g := e.Group("/v1")
 	g.GET("/hello", handlers.Hello())
 
+	// Path specificity
+	e.GET("/spec", handlers.Single())
+	e.GET("/spec/*", handlers.EveryoneElse())
+	e.GET("/spec/long/url/here", handlers.LongSpecific())
+
 	return App{
 		logger:  l,
 		errChan: errChan,
