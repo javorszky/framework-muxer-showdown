@@ -64,6 +64,9 @@ func New(l zerolog.Logger, errChan chan error) App {
 	e.GET("/spec/*", handlers.EveryoneElse())
 	e.GET("/spec/long/url/here", handlers.LongSpecific())
 
+	// Path variables
+	e.GET("/pathvars/:one/metrics/:two", handlers.PathVars())
+
 	return App{
 		logger:  l,
 		errChan: errChan,
