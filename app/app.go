@@ -38,11 +38,19 @@ func New(l zerolog.Logger, errChan chan error) App {
 	e.GET("/std-handler-iface", echo.WrapHandler(handlers.StandardHandler()))
 	e.GET("/std-handler-iface-raw", echo.WrapHandler(handlers.StdHandler{}))
 
-	// Errors
+	// Error middleware
 	e.GET("/app-error", handlers.ReturnsAppError())
 	e.GET("/notfound-error", handlers.ReturnsNotFoundError())
 	e.GET("/request-error", handlers.ReturnsRequestError())
 	e.GET("/shutdown-error", handlers.ReturnsShutdownError())
+
+	// Error from within
+	e.GET("/panics", handlers.ReturnsPanics())
+	e.GET("/unauthed", handlers.ReturnsFourOhOne())
+	e.GET("/notfound", handlers.ReturnsFourOhFour())
+	e.GET("/forbidden", handlers.ReturnsFourOhThree())
+	e.GET("/server-error", handlers.ReturnsFiveHundred())
+	e.GET("/unavailable", handlers.ReturnsFiveOhThree())
 
 	return App{
 		logger:  l,
