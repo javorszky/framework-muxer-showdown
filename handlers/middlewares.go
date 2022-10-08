@@ -7,6 +7,7 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/labstack/gommon/log"
 	"github.com/rs/zerolog"
+	"github.com/suborbital/framework-muxer-showdown/errors"
 )
 
 // This will be middlewares, so we can check error handling / panic recovery / authentication.
@@ -69,16 +70,52 @@ func MidTwo(logger zerolog.Logger) echo.MiddlewareFunc {
 	}
 }
 
-func ErrorHandler(err error, c echo.Context) {
-	if c.Response().Committed {
-		return
-	}
+type ErrorResponse struct {
+	Message string
+}
 
-	he, ok := err.(*echo.HTTPError)
-	if ok && he == echo.ErrMethodNotAllowed {
-		_ = c.NoContent(http.StatusMethodNotAllowed)
-		return
-	}
+func CustomErrorHandler(l zerolog.Logger, errchan chan error) func(err error, c echo.Context) {
+	return func(err error, c echo.Context) {
+		if c.Response().Committed {
+			return
+		}
 
-	c.Echo().DefaultHTTPErrorHandler(err, c)
+		he, ok := err.(*echo.HTTPError)
+		if ok && he == echo.ErrMethodNotAllowed {
+			_ = c.NoContent(http.StatusMethodNotAllowed)
+			return
+		}
+
+		var er ErrorResponse
+		var status int
+
+		switch {
+		case errors.IsApplicationError(err):
+			appErr := errors.GetApplicationError(err)
+			er = ErrorResponse{
+				Message: "app error: " + appErr.Error(),
+			}
+			status = http.StatusInternalServerError
+		case errors.IsNotFoundError(err):
+			nfErr := errors.GetNotFoundError(err)
+			er = ErrorResponse{Message: "not found: " + nfErr.Error()}
+			status = http.StatusNotFound
+		case errors.IsRequestError(err):
+			reqErr := errors.GetRequestError(err)
+			er = ErrorResponse{Message: "bad request " + reqErr.Error()}
+			status = http.StatusBadRequest
+		case errors.IsShutdownError(err):
+			sderr := errors.GetShutdownError(err)
+			er = ErrorResponse{Message: "well this is bad: " + sderr.Error()}
+			status = http.StatusServiceUnavailable
+			defer func() {
+				errchan <- sderr
+			}()
+		default:
+			c.Echo().DefaultHTTPErrorHandler(err, c)
+			return
+		}
+
+		_ = c.JSON(status, er)
+	}
 }

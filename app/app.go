@@ -19,9 +19,12 @@ type App struct {
 
 func New(l zerolog.Logger, errChan chan error) App {
 	handlerLogger := l.With().Str("module", "requests").Logger()
+	errorLogger := l.With().Str("module", "error handler").Logger()
 
 	e := echo.New()
-	e.HTTPErrorHandler = handlers.ErrorHandler
+
+	// Custom error handler that shovels "everything else" to echo's built in default error handler.
+	e.HTTPErrorHandler = handlers.CustomErrorHandler(errorLogger, errChan)
 
 	e.Use(handlers.Zerolog(handlerLogger))
 	e.Use(handlers.PanicRecovery())
@@ -30,9 +33,16 @@ func New(l zerolog.Logger, errChan chan error) App {
 	// e.PATCH, e.OPTIONS, e.HEAD
 	e.Match([]string{http.MethodGet, http.MethodOptions}, "/health", handlers.Health())
 
+	// Standard handlers
 	e.POST("/std-handler-func", echo.WrapHandler(handlers.StandardHandlerFunc()))
 	e.GET("/std-handler-iface", echo.WrapHandler(handlers.StandardHandler()))
 	e.GET("/std-handler-iface-raw", echo.WrapHandler(handlers.StdHandler{}))
+
+	// Errors
+	e.GET("/app-error", handlers.ReturnsAppError())
+	e.GET("/notfound-error", handlers.ReturnsNotFoundError())
+	e.GET("/request-error", handlers.ReturnsRequestError())
+	e.GET("/shutdown-error", handlers.ReturnsShutdownError())
 
 	return App{
 		logger:  l,
