@@ -6,6 +6,13 @@ import (
 	"net/http"
 )
 
+var (
+	BaseAppError      = errors.New("some error from someplace")
+	BaseNotFoundError = errors.New("not found the thing")
+	BaseRequestError  = errors.New("hurr, bad request, yarr")
+	BaseShutdownError = errors.New("unrecoverable error")
+)
+
 // ApplicationError should probably be mapped to a 5xx response with custom messaging?
 type ApplicationError struct {
 	err    error
