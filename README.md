@@ -129,3 +129,7 @@ This one is kind of awkward, but in the end it's a `Yes`, rather than a `Kinda`.
 2. If we're testing endpoints where we need to rely on some ✨_M A G I C_✨ that echo gives us, we need to first add the handler to a new echo instance, and test the `echo.ServeHTTP` instead of the handler itself. The end result is the same, because that's the only handler that _should_ be on the echo instance anyway, but it also has all the other scaffolding like [the custom error handler](handlers/errors_test.go) or [setting up binding for path variables](handlers/pathvars_test.go)
 
 #### Ecosystem
+
+There are tonnes of community written middlewares, from wrapping zerolog into echo's own logger, to cors implementations, jwt, whatever we want really.
+
+Take a gander: https://github.com/labstack/echo#third-party-middlewares
