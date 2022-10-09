@@ -61,6 +61,12 @@ An implementation is in [the websocket handler](handlers/ws.go).
 
 #### Overlaps
 
+Echo beautifully handles overlaps, I can have a route that's dynamic, and also static on the same prefix, and both work as expected. See the [implementation of overlaps](handlers/overlaps.go) and the declaration of the [routes in app.go](app/app.go).
+
+More surprisingly it also handles the case where the dynamic part is completely missing, though a new catch-all declaration with `/prefix/` is needed.
+
+I am very pleased with it!
+
 #### General middleware
 
 Super easy to use, works a lot similar to the [middleware situation in the net/http](https://github.com/suborbital/framework-muxer-showdown/tree/net/http#middlewares-easy) implementation.

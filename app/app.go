@@ -70,6 +70,11 @@ func New(l zerolog.Logger, errChan chan error) App {
 	// Websocket
 	e.GET("/ws", handlers.Ping())
 
+	// Overlaps
+	e.GET("/overlap/:id", handlers.OverlapDynamic())
+	e.GET("/overlap/kansas", handlers.OverlapSpecific())
+	e.GET("/overlap/", handlers.OverlapEveryone())
+
 	return App{
 		logger:  l,
 		errChan: errChan,
