@@ -119,4 +119,9 @@ Echo handlers also return an error, so that makes working with it kind of a bree
 
 #### Unit tests
 
+This one is kind of awkward, but in the end it's a `Yes`, rather than a `Kinda`. We can still use the `httptest` package for a new request and new recorder. There are two things to watch out for with echo:
+
+1. Because the handler funcs expect echo's own context interface, we need to create a new echo, and then a new context based on the httptest request and recorders. That's easy to do, but needs to be done. See the [health endpoint test](handlers/health_test.go)
+2. If we're testing endpoints where we need to rely on some ✨_M A G I C_✨ that echo gives us, we need to first add the handler to a new echo instance, and test the `echo.ServeHTTP` instead of the handler itself. The end result is the same, because that's the only handler that _should_ be on the echo instance anyways, but it also has all the other scaffolding like [the custom error handler](handlers/errors_test.go) or [setting up binding for path variables](handlers/pathvars_test.go)
+
 #### Ecosystem
