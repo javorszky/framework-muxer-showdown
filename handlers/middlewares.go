@@ -11,6 +11,10 @@ import (
 	"github.com/suborbital/framework-muxer-showdown/errors"
 )
 
+const (
+	UpDownKey = "key"
+)
+
 // This will be middlewares, so we can check error handling / panic recovery / authentication.
 
 // Zerolog is a middleware to use zerolog to log.
@@ -133,5 +137,23 @@ func Auth(next echo.HandlerFunc) echo.HandlerFunc {
 		}
 
 		return next(c)
+	}
+}
+
+func ContextUpDown(l zerolog.Logger) echo.MiddlewareFunc {
+	return func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(c echo.Context) error {
+			// add a thng here
+
+			c.Set(UpDownKey, "hello")
+			l.Info().Msgf("context updown middleware before: setting context %s to %s", UpDownKey, "hello")
+
+			err := next(c)
+
+			value := c.Get(UpDownKey)
+			l.Info().Msgf("context updown middleware after: getting context %s, got value %s", UpDownKey, value)
+			// do some other things here
+			return err
+		}
 	}
 }

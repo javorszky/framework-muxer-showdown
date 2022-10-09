@@ -124,4 +124,10 @@ This one is kind of awkward, but in the end it's a `Yes`, rather than a `Kinda`.
 1. Because the handler funcs expect echo's own context interface, we need to create a new echo, and then a new context based on the httptest request and recorders. That's easy to do, but needs to be done. See the [health endpoint test](handlers/health_test.go)
 2. If we're testing endpoints where we need to rely on some ✨_M A G I C_✨ that echo gives us, we need to first add the handler to a new echo instance, and test the `echo.ServeHTTP` instead of the handler itself. The end result is the same, because that's the only handler that _should_ be on the echo instance anyways, but it also has all the other scaffolding like [the custom error handler](handlers/errors_test.go) or [setting up binding for path variables](handlers/pathvars_test.go)
 
+#### Context up-down
+
+`echo.Context` has `Get(key string)` and `Set(key string, value interface{})` methods that make it easy to pass information easily between layers of middlewares and handlers. We also don't need to do magic by assigning pointers to pointers, so it's a whole lot easier.
+
+See the `ContextUpDown` [middleware implementation](handlers/middlewares.go) and the `UpDownHandler` [handler function](handlers/contextupdown.go) on how they work. The output to look for is in the terminal, the request / response is not involved in this.
+
 #### Ecosystem

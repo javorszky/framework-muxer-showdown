@@ -75,6 +75,9 @@ func New(l zerolog.Logger, errChan chan error) App {
 	e.GET("/overlap/kansas", handlers.OverlapSpecific())
 	e.GET("/overlap/", handlers.OverlapEveryone())
 
+	// Context up down
+	e.GET("/ctxupdown", handlers.UpDownHandler(handlerLogger), handlers.ContextUpDown(handlerLogger))
+
 	return App{
 		logger:  l,
 		errChan: errChan,
