@@ -32,7 +32,26 @@ Yep, there's an `echo.WrapHandler(http.Handler)` that's readily availably. Super
 
 #### Accessing raw Request and ResponseWriter
 
+It's easy to do, and makes using websockets clean.
+```go
+func SomeHandler(c echo.Context) error {
+	req := c.Request()
+	writer := c.Response()
+	
+	// the rest of the handler
+}
+```
+See the [documentation on using websockets](https://echo.labstack.com/cookbook/websocket/) for an example usage).
+
 #### Websocket
+
+As above, it's straightforward. Echo doesn't provide its own implementation of it, but rather recommends you use one of the other websocket libraries, whether that's standard library in the /x/ namespace, or gobwas, or gorilla's websocket, it doesn't matter.
+
+As long as you have access to the request and responsewriter, you can upgrade the incoming GET request.
+
+Keep in mind that if you use the standard library, the request MUST have an Origin header with a value that's a parseable `url.URL`.
+
+An implementation is in [the websocket handler](handlers/ws.go).
 
 #### Path specificity
 
@@ -49,8 +68,6 @@ Super easy to use, works a lot similar to the [middleware situation in the net/h
 This is essentially what it looks like:
 
 ```go
-package mid
-
 func ExampleMiddleware(logger zerolog.Logger) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
@@ -71,12 +88,12 @@ It's an onion type, and we'd plug this in like so:
 func New() {
 	e := echo.New()
 	
-	// gotta call that func to return the middleware type.
+	// have to call that func to return the middleware type.
 	e.Use(mid.ExampleMiddleware())
 	e.Use(mid.OtherMiddleware())
 	
 	// or for individual routes
-	e.Get("/somepath", handlers.SomePathHandler(), mid.PathMidOne(), mid.PathMidTwo())
+	e.Get("/some-path", handlers.SomePathHandler(), mid.PathMidOne(), mid.PathMidTwo())
 }
 ```
 Bear in mind that when handling the request, the latter middlewares in `e.Use` get called first, but the latter middlewares in a path declaration get called last, so the above would be:
