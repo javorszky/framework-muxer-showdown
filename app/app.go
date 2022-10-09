@@ -67,6 +67,9 @@ func New(l zerolog.Logger, errChan chan error) App {
 	// Path variables
 	e.GET("/pathvars/:one/metrics/:two", handlers.PathVars())
 
+	// Websocket
+	e.GET("/ws", handlers.Ping())
+
 	return App{
 		logger:  l,
 		errChan: errChan,
