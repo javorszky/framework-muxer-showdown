@@ -3,7 +3,6 @@ package errors
 import (
 	"errors"
 	"fmt"
-	"net/http"
 )
 
 var (
@@ -15,8 +14,7 @@ var (
 
 // ApplicationError should probably be mapped to a 5xx response with custom messaging?
 type ApplicationError struct {
-	err    error
-	status int
+	err error
 }
 
 func (a ApplicationError) Error() string {
@@ -24,8 +22,8 @@ func (a ApplicationError) Error() string {
 }
 
 // NewApplicationError returns a new initialised applicationError.
-func NewApplicationError(err error, status int) *ApplicationError {
-	return &ApplicationError{err: err, status: status}
+func NewApplicationError(err error) *ApplicationError {
+	return &ApplicationError{err: err}
 }
 
 // IsApplicationError checks whether the passed in error has an application error somewhere in its chain.
@@ -44,8 +42,7 @@ func GetApplicationError(err error) *ApplicationError {
 
 // NotFoundError is mapped to a 404.
 type NotFoundError struct {
-	err    error
-	status int
+	err error
 }
 
 func (n NotFoundError) Error() string {
@@ -54,7 +51,7 @@ func (n NotFoundError) Error() string {
 
 // NewNotFoundError returns a new initialised notFoundError.
 func NewNotFoundError(err error) *NotFoundError {
-	return &NotFoundError{err: err, status: http.StatusNotFound}
+	return &NotFoundError{err: err}
 }
 
 // IsNotFoundError checks whether the passed in error has a not found error somewhere in its chain.
