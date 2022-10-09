@@ -22,7 +22,9 @@ func New(l zerolog.Logger, errChan chan error) App {
 	router := gin.Default()
 
 	// Health endpoint
-	router.Any("/health", handlers.AllowMethods(http.MethodGet, http.MethodOptions), handlers.Health(handlerLogger))
+	router.GET("/health", handlers.Health(handlerLogger))
+	router.OPTIONS("/health", handlers.Health(handlerLogger))
+	// router.Any("/health", handlers.AllowMethods(http.MethodGet, http.MethodOptions), handlers.Health(handlerLogger))
 
 	server := &http.Server{
 		Addr:    ":9000",

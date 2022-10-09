@@ -19,6 +19,8 @@ Gin is... kind of weird to get started with. Compared to [echo](https://github.c
 * either multiple single declarations, like `gin.GET` and `gin.OPTIONS` for the same route, or
 * `gin.Any()`, which will enable the route for all verbs, and then put a configured middleware on that one specific route
 
+If I choose the single declarations for the route, then any request to a verb that's not supported gets a 404 instead of a 405. Whether that's something you want or not is a different question, but the any route + middleware can be used to return a correct empty 405 response.
+
 I'm unsure which solution I like less between them.
 
 #### graceful shutdown
