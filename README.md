@@ -23,6 +23,11 @@ If I choose the single declarations for the route, then any request to a verb th
 
 I'm unsure which solution I like less between them.
 
+⚠️ **EDIT**: found how to do it the gin way. Each engine / group has an option to `HandleMethodNotFound`, which is set to `false` by default. That means if a given verb+route is requested, but that doesn't have a handler, it gets a 404. If that setting is set to `true`, it will check whether other verbs for the same path exist, and then it sends it to a `NoMethod` handler.
+
+The `NoMethod` handler can also be customized, which I've done to remove the body from the response.
+
+
 #### graceful shutdown
 By default, gin is supposed to be used as
 ```go

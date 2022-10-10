@@ -21,15 +21,17 @@ func New(l zerolog.Logger, errChan chan error) App {
 	handlerLogger := l.With().Str("module", "handlers").Logger()
 
 	router := gin.New()
+	router.HandleMethodNotAllowed = true
+	router.NoMethod(handlers.NoMethod())
 
 	router.Use(gin.Logger())
 
 	router.Use(gin.CustomRecovery(handlers.CustomPanicRecovery(handlerLogger)))
 
 	// Health endpoint
-	// router.GET("/health", handlers.Health(handlerLogger))
-	// router.OPTIONS("/health", handlers.Health(handlerLogger))
-	router.Any("/health", handlers.AllowMethods(http.MethodGet, http.MethodOptions), handlers.Health(handlerLogger))
+	router.GET("/health", handlers.Health(handlerLogger))
+	router.OPTIONS("/health", handlers.Health(handlerLogger))
+	// router.Any("/health", handlers.AllowMethods(http.MethodGet, http.MethodOptions), handlers.Health(handlerLogger))
 
 	// Standard library handlers
 	router.POST("/std-handler-func", gin.WrapF(handlers.StandardHandlerFunc()))
