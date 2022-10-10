@@ -42,6 +42,13 @@ func New(l zerolog.Logger, errChan chan error) App {
 	// Panics
 	router.GET("/panics", handlers.Panics())
 
+	// Error endpoints
+	router.GET("/notfound", handlers.ReturnsFourOhFour())
+	router.GET("/unavailable", handlers.ReturnsFiveOhThree())
+	router.GET("/unauthed", handlers.ReturnsFourOhOne())
+	router.GET("/forbidden", handlers.ReturnsFourOhThree())
+	router.GET("/server-error", handlers.ReturnsFiveHundred())
+
 	server := &http.Server{
 		Addr:    ":9000",
 		Handler: router.Handler(),
