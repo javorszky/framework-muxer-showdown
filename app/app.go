@@ -52,6 +52,21 @@ func New(l zerolog.Logger, errChan chan error) App {
 	// Path Vars
 	router.GET("/pathvars/:one/metrics/:two", handlers.PathVars())
 
+	// Path specificity
+	// router.GET("/spec", handlers.Single())
+	// router.GET("/spec/", handlers.Custom404(handlerLogger), handlers.Everyone())
+	// router.GET("/spec/long/url/here", handlers.LongRoute()) // this one doesn't work with the above
+
+	// Path specificity v2, inspect what *action is, route accordingly
+	router.GET("/other-spec/:name", handlers.Single())
+	router.GET("/other-spec/:name/*action", handlers.AnotherWildcard())
+
+	// Path specificity v3 with groups
+	specGroup := router.Group("/spec", handlers.Custom404(handlerLogger))
+	specGroup.GET("", handlers.Single())
+	specGroup.GET("/", handlers.Everyone())
+	specGroup.GET("/long/url/here", handlers.LongRoute())
+
 	server := &http.Server{
 		Addr:    ":9000",
 		Handler: router.Handler(),

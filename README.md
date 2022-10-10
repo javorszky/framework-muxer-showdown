@@ -86,7 +86,55 @@ As we can access the raw request and ResponseWriter, it's essentially the same s
 
 #### Path specificity
 
+#### Path specificity
+
+Gin isn't as powerful as [echo](https://github.com/suborbital/framework-muxer-showdown/tree/echo) in this. It handles the single, and everyone else cases, but having these three declarations at the same time causes a panic:
+```go
+// Path specificity
+router.GET("/spec", handlers.Single())
+router.GET("/spec/*thing", handlers.Everyone())
+router.GET("/spec/long/url/here", handlers.LongRoute())
+```
+```shell
+[GIN-debug] GET    /spec                     --> github.com/suborbital/framework-muxer-showdown/handlers.Single.func1 (3 handlers)
+[GIN-debug] GET    /spec/*thing              --> github.com/suborbital/framework-muxer-showdown/handlers.Everyone.func1 (3 handlers)
+[GIN-debug] GET    /spec/long/url/here       --> github.com/suborbital/framework-muxer-showdown/handlers.LongRoute.func1 (3 handlers)
+panic: '/long/url/here' in new path '/spec/long/url/here' conflicts with existing wildcard '/*thing' in existing prefix '/spec/*thing'
+
+goroutine 1 [running]:
+<stacktrace here>
+```
+The two ways out of this are
+
+##### Define one catch-all wildcard route
+
+And then inspect what the wildcard is, create a new gin context, and pass it on to a handler. Potentially passing in a sub-muxer gin engine with all the specific routes.
+
+##### Use a custom 404 handler middleware
+
+Define your catch-all, and the long specific routes, like so:
+```go
+router.GET("/spec", handlers.Single())
+router.GET("/spec/",  handlers.Everyone())
+router.GET("/spec/long/url/here", handlers.LongRoute()) // this one doesn't work with the above
+```
+This way `/spec` will match the single, `/spec/` will match the everyone else, `/spec/long/url/here` will match the `LongRoute`, but `/spec/somewhere/warm` would get a 404. This is where the custom 404 handler comes in: each of those can be captured and rerouted to the EveryoneElse handler.
+
+However, that means that the global error handler needs to be modified, and at that point that could become a really really big mess of spaghetti code and god function.
+
 #### Path variables
+
+Unsurprising, and works fairly well. There's not much to write home about.
+
+```go
+// /pathvars/:one/metrics/:two
+
+func (c *gin.Context) {
+	firstParam  := c.Param("one")
+	secondParam := c.Param("two")
+	// the rest of the owl
+}
+```
 
 #### Grouping
 
