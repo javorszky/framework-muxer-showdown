@@ -122,6 +122,7 @@ This way `/spec` will match the single, `/spec/` will match the everyone else, `
 
 However, that means that the global error handler needs to be modified, and at that point that could become a really really big mess of spaghetti code and god function.
 
+<<<<<<< HEAD
 #### Path variables
 
 Unsurprising, and works fairly well. There's not much to write home about.
@@ -138,7 +139,11 @@ func (c *gin.Context) {
 
 #### Grouping
 
+Implemented two different groups: one for the path specificity, the other for the actual group endpoint. They just work, 10/10 no notes.
+
 #### Overlaps
+
+Also just kinda work, the gin documentation (readme) also calls it out.
 
 #### General middleware
 

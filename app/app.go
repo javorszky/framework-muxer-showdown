@@ -71,6 +71,11 @@ func New(l zerolog.Logger, errChan chan error) App {
 	v1Group := router.Group("/v1")
 	v1Group.GET("/hello", handlers.Hello())
 
+	// Overlaps
+	router.GET("/overlap/kansas", handlers.OverlapKansas())
+	router.GET("/overlap/:thing", handlers.OverlapDynamic())
+	router.GET("/overlap/", handlers.OverlapEveryone())
+
 	server := &http.Server{
 		Addr:    ":9000",
 		Handler: router.Handler(),
