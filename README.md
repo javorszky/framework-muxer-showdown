@@ -82,7 +82,7 @@ Yes, they're on `c.Writer` and `c.Request` exported properties.
 
 Does not have anything built in, so upgrading the GET request to a WS is up to us. Gobwas or standard library /x/websocket is perfectly fine for the job.
 
-As we can access the raw request and responsewriters, it's essentially the same solution as echo's or net/http's.
+As we can access the raw request and ResponseWriter, it's essentially the same solution as echo's or net/http's.
 
 #### Path specificity
 
