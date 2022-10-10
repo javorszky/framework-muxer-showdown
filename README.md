@@ -69,6 +69,8 @@ This is with debug mode on. Debug mode should be turned off when running in prod
 
 #### Standard library handling
 
+Yes, gin provides `WrapF(f http.HandlerFunc)` and `WrapH(h http.Handler)` functions that turn both into a `gin.HandlerFunc(c *gin.Context) {}`, so this is straightforward.
+
 #### Accessing raw Request and ResponseWriter
 
 #### Websocket
