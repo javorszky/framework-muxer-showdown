@@ -7,6 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog"
+
 	"github.com/suborbital/framework-muxer-showdown/handlers"
 )
 
@@ -30,6 +31,9 @@ func New(l zerolog.Logger, errChan chan error) App {
 	router.POST("/std-handler-func", gin.WrapF(handlers.StandardHandlerFunc()))
 	router.GET("/std-handler-iface", gin.WrapH(handlers.StandardHandler()))
 	router.GET("/std-handler-iface-raw", gin.WrapH(handlers.StdHandler{}))
+
+	// Websocket
+	router.GET("/ws", handlers.Ping(handlerLogger))
 
 	server := &http.Server{
 		Addr:    ":9000",

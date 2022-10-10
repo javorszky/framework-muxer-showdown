@@ -70,15 +70,19 @@ It's their own context, and not even an interface, like in the case of echo, but
 
 Granted it has a LOT of moving parts and capabilities, from storing the original request and ResponseWriter, to shorthands for sending data back to the client, to aborting the request due to an error, to setting / getting values up and down the chain, and storing the chain of handlers for a given request.
 
-#### Context type
-
 #### Standard library handling
 
 Yes, gin provides `WrapF(f http.HandlerFunc)` and `WrapH(h http.Handler)` functions that turn both into a `gin.HandlerFunc(c *gin.Context) {}`, so this is straightforward.
 
 #### Accessing raw Request and ResponseWriter
 
+Yes, they're on `c.Writer` and `c.Request` exported properties.
+
 #### Websocket
+
+Does not have anything built in, so upgrading the GET request to a WS is up to us. Gobwas or standard library /x/websocket is perfectly fine for the job.
+
+As we can access the raw request and responsewriters, it's essentially the same solution as echo's or net/http's.
 
 #### Path specificity
 
