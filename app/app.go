@@ -49,6 +49,9 @@ func New(l zerolog.Logger, errChan chan error) App {
 	router.GET("/forbidden", handlers.ReturnsFourOhThree())
 	router.GET("/server-error", handlers.ReturnsFiveHundred())
 
+	// Path Vars
+	router.GET("/pathvars/:one/metrics/:two", handlers.PathVars())
+
 	server := &http.Server{
 		Addr:    ":9000",
 		Handler: router.Handler(),
