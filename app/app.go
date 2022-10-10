@@ -22,9 +22,14 @@ func New(l zerolog.Logger, errChan chan error) App {
 	router := gin.Default()
 
 	// Health endpoint
-	router.GET("/health", handlers.Health(handlerLogger))
-	router.OPTIONS("/health", handlers.Health(handlerLogger))
-	// router.Any("/health", handlers.AllowMethods(http.MethodGet, http.MethodOptions), handlers.Health(handlerLogger))
+	// router.GET("/health", handlers.Health(handlerLogger))
+	// router.OPTIONS("/health", handlers.Health(handlerLogger))
+	router.Any("/health", handlers.AllowMethods(http.MethodGet, http.MethodOptions), handlers.Health(handlerLogger))
+
+	// Standard library handlers
+	router.POST("/std-handler-func", gin.WrapF(handlers.StandardHandlerFunc()))
+	router.GET("/std-handler-iface", gin.WrapH(handlers.StandardHandler()))
+	router.GET("/std-handler-iface-raw", gin.WrapH(handlers.StdHandler{}))
 
 	server := &http.Server{
 		Addr:    ":9000",
