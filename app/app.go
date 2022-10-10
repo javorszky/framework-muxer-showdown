@@ -67,6 +67,10 @@ func New(l zerolog.Logger, errChan chan error) App {
 	specGroup.GET("/", handlers.Everyone())
 	specGroup.GET("/long/url/here", handlers.LongRoute())
 
+	// Group
+	v1Group := router.Group("/v1")
+	v1Group.GET("/hello", handlers.Hello())
+
 	server := &http.Server{
 		Addr:    ":9000",
 		Handler: router.Handler(),
