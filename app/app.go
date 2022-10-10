@@ -76,6 +76,9 @@ func New(l zerolog.Logger, errChan chan error) App {
 	router.GET("/overlap/:thing", handlers.OverlapDynamic())
 	router.GET("/overlap/", handlers.OverlapEveryone())
 
+	// Auth
+	router.Any("/authed", handlers.AllowMethods(http.MethodPost, http.MethodOptions), handlers.Auth(), gin.WrapF(handlers.StandardHandlerFunc()))
+
 	server := &http.Server{
 		Addr:    ":9000",
 		Handler: router.Handler(),

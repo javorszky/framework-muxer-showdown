@@ -35,3 +35,17 @@ func CustomPanicRecovery(l zerolog.Logger) gin.RecoveryFunc {
 		c.AbortWithStatus(http.StatusInternalServerError)
 	}
 }
+
+func Auth() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		token := c.GetHeader("Authorization")
+		switch token {
+		case "":
+			c.AbortWithStatus(http.StatusUnauthorized)
+		case "icandowhatiwant":
+			c.Next()
+		default:
+			c.AbortWithStatus(http.StatusForbidden)
+		}
+	}
+}
