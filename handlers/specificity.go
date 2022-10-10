@@ -16,19 +16,19 @@ const (
 
 func Single() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		c.JSON(http.StatusOK, messageResponse{Message: single})
+		c.String(http.StatusOK, single)
 	}
 }
 
 func Everyone() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		c.JSON(http.StatusOK, messageResponse{Message: everyoneElse})
+		c.String(http.StatusOK, everyoneElse)
 	}
 }
 
 func LongRoute() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		c.JSON(http.StatusOK, messageResponse{Message: longRoute})
+		c.String(http.StatusOK, longRoute)
 	}
 }
 
