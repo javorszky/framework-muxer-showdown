@@ -19,7 +19,7 @@ Gin is... kind of weird to get started with. Compared to [echo](https://github.c
 * either multiple single declarations, like `gin.GET` and `gin.OPTIONS` for the same route, or
 * `gin.Any()`, which will enable the route for all verbs, and then put a configured middleware on that one specific route
 
-If I choose the single declarations for the route, then any request to a verb that's not supported gets a 404 instead of a 405. Whether that's something you want or not is a different question, but the any route + middleware can be used to return a correct empty 405 response.
+If I choose the single declarations for the route, then any request to a verb that's not supported gets a 404 instead of a 405. Whether that's something you want or not is a different question, but the `any` route + middleware can be used to return a correct empty 405 response.
 
 I'm unsure which solution I like less between them.
 
@@ -45,7 +45,7 @@ server := &http.Server{
 ```
 This way when it's time to stop the service I can `server.Shutdown(ctx)` and be graceful about it rather than terminating the service and hoping that `router.Run()` cleans up after itself.
 
-**EDIT:** I checked, it does not clean up after itself. `router.Run()` essentially does an `http.ListenAndServe(address, router.Handler())`, which is essentially the following anyways:
+**EDIT:** I checked, it does not clean up after itself. `router.Run()` essentially does an `http.ListenAndServe(address, router.Handler())`, which is essentially the following anyway:
 ```go
 http.Server{
 	address: address,
@@ -54,7 +54,7 @@ http.Server{
 ```
 This blocks, so if the service is terminated, every active connection is simply yanked.
 
-There is no functional difference between attaching gin to an http server and starting that, so we can gracefully shut down, or running gin directly from a server running standpoint.
+There is no functional difference between attaching gin to an HTTP server and starting that, so we can gracefully shut down, or running gin directly from a server running standpoint.
 
 It works, the lack of convenience in this part is just mildly annoying.
 
@@ -64,6 +64,11 @@ This is with debug mode on. Debug mode should be turned off when running in prod
 ![colorized gin terminal](assets/gin%20terminal.jpg)
 
 ### Details of criteria
+#### Context type
+
+It's their own context, and not even an interface, like in the case of echo, but an actual concrete struct.
+
+Granted it has a LOT of moving parts and capabilities, from storing the original request and ResponseWriter, to shorthands for sending data back to the client, to aborting the request due to an error, to setting / getting values up and down the chain, and storing the chain of handlers for a given request.
 
 #### Context type
 
