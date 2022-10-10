@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/rs/zerolog"
 )
 
 // This will be middlewares, so we can check error handling / panic recovery / authentication.
@@ -22,5 +23,15 @@ func AllowMethods(methods ...string) gin.HandlerFunc {
 		}
 
 		c.Next()
+	}
+}
+
+func CustomPanicRecovery(l zerolog.Logger) gin.RecoveryFunc {
+	return func(c *gin.Context, recovered interface{}) {
+		if err, ok := recovered.(string); ok {
+			l.Error().Msgf("recovered panic: %s", err)
+			c.JSON(http.StatusInternalServerError, messageResponse{Message: http.StatusText(http.StatusInternalServerError)})
+		}
+		c.AbortWithStatus(http.StatusInternalServerError)
 	}
 }

@@ -20,7 +20,11 @@ type App struct {
 func New(l zerolog.Logger, errChan chan error) App {
 	handlerLogger := l.With().Str("module", "handlers").Logger()
 
-	router := gin.Default()
+	router := gin.New()
+
+	router.Use(gin.Logger())
+
+	router.Use(gin.CustomRecovery(handlers.CustomPanicRecovery(handlerLogger)))
 
 	// Health endpoint
 	// router.GET("/health", handlers.Health(handlerLogger))
@@ -34,6 +38,9 @@ func New(l zerolog.Logger, errChan chan error) App {
 
 	// Websocket
 	router.GET("/ws", handlers.Ping(handlerLogger))
+
+	// Panics
+	router.GET("/panics", handlers.Panics())
 
 	server := &http.Server{
 		Addr:    ":9000",
