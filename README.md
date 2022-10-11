@@ -184,6 +184,8 @@ This is super neat!
 
 #### Overlaps
 
+Has no problem supporting the use case.
+
 #### General middleware
 
 A middleware is a `func(http.Handler) http.Handler`, same as net/http's case. See the implementations in [middlewares.go](handlers/middlewares.go).

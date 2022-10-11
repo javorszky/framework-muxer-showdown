@@ -54,6 +54,11 @@ func New(l zerolog.Logger, errChan chan error) App {
 	g2.Get("/hello", handlers.Hello())
 	r.Mount("/v2", g2)
 
+	// Overlaps
+	r.Get("/overlap/kansas", handlers.OverlapSingle())
+	r.Get("/overlap/*", handlers.OverlapEveryone())
+	r.Get("/overlap/{one}", handlers.OverlapDynamic())
+
 	server := &http.Server{
 		Addr:    ":9000",
 		Handler: r,
