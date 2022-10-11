@@ -117,6 +117,8 @@ Very similar situation that the net/http. The only minor niggle is that the `r.G
 
 #### Path specificity
 
+Works the same as net/http and echo. It supports a wildcard (`/spec/*`), but unlike gin, it correctly handles a longer more specific route even if that would conflict with the wildcard.
+
 #### Path variables
 
 #### Grouping
