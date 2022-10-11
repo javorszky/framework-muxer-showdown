@@ -165,4 +165,8 @@ Yeah, it works. `c.Set(key string, value any)` and `c.Get(key string)` work as e
 
 #### Unit tests
 
+Unit testing is also done with the `httptest` standard library. As opposed to echo, there's no way to create a `gin.Context` from the request and response writer, we gotta put together the entire muxer and configure it, like in the [health test](handlers/health_test.go) file, and then test the `.ServeHTTP(w, r)` method of it.
+
+Other than that it's fairly straightforward, and this helps us test middlewares and handlers in isolation.
+
 #### Ecosystem
