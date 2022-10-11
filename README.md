@@ -101,9 +101,15 @@ server.ListenAndServer()
 
 #### Context type
 
+It's the embedded standard context into the *http.Request
+
 #### Standard library handling
 
+That's what the handlers are, so uh... yeah, it supports it.
+
 #### Accessing raw Request and ResponseWriter
+
+Because handlers are just standard library ones, the request and response are freely available, and no need to grab them out of something embedded.
 
 #### Websocket
 
