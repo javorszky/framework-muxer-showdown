@@ -39,6 +39,21 @@ func New(l zerolog.Logger, errChan chan error) App {
 	// Path vars
 	r.Get("/pathvars/{one}/metrics/{two}", handlers.PathVars())
 
+	// Group, option 1 with a group
+	g := r.Group(func(gr chi.Router) {
+		lgo1 := l.With().Str("group", "option 1").Logger()
+		gr.Use(handlers.Logger(lgo1))
+		gr.Get("/hello", handlers.Hello())
+	})
+	r.Mount("/v1", g)
+
+	// Group, option 2 with a sub router
+	g2 := chi.NewRouter()
+	lgo2 := l.With().Str("group", "option 2").Logger()
+	g2.Use(handlers.Logger(lgo2))
+	g2.Get("/hello", handlers.Hello())
+	r.Mount("/v2", g2)
+
 	server := &http.Server{
 		Addr:    ":9000",
 		Handler: r,

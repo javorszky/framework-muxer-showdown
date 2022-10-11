@@ -151,10 +151,44 @@ The only one that matches that is the following:
 ```
 
 #### Grouping
+Grouping is super powerful with chi. There are two ways of doing it, using sub routers, or using groups. Both of them can be then mounted on a prefix, as they implement the `http.Handler` interface.
+
+The main difference between sub-routers and groups seems to be that a sub router **needs** to be mounted on a parent router, whereas you can create a bunch of different groups on the root router to segregate different routes to use different middlewares if you don't want to use a custom prefix.
+
+So given the following example routes:
+```shell
+/contact
+/login
+/dashboard
+/account
+/logout
+/shop
+```
+You only want to place an auth middleware on `account` and `dashboard`, but not the others. The two existing solutions so far have been either to attache the middleware to the individual handlers, which is a lot of code duplication, or to change those routes to `/admin/*`, and attach the middleware to the admin group.
+
+With chi's groups you can do this:
+```go
+r := chi.NewRouter()
+r.Get("/contact", handlers.Contact())
+r.Get("/login", handlers.Login())
+r.Get("/logout", handlers.Logout())
+r.Get("/shop", handlers.Shop())
+
+r.Group(func(gr chi.Router) {
+	gr.Use(middlewares.Auth())
+	gr.Get("/dashboard", handlers.Dashboard())
+	gr.Get("/account", handlers.Account())
+})
+```
+This is super neat!
 
 #### Overlaps
 
 #### General middleware
+
+A middleware is a `func(http.Handler) http.Handler`, same as net/http's case. See the implementations in [middlewares.go](handlers/middlewares.go).
+
+With chi we can either use the `r.Use()` method, or manually wrap the end handler into the middleware.
 
 #### Error handling middleware
 
