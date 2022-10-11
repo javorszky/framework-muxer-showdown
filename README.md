@@ -113,6 +113,8 @@ Because handlers are just standard library ones, the request and response are fr
 
 #### Websocket
 
+Very similar situation that the net/http. The only minor niggle is that the `r.Get` function and siblings expect an `http.HandlerFunc`, but the golang `websocket` handler is an `http.Handler` interface type, so instead of using the actual websocket handler, we need to use the `ServeHTTP` method instead (without brackets). Otherwise works as expected.
+
 #### Path specificity
 
 #### Path variables

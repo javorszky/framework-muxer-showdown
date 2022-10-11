@@ -19,13 +19,17 @@ type App struct {
 }
 
 func New(l zerolog.Logger, errChan chan error) App {
-	_ = l.With().Str("module", "handlers").Logger()
+	handleLogger := l.With().Str("module", "handlers").Logger()
 
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 
+	// Health
 	r.Get("/health", handlers.Health())
 	r.Options("/health", handlers.Health())
+
+	// Websocket
+	r.Get("/ws", handlers.WSStd(handleLogger).ServeHTTP)
 
 	server := &http.Server{
 		Addr:    ":9000",
