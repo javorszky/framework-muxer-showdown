@@ -87,6 +87,9 @@ func New(l zerolog.Logger, errChan chan error) App {
 	router.GET("/request-error", handlers.ErrorHandler(handlerLogger, errChan), handlers.ReturnsRequestError(handlerLogger))
 	router.GET("/shutdown-error", handlers.ErrorHandler(handlerLogger, errChan), handlers.ReturnsShutdownError(handlerLogger))
 
+	// Context up and down
+	router.GET("/ctxupdown", handlers.CtxUpDown(handlerLogger), handlers.CtxKonami(handlerLogger))
+
 	server := &http.Server{
 		Addr:    ":9000",
 		Handler: router.Handler(),

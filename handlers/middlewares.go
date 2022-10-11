@@ -86,3 +86,18 @@ func ErrorHandler(l zerolog.Logger, errChan chan error) gin.HandlerFunc {
 		c.AbortWithStatus(http.StatusInternalServerError)
 	}
 }
+
+func CtxUpDown(l zerolog.Logger) gin.HandlerFunc {
+	mwLogger := l.With().Str("handler", "ctxUpDown middleware").Logger()
+	const ctxValue = "can't touch this"
+
+	return func(c *gin.Context) {
+		c.Set(CtxKonamiMsg, ctxValue)
+		mwLogger.Info().Msgf("set the context to '%s'", ctxValue)
+
+		c.Next()
+
+		vOut := c.GetString(CtxKonamiMsg)
+		mwLogger.Info().Msgf("fetched the context value out, and it's '%s'", vOut)
+	}
+}

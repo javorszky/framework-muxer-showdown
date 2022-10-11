@@ -161,6 +161,8 @@ It can be done, but it's finnicky, and... not comfortable, for lack of a better 
 
 #### Context up and down
 
+Yeah, it works. `c.Set(key string, value any)` and `c.Get(key string)` work as expected. See the [ctx updown example](handlers/ctxupdown.go), the other part of it is in the [middlewares file](handlers/middlewares.go).
+
 #### Unit tests
 
 #### Ecosystem
