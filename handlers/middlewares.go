@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog"
+	"github.com/suborbital/framework-muxer-showdown/errors"
 )
 
 // This will be middlewares, so we can check error handling / panic recovery / authentication.
@@ -47,5 +48,41 @@ func Auth() gin.HandlerFunc {
 		default:
 			c.AbortWithStatus(http.StatusForbidden)
 		}
+	}
+}
+
+func ErrorHandler(l zerolog.Logger, errChan chan error) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Next()
+
+		errs := c.Errors
+		if errs == nil {
+			return
+		}
+
+		l.Info().Msgf("we have errors: %v", errs)
+
+		for _, e := range errs {
+			switch {
+			case errors.IsApplicationError(e):
+				c.AbortWithStatusJSON(http.StatusInternalServerError, messageResponse{Message: "app error: " + e.Error()})
+				return
+			case errors.IsRequestError(e):
+				c.AbortWithStatusJSON(http.StatusBadRequest, messageResponse{Message: "bad request " + e.Error()})
+				return
+			case errors.IsNotFoundError(e):
+				c.AbortWithStatusJSON(http.StatusNotFound, messageResponse{Message: "not found: " + e.Error()})
+				return
+			case errors.IsShutdownError(e):
+				c.AbortWithStatusJSON(http.StatusServiceUnavailable, messageResponse{Message: "well this is bad: " + e.Error()})
+				errChan <- e
+				return
+			default:
+				// loop once more
+			}
+		}
+
+		// if we've not aborted until now, do it here:
+		c.AbortWithStatus(http.StatusInternalServerError)
 	}
 }

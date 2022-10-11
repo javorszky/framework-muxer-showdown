@@ -60,8 +60,8 @@ func New(l zerolog.Logger, errChan chan error) App {
 	// router.GET("/spec/long/url/here", handlers.LongRoute()) // this one doesn't work with the above
 
 	// Path specificity v2, inspect what *action is, route accordingly
-	router.GET("/other-spec/:name", handlers.Single())
-	router.GET("/other-spec/:name/*action", handlers.AnotherWildcard())
+	// router.GET("/other-spec/:name", handlers.Single())
+	// router.GET("/other-spec/:name/*action", handlers.AnotherWildcard())
 
 	// Path specificity v3 with groups
 	specGroup := router.Group("/spec", handlers.Custom404(handlerLogger))
@@ -80,6 +80,12 @@ func New(l zerolog.Logger, errChan chan error) App {
 
 	// Auth
 	router.Any("/authed", handlers.AllowMethods(http.MethodPost, http.MethodOptions), handlers.Auth(), gin.WrapF(handlers.StandardHandlerFunc()))
+
+	// Error middleware
+	router.GET("/app-error", handlers.ErrorHandler(handlerLogger, errChan), handlers.ReturnsAppError(handlerLogger))
+	router.GET("/notfound-error", handlers.ErrorHandler(handlerLogger, errChan), handlers.ReturnsNotfoundError(handlerLogger))
+	router.GET("/request-error", handlers.ErrorHandler(handlerLogger, errChan), handlers.ReturnsRequestError(handlerLogger))
+	router.GET("/shutdown-error", handlers.ErrorHandler(handlerLogger, errChan), handlers.ReturnsShutdownError(handlerLogger))
 
 	server := &http.Server{
 		Addr:    ":9000",
