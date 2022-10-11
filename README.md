@@ -127,7 +127,6 @@ This way `/spec` will match the single, `/spec/` will match the everyone else, `
 
 However, that means that the global error handler needs to be modified, and at that point that could become a really really big mess of spaghetti code and god function.
 
-<<<<<<< HEAD
 #### Path variables
 
 Unsurprising, and works fairly well. There's not much to write home about.
@@ -153,6 +152,12 @@ Also just kinda work, the gin documentation (readme) also calls it out.
 #### General middleware
 
 #### Error handling middleware
+
+I put this down as `Kinda`. It's a lot more clunky than I would like. Gin has the concept of errors on context, you can grab the errors from the context, but it's going to be a slice, and then you need to sort through all of them and figure out which one is the most important to return to the client.
+
+On top of that there isn't a built in error handler, or a default error handler. The two that are present are the notfound and nomethod handlers.
+
+It can be done, but it's finnicky, and... not comfortable, for lack of a better description.
 
 #### Context up and down
 
