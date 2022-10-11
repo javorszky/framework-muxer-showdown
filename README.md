@@ -27,5 +27,6 @@ Very clean, very simple to use, supports everything we really need. Only downsid
 
 See the implementation here: https://github.com/suborbital/framework-muxer-showdown/tree/echo
 
+### 3. gin
 
-<iframe src="https://raw.githubusercontent.com/suborbital/framework-muxer-showdown/main/implementation.md />
+Mostly all right. The way it works is not really comfortable, but it gets the job done, mostly. No standard library context.Context, though there's a flag on the `gin` router that can be set to enable the timeout / deadline / cancel / done methods on it.
