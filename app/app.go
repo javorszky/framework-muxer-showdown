@@ -36,6 +36,9 @@ func New(l zerolog.Logger, errChan chan error) App {
 	r.Get("/spec/*", handlers.Everyone())
 	r.Get("/spec/long/url/here", handlers.Long())
 
+	// Path vars
+	r.Get("/pathvars/{one}/metrics/{two}", handlers.PathVars())
+
 	server := &http.Server{
 		Addr:    ":9000",
 		Handler: r,

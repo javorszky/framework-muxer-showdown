@@ -121,6 +121,10 @@ Works the same as net/http and echo. It supports a wildcard (`/spec/*`), but unl
 
 #### Path variables
 
+Yep, supports them. The declaration is between curly braces, rather than leading colon or plus sign, but otherwise easy to understand, and the [documentation is clear](https://go-chi.io/#/pages/routing?id=routing-patterns-amp-url-parameters).
+
+chi has a bunch of convenience functions that extract the data from the standard library request, so thumbs up!
+
 #### Grouping
 
 #### Overlaps
