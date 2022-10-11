@@ -26,3 +26,6 @@ See the tree here: https://github.com/suborbital/framework-muxer-showdown/tree/n
 Very clean, very simple to use, supports everything we really need. Only downside is the lack of standard library `context.Context`, but the timeouts can be configured on the echo instance before startup.
 
 See the implementation here: https://github.com/suborbital/framework-muxer-showdown/tree/echo
+
+
+<iframe src="https://raw.githubusercontent.com/suborbital/framework-muxer-showdown/main/implementation.md />
