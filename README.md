@@ -149,8 +149,11 @@ Implemented two different groups: one for the path specificity, the other for th
 
 Also just kinda work, the gin documentation (readme) also calls it out.
 
+<<<<<<< HEAD
 #### General middleware
 
+=======
+>>>>>>> 70da6bc (Add entry for 3rd party stuff to readme)
 #### Error handling middleware
 
 I put this down as `Kinda`. It's a lot more clunky than I would like. Gin has the concept of errors on context, you can grab the errors from the context, but it's going to be a slice, and then you need to sort through all of them and figure out which one is the most important to return to the client.
@@ -170,3 +173,8 @@ Unit testing is also done with the `httptest` standard library. As opposed to ec
 Other than that it's fairly straightforward, and this helps us test middlewares and handlers in isolation.
 
 #### Ecosystem
+
+There are plenty of middlewares and whatnot.
+
+* examples live here: https://github.com/gin-gonic/examples
+* 3rd party middlewares: https://github.com/gin-contrib (includes logging with rs/zerolog, a cors middleware, authz, and requestID)
