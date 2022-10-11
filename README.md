@@ -28,7 +28,7 @@ It's a custom thing. :( Even though the standard `context.Context` is an interfa
 
 #### Standard library handling
 
-Yep, there's an `echo.WrapHandler(http.Handler)` that's readily availably. Super easy to use.
+Yep, there's an `echo.WrapHandler(http.Handler)` that's readily available. Super easy to use.
 
 #### Accessing raw Request and ResponseWriter
 
@@ -55,9 +55,15 @@ An implementation is in [the websocket handler](handlers/ws.go).
 
 #### Path specificity
 
+This is awesome! Even though there's a catch-all route registered to a stub, if there's a more specific route using the same stub, echo will correctly resolve the handler.
+
 #### Path variables
 
+Just works. You access them from the context using `c.Param()`. [Link to implementation](handlers/pathvars.go)
+
 #### Grouping
+
+Standard, just works.
 
 #### Overlaps
 
