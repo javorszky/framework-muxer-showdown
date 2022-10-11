@@ -30,3 +30,29 @@ See the implementation here: https://github.com/suborbital/framework-muxer-showd
 ### 3. gin
 
 Mostly all right. The way it works is not really comfortable, but it gets the job done, mostly. No standard library context.Context, though there's a flag on the `gin` router that can be set to enable the timeout / deadline / cancel / done methods on it.
+
+## Template for readme
+
+### General Considerations
+
+### Details of criteria
+
+#### Context type
+
+#### Standard library handling
+
+#### Accessing raw Request and ResponseWriter
+
+#### Websocket
+
+#### Path specificity
+
+#### Grouping
+
+#### Overlaps
+
+#### Error handling middleware
+
+#### Context up and down
+
+#### Unit tests
