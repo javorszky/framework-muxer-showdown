@@ -81,6 +81,8 @@ This is a super yes.
 
 #### Path variables
 
+This is... eeeehhh... it _can_ be done, but it needs a LOT of work. There's this [super useful article by Ben Hoyt about different ways of handling dynamic routing](https://benhoyt.com/writings/go-routing/), which is easy to understand, and can work, but we'd need to actually build it ourselves, and this is why routers exist.
+
 #### Grouping
 
 This was super easy. Take a muxer, and put another muxer onto a path. The only important thing that we need to pay attention to are slashes and using `http.StripPrefix` like so:
@@ -149,9 +151,5 @@ Super easy to do! Standar library's `httptest` package seamlessly integrates wit
 Moreover we can absolutely mock any dependant services, like database, loggers, tracers, etc, which would make life significantly easier too!
 
 See the code at [handlers/errors_test.go](handlers/errors_test.go)!
-
-#### Path variables
-
-This is... eeeehhh... it _can_ be done, but it needs a LOT of work. There's this [super useful article by Ben Hoyt about different ways of handling dynamic routing](https://benhoyt.com/writings/go-routing/), which is easy to understand, and can work, but we'd need to actually build it ourselves, and this is why routers exist.
 
 #### Ecosystem
