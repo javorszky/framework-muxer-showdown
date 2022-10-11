@@ -71,9 +71,31 @@ I particularly like that I can create a muxer that's either the standard library
 
 See the implementation here: https://github.com/suborbital/framework-muxer-showdown/tree/httptreemux
 
-## Template for readme
+## chi implementation
 
 ### General Considerations
+
+chi is weird. The handler functions are `http.HandlerFunc` types, so standard library, so I'm trying to figure out (after only implementing the health endpoint) why we need chi on top of the net/http router at all. Hopefully this is going to be apparent soon.
+
+#### Graceful shutdown
+
+chi is just a muxer rather than an entire framework, which means realistically instead of launching chi itself with
+```go
+r := chi.NewRouter()
+
+http.ListenAndServe(":3000", r)
+```
+We should attach it to the standard library server:
+```go
+r := chi.NewRouter()
+
+server := &http.Server{
+    Addr:    ":9000",
+    Handler: r,
+}
+
+server.ListenAndServer()
+```
 
 ### Details of criteria
 
