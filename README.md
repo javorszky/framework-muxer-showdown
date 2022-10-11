@@ -125,6 +125,31 @@ Yep, supports them. The declaration is between curly braces, rather than leading
 
 chi has a bunch of convenience functions that extract the data from the standard library request, so thumbs up!
 
+Additional really cool feature is that we can use a regex pattern to restrict the url params, so for example a route that looks like this:
+```
+/article/{date}-{slug}
+```
+and a request to this url:
+```
+http://server.com/article/2022-10-11-100-awesome-things
+```
+can be ambiguous, because which `-` is the one that separates the date / slug? Could be either
+```
+2022 / 10-11-100-awesome-things
+2022-10 / 11-100-awesome-things
+2022-10-11 / 100-awesome-things
+2022-10-11-100 / awesome-things
+2022-10-11-100-awesome / things
+```
+But if the route is declared like this:
+```
+/articles/{date:[0-9]{4}-[0-9]{2}-[0-9]{2}}-{article}
+```
+The only one that matches that is the following:
+```
+2022-10-11 / 100-awesome-things
+```
+
 #### Grouping
 
 #### Overlaps
