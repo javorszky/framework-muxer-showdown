@@ -47,9 +47,13 @@ Mostly all right. The way it works is not really comfortable, but it gets the jo
 
 #### Path specificity
 
+#### Path variables
+
 #### Grouping
 
 #### Overlaps
+
+#### General middleware
 
 #### Error handling middleware
 
