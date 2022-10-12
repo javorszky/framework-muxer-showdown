@@ -194,7 +194,13 @@ With chi we can either use the `r.Use()` method, or manually wrap the end handle
 
 #### Error handling middleware
 
+It's the same situation as the net/http example. The cody is pretty much copy-pasted from there with minor changes.
+
+chi itself doesn't have an error handling middleware readily available, so in order to make that work, we need to shove the errors into the context, and make sure the wrapping middleware also has access to the new one, so gotta do the ol' `*r = *r.WithContext(ctx)` dance.
+
 #### Context up and down
+
+As above, kinda clunky, but easily solvable.
 
 #### Unit tests
 

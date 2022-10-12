@@ -5,11 +5,11 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/rs/zerolog"
-	"github.com/suborbital/framework-muxer-showdown/handlers"
-
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/rs/zerolog"
+
+	"github.com/suborbital/framework-muxer-showdown/handlers"
 )
 
 type App struct {
@@ -58,6 +58,16 @@ func New(l zerolog.Logger, errChan chan error) App {
 	r.Get("/overlap/kansas", handlers.OverlapSingle())
 	r.Get("/overlap/*", handlers.OverlapEveryone())
 	r.Get("/overlap/{one}", handlers.OverlapDynamic())
+
+	// Error middleware
+	r.Group(func(re chi.Router) {
+		re.Use(handlers.ErrorCatcher(l.With().Str("middleware", "errorcatcher").Logger(), errChan))
+
+		re.Get("/app-error", handlers.ReturnsApplicationError())
+		re.Get("/notfound-error", handlers.ReturnsNotFoundError())
+		re.Get("/request-error", handlers.ReturnsRequestError())
+		re.Get("/shutdown-error", handlers.ReturnsShutdownError())
+	})
 
 	server := &http.Server{
 		Addr:    ":9000",
