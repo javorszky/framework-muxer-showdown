@@ -31,6 +31,14 @@ See the implementation here: https://github.com/suborbital/framework-muxer-showd
 
 Mostly all right. The way it works is not really comfortable, but it gets the job done, mostly. No standard library context.Context, though there's a flag on the `gin` router that can be set to enable the timeout / deadline / cancel / done methods on it.
 
+### 4. chi
+
+chi is mostly similar to the standard library net/http implementation with its very very standard signatures, with the added benefit of url params and routing.
+
+Between net/http and chi, chi wins.
+Between chi and gin, chi wins, because gin can't do a routing we need.
+Between chi and echo though, echo wins because of significantly easier error handling.
+
 ## Template for readme
 
 ### General Considerations
