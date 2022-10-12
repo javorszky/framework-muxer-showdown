@@ -204,6 +204,8 @@ As above, kinda clunky, but easily solvable.
 
 #### Unit tests
 
+Standard `httptest` can be used. Absolutely fine to use, same as every other one.
+
 #### Ecosystem
 
 chi has a few [middlewares built in](https://go-chi.io/#/pages/middleware) ([code here](https://github.com/go-chi/chi/tree/master/middleware)).
