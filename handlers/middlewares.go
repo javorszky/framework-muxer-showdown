@@ -91,3 +91,20 @@ func ErrorCatcher(l zerolog.Logger, shutdownchan chan error) func(next http.Hand
 		})
 	}
 }
+
+func Auth(h http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		v := r.Header.Get("Authorization")
+		if v == "" {
+			w.WriteHeader(http.StatusUnauthorized)
+			return
+		}
+
+		if v != "icandowhatiwant" {
+			w.WriteHeader(http.StatusForbidden)
+			return
+		}
+
+		h.ServeHTTP(w, r)
+	})
+}

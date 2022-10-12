@@ -69,6 +69,10 @@ func New(l zerolog.Logger, errChan chan error) App {
 		re.Get("/shutdown-error", handlers.ReturnsShutdownError())
 	})
 
+	// Authed
+	r.With().Post("/authed", handlers.Auth(handlers.StandardHandlerFunc()).ServeHTTP)
+	r.With().Options("/authed", handlers.Auth(handlers.StandardHandlerFunc()).ServeHTTP)
+
 	server := &http.Server{
 		Addr:    ":9000",
 		Handler: r,
