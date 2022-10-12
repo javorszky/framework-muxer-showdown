@@ -78,6 +78,14 @@ func New(l zerolog.Logger, errChan chan error) App {
 	r.Get("/std-handler-iface", handlers.StandardHandler().ServeHTTP)
 	r.Method(http.MethodGet, "/std-handler-iface-raw", handlers.StdHandler{})
 
+	// In-handler errors
+	r.With(handlers.Recoverer).Get("/panics", handlers.Panics())
+	r.Get("/notfound", handlers.WillFourOhFour())
+	r.Get("/forbidden", handlers.WillFourOhThree())
+	r.Get("/unavailable", handlers.WillFiveOhThree())
+	r.Get("/server-error", handlers.WillFivehundred())
+	r.Get("/unauthed", handlers.WillFourOhOne())
+
 	server := &http.Server{
 		Addr:    ":9000",
 		Handler: r,

@@ -3,8 +3,10 @@ package handlers
 import (
 	"encoding/json"
 	"net/http"
+	"runtime/debug"
 	"time"
 
+	"github.com/go-chi/chi/v5/middleware"
 	"github.com/rs/zerolog"
 
 	"github.com/suborbital/framework-muxer-showdown/errors"
@@ -107,4 +109,30 @@ func Auth(h http.Handler) http.Handler {
 
 		h.ServeHTTP(w, r)
 	})
+}
+
+func Recoverer(next http.Handler) http.Handler {
+	fn := func(w http.ResponseWriter, r *http.Request) {
+		defer func() {
+			if rvr := recover(); rvr != nil && rvr != http.ErrAbortHandler {
+
+				logEntry := middleware.GetLogEntry(r)
+				if logEntry != nil {
+					logEntry.Panic(rvr, debug.Stack())
+				} else {
+					middleware.PrintPrettyStack(rvr)
+				}
+
+				w.WriteHeader(http.StatusInternalServerError)
+				msg, err := json.Marshal(messageResponse{Message: http.StatusText(http.StatusInternalServerError)})
+				if err == nil {
+					_, _ = w.Write(msg)
+				}
+			}
+		}()
+
+		next.ServeHTTP(w, r)
+	}
+
+	return http.HandlerFunc(fn)
 }
