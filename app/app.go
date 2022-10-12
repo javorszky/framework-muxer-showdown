@@ -70,8 +70,13 @@ func New(l zerolog.Logger, errChan chan error) App {
 	})
 
 	// Authed
-	r.With().Post("/authed", handlers.Auth(handlers.StandardHandlerFunc()).ServeHTTP)
-	r.With().Options("/authed", handlers.Auth(handlers.StandardHandlerFunc()).ServeHTTP)
+	r.With(handlers.Auth).Post("/authed", handlers.StandardHandlerFunc())
+	r.With(handlers.Auth).Options("/authed", handlers.StandardHandlerFunc())
+
+	// Standard handlers
+	r.Post("/std-handler-func", handlers.StandardHandlerFunc())
+	r.Get("/std-handler-iface", handlers.StandardHandler().ServeHTTP)
+	r.Method(http.MethodGet, "/std-handler-iface-raw", handlers.StdHandler{})
 
 	server := &http.Server{
 		Addr:    ":9000",
