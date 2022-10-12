@@ -86,6 +86,9 @@ func New(l zerolog.Logger, errChan chan error) App {
 	r.Get("/server-error", handlers.WillFivehundred())
 	r.Get("/unauthed", handlers.WillFourOhOne())
 
+	// ctxupdown
+	r.With(handlers.CtxChanger(l.With().Str("middleware", "ctxchanger").Logger())).Get("/ctxupdown", handlers.CtxUpDown(handleLogger))
+
 	server := &http.Server{
 		Addr:    ":9000",
 		Handler: r,

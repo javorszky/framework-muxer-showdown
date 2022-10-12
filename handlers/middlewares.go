@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"context"
 	"encoding/json"
 	"net/http"
 	"runtime/debug"
@@ -14,6 +15,7 @@ import (
 )
 
 // This will be middlewares, so we can check error handling / panic recovery / authentication.
+const ctxMiddlewareValue string = "oh lawd he comin"
 
 func Logger(l zerolog.Logger) func(handler http.Handler) http.Handler {
 	return func(inner http.Handler) http.Handler {
@@ -135,4 +137,20 @@ func Recoverer(next http.Handler) http.Handler {
 	}
 
 	return http.HandlerFunc(fn)
+}
+
+func CtxChanger(l zerolog.Logger) func(next http.Handler) http.Handler {
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			l.Info().Msgf("MID: setting ctx value to be %s", ctxMiddlewareValue)
+
+			ctx := context.WithValue(r.Context(), ctxupdownkey, ctxMiddlewareValue)
+			r = r.WithContext(ctx)
+
+			next.ServeHTTP(w, r)
+
+			v := r.Context().Value(ctxupdownkey)
+			l.Info().Msgf("MID: getting back ctx value to be %s", v)
+		})
+	}
 }

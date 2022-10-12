@@ -4,6 +4,7 @@ go 1.19
 
 require (
 	github.com/go-chi/chi/v5 v5.0.7
+	github.com/pkg/errors v0.9.1
 	github.com/rs/zerolog v1.28.0
 	golang.org/x/net v0.0.0-20221004154528-8021a29435af
 )
