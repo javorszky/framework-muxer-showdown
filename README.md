@@ -199,3 +199,7 @@ With chi we can either use the `r.Use()` method, or manually wrap the end handle
 #### Unit tests
 
 #### Ecosystem
+
+chi has a few [middlewares built in](https://go-chi.io/#/pages/middleware) ([code here](https://github.com/go-chi/chi/tree/master/middleware)).
+
+There doesn't seem to be any contrib repository, but also they wouldn't be chi specific, because a middleware is just a `func(http.Handler) http.Handler`, which is standard library.
