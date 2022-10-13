@@ -77,6 +77,10 @@ func New(l zerolog.Logger, errChan chan error) App {
 	f.Get("/unavailable", handlers.E503())
 	f.Get("/panics", handlers.Panics())
 
+	// Auth endpoint
+	f.Post("/authed", handlers.Auth(), adaptor.HTTPHandlerFunc(handlers.StandardHandlerFunc()))
+	f.Options("/authed", handlers.Auth(), adaptor.HTTPHandlerFunc(handlers.StandardHandlerFunc()))
+
 	return App{
 		logger:  l,
 		errChan: errChan,

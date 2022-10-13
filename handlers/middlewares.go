@@ -23,7 +23,7 @@ func ErrorHandler(l zerolog.Logger, errChan chan error) fiber.ErrorHandler {
 			code = e.Code
 		}
 		c.Set(fiber.HeaderContentType, fiber.MIMEApplicationJSON)
-		return c.SendStatus(code)
+		return c.Status(code).Send(nil)
 	}
 }
 
@@ -63,6 +63,23 @@ func Recover() fiber.Handler {
 		}()
 
 		// Return err if exist, else move to next handler
+		return c.Next()
+	}
+}
+
+// Auth middleware for the one endpoint.
+func Auth() fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		v := c.Get("Authorization", "")
+
+		if v == "" {
+			return c.Status(http.StatusUnauthorized).Send(nil)
+		}
+
+		if v != "icandowhatiwant" {
+			return c.Status(http.StatusForbidden).Send(nil)
+		}
+
 		return c.Next()
 	}
 }
