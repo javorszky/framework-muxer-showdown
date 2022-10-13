@@ -51,6 +51,8 @@ require (
 
 #### Context type
 
+It's a custom `*fiber.Ctx` type. Works similarly to gin in that it has `c.Next()`.
+
 #### Standard library handling
 
 #### Accessing raw Request and ResponseWriter
@@ -67,7 +69,15 @@ require (
 
 #### General middleware
 
+General middleware looks the same as a handler itself. If it's a middleware, there will be a `c.Next()` call that we can do to go down the chain.
+
 #### Error handling middleware
+
+There is a special type of error handling type, `fiber.ErrorHandler`. It takes a ctx and the error, and returns an error.
+
+Fiber has a [default error handler](https://github.com/gofiber/fiber/blob/6a5fc64eddaa81a7fb65c94b8dcfd9a2caac2e78/app.go#L452-L461) which either returns the code and message from an internal `fiber.Error`, or returns a standard internal server error to the client.
+
+There's one place to handle all errors, so in this regard it's similar to echo. Redefining and adjusting the error handler is very easy. One of `fiber.Config`'s properties is the error handler.
 
 #### Context up and down
 
