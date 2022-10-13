@@ -31,6 +31,7 @@ See the implementation here: https://github.com/suborbital/framework-muxer-showd
 
 Mostly all right. The way it works is not really comfortable, but it gets the job done, mostly. No standard library context.Context, though there's a flag on the `gin` router that can be set to enable the timeout / deadline / cancel / done methods on it.
 
+See the implementation here: https://github.com/suborbital/framework-muxer-showdown/tree/gin
 ### 4. chi
 
 chi is mostly similar to the standard library net/http implementation with its very very standard signatures, with the added benefit of url params and routing.
@@ -38,6 +39,17 @@ chi is mostly similar to the standard library net/http implementation with its v
 Between net/http and chi, chi wins.
 Between chi and gin, chi wins, because gin can't do a routing we need.
 Between chi and echo though, echo wins because of significantly easier error handling.
+
+See the implementation here: https://github.com/suborbital/framework-muxer-showdown/tree/chi
+### fiber
+
+I **really** like fiber, despite the fact that it has a custom ctx (this seems to be a common theme), despite the fact we can't easily access the http request and response writers, and despite the fact that unit testing doesn't use the NewRecorder, and despite the weird ordering need to make the overlap happen.
+
+It makes up for all of those by providing convenience methods and middlewares that just kind of make sense.
+
+It has a really robust configuration option, and grouping and middlewares are excellent, and clear.
+
+See the implementation here: https://github.com/suborbital/framework-muxer-showdown/tree/fiber
 
 ## Template for readme
 
