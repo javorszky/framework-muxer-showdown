@@ -30,6 +30,8 @@ func New(l zerolog.Logger, errChan chan error) App {
 		ErrorHandler:      handlers.ErrorHandler(l.With().Str("module", "errorHandler").Logger(), errChan),
 	})
 
+	f.Use(handlers.Recover())
+
 	// Health endpoints
 	f.Get("/health", handlers.Health())
 	f.Options("/health", handlers.Health())
@@ -66,6 +68,14 @@ func New(l zerolog.Logger, errChan chan error) App {
 
 	// Context up and down
 	f.Get("/ctxupdown", handlers.CtxMiddleware(l.With().Str("module", "ctxmiddleware").Logger()), handlers.CtxUpDown(l.With().Str("module", "ctx handler").Logger()))
+
+	// Naked errors
+	f.Get("/unauthed", handlers.E401())
+	f.Get("/notfound", handlers.E404())
+	f.Get("/forbidden", handlers.E403())
+	f.Get("/server-error", handlers.E500())
+	f.Get("/unavailable", handlers.E503())
+	f.Get("/panics", handlers.Panics())
 
 	return App{
 		logger:  l,
