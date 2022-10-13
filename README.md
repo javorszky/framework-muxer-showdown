@@ -83,6 +83,8 @@ Handles path specificity tests. Wildcard and a more specific route that overlaps
 
 #### Path variables
 
+So far [fiber's path variables](https://docs.gofiber.io/guide/routing#parameters) are the most robust, including a regex, as well as a bunch of other constraints, trumping chi's regex constraints!
+
 #### Grouping
 
 #### Overlaps

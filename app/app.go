@@ -47,6 +47,9 @@ func New(l zerolog.Logger, errChan chan error) App {
 	f.Get("/spec", handlers.Single())
 	f.Get("/spec/*", handlers.Everyone())
 
+	// Path variables
+	f.Get("/pathvars/:one/metrics/:two", handlers.PathVars())
+
 	return App{
 		logger:  l,
 		errChan: errChan,
