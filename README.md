@@ -126,3 +126,5 @@ Yep, this works, but unlike the others, there's a `.Locals(key, ...values)` meth
 #### Ecosystem
 
 [Fiber's GitHub org](https://github.com/gofiber) has a bunch of useful repositories, middlewares. But other than that I've not seen extensive support / list of community bits. They do have a [discord however](https://docs.gofiber.io/extra/faq#does-fiber-have-a-community-chat).
+
+I've upgraded it to `Rich` because of this: https://github.com/gofiber/awesome-fiber.
