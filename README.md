@@ -123,6 +123,12 @@ Yep, this works, but unlike the others, there's a `.Locals(key, ...values)` meth
 
 #### Unit tests
 
+Unit testing is also done via http test. The only minor difference between this one and the others is that instead of using a `NewRecorder` as a writer, fiber has a `.Test` method to make working with tests a little bit easier.
+
+I found no easy way to use the NewRecorder, as fiber and fasthttp seem to abstract those behind the `.Test` method.
+
+See the [errors_test.go](handlers/errors_test.go) file for more details.
+
 #### Ecosystem
 
 [Fiber's GitHub org](https://github.com/gofiber) has a bunch of useful repositories, middlewares. But other than that I've not seen extensive support / list of community bits. They do have a [discord however](https://docs.gofiber.io/extra/faq#does-fiber-have-a-community-chat).
