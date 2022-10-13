@@ -40,7 +40,12 @@ func New(l zerolog.Logger, errChan chan error) App {
 	f.Get("/std-handler-iface-raw", adaptor.HTTPHandler(handlers.StdHandler{}))
 
 	// Websocket
-	f.Use(handlers.WSUpgradeMW()).Get("/ws", handlers.WS(handleLogger))
+	f.Get("/ws", handlers.WSUpgradeMW(), handlers.WS(handleLogger))
+
+	// Path specificity
+	f.Get("/spec/long/url/here", handlers.Long())
+	f.Get("/spec", handlers.Single())
+	f.Get("/spec/*", handlers.Everyone())
 
 	return App{
 		logger:  l,

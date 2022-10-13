@@ -79,6 +79,8 @@ There's no need to involve other libraries, like the std library websocket, gobw
 
 #### Path specificity
 
+Handles path specificity tests. Wildcard and a more specific route that overlaps with it is good to go.
+
 #### Path variables
 
 #### Grouping
