@@ -9,6 +9,8 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/rs/zerolog"
+
+	localErrors "github.com/suborbital/framework-muxer-showdown/errors"
 )
 
 // This will be middlewares, so we can check error handling / panic recovery / authentication.
@@ -17,6 +19,18 @@ const stackBufferLength = 4096
 
 func ErrorHandler(l zerolog.Logger, errChan chan error) fiber.ErrorHandler {
 	return func(c *fiber.Ctx, err error) error {
+		switch {
+		case localErrors.IsApplicationError(err):
+			return c.Status(http.StatusInternalServerError).JSON(messageResponse{Message: "app error: " + err.Error()})
+		case localErrors.IsNotFoundError(err):
+			return c.Status(http.StatusNotFound).JSON(messageResponse{Message: "not found: " + err.Error()})
+		case localErrors.IsRequestError(err):
+			return c.Status(http.StatusBadRequest).JSON(messageResponse{Message: "bad request " + err.Error()})
+		case localErrors.IsShutdownError(err):
+			errChan <- err
+			return c.Status(http.StatusServiceUnavailable).JSON(messageResponse{Message: "well this is bad: " + err.Error()})
+		}
+
 		code := http.StatusInternalServerError
 		var e *fiber.Error
 		if errors.As(err, &e) {

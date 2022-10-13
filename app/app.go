@@ -81,6 +81,12 @@ func New(l zerolog.Logger, errChan chan error) App {
 	f.Post("/authed", handlers.Auth(), adaptor.HTTPHandlerFunc(handlers.StandardHandlerFunc()))
 	f.Options("/authed", handlers.Auth(), adaptor.HTTPHandlerFunc(handlers.StandardHandlerFunc()))
 
+	// Error handler for custom errors
+	f.Get("/app-error", handlers.ReturnsApplicationError())
+	f.Get("/notfound-error", handlers.ReturnsNotFoundError())
+	f.Get("/request-error", handlers.ReturnsRequestError())
+	f.Get("/shutdown-error", handlers.ReturnsShutdownError())
+
 	return App{
 		logger:  l,
 		errChan: errChan,
