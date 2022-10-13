@@ -67,7 +67,15 @@ This is super nice! Major props and thumbs up!
 
 #### Accessing raw Request and ResponseWriter
 
+I was trying to figure out whether this should be a `Yes` or `Kinda`, but ultimately went with `Yes`, because if you need the raw `http.Request` or the `http.ResponseWriter`, you're probably going to be happy using the `http.Handler` wrapper middleware.
+
+There are two layers of wraps, one is fiber, the other is fasthttp within fiber, and fasthttp, from the looks of it, is not super forthcoming with letting the request / responsewriter be accessible, though this might change once I look into fasthttp proper.
+
 #### Websocket
+
+Fiber has its own websocket implementation, which I suppose is a wrapper. It lives in a completely different repository: [gofiber/websocket](https://github.com/gofiber/websocket), but actually using it is fairly straightforward.
+
+There's no need to involve other libraries, like the std library websocket, gobwas, or gorilla's websocket.
 
 #### Path specificity
 

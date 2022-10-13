@@ -17,7 +17,7 @@ type App struct {
 }
 
 func New(l zerolog.Logger, errChan chan error) App {
-	_ = l.With().Str("module", "handlers").Logger()
+	handleLogger := l.With().Str("module", "handlers").Logger()
 
 	f := fiber.New(fiber.Config{
 		StrictRouting:     true,
@@ -38,6 +38,9 @@ func New(l zerolog.Logger, errChan chan error) App {
 	f.Post("/std-handler-func", adaptor.HTTPHandlerFunc(handlers.StandardHandlerFunc()))
 	f.Get("/std-handler-iface", adaptor.HTTPHandler(handlers.StandardHandler()))
 	f.Get("/std-handler-iface-raw", adaptor.HTTPHandler(handlers.StdHandler{}))
+
+	// Websocket
+	f.Use(handlers.WSUpgradeMW()).Get("/ws", handlers.WS(handleLogger))
 
 	return App{
 		logger:  l,
