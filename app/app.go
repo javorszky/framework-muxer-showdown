@@ -50,6 +50,10 @@ func New(l zerolog.Logger, errChan chan error) App {
 	// Path variables
 	f.Get("/pathvars/:one/metrics/:two", handlers.PathVars())
 
+	// Group variables
+	v1 := f.Group("/v1", handlers.GroupRoot())
+	v1.Get("/hello", handlers.Hello())
+
 	return App{
 		logger:  l,
 		errChan: errChan,

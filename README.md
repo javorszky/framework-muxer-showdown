@@ -87,6 +87,10 @@ So far [fiber's path variables](https://docs.gofiber.io/guide/routing#parameters
 
 #### Grouping
 
+Very nice, it does all the things it needs to do like group level middlewares, etc, but you can also define a handler for the prefix, so if you have a group of `/v1/*`, you can then define `/hello` on the group, and the full path becomes `/v1/hello`. When you define a handler on the group though, going to `/v1` or `/v1` will also work.
+
+You can also mount a group to a group. The [documentation on groups](https://docs.gofiber.io/guide/grouping) is pretty straightforward too.
+
 #### Overlaps
 
 #### General middleware
