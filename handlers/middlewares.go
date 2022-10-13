@@ -17,18 +17,13 @@ const stackBufferLength = 4096
 
 func ErrorHandler(l zerolog.Logger, errChan chan error) fiber.ErrorHandler {
 	return func(c *fiber.Ctx, err error) error {
-		if err == fiber.ErrMethodNotAllowed {
-			c.Status(http.StatusMethodNotAllowed)
-			return nil
-		}
-
 		code := http.StatusInternalServerError
 		var e *fiber.Error
 		if errors.As(err, &e) {
 			code = e.Code
 		}
 		c.Set(fiber.HeaderContentType, fiber.MIMEApplicationJSON)
-		return c.Status(code).JSON(messageResponse{Message: http.StatusText(code)})
+		return c.SendStatus(code)
 	}
 }
 
@@ -60,7 +55,9 @@ func Recover() fiber.Handler {
 
 				var ok bool
 				if err, ok = r.(error); !ok {
-					err = fiber.ErrInternalServerError
+					c.Status(http.StatusInternalServerError).JSON(messageResponse{Message: http.StatusText(http.StatusInternalServerError)})
+					err = nil
+					// err = fiber.ErrInternalServerError
 				}
 			}
 		}()

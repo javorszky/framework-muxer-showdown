@@ -16,17 +16,15 @@ Makefile has a docker build that produces a utility image with `gci`, `golangci-
 
 ### General Considerations
 
-Hnng, the configuration option! DAMN! I love it!
+Observations, in no particular order:
 
-Fiber itself has `.Listen()` and `.Shutdown()` methods, so we don't need to involve `http.Server` directly.
-
-Has configurable ErrorHandler!
-
-Also has an option to limit requests to be GET only.
-
-The `Prefork` option is super interesting!
-
-`StrictRouting` needs to be set to true, otherwise `/spec` and `/spec/` are treated as the same.
+* Hnng, the configuration option! DAMN! I love it!
+* Fiber itself has `.Listen()` and `.Shutdown()` methods, so we don't need to involve `http.Server` directly.
+* Has configurable ErrorHandler!
+* Also has an option to limit requests to be GET only.
+* The `Prefork` option is super interesting!
+* `StrictRouting` needs to be set to true, otherwise `/spec` and `/spec/` are treated as the same.
+* Mercedes-Benz is a GitHub sponsor for them (yes, the car company)
 
 Dependency graph is small! The entire `go.mod` file of fiber is this:
 ```go
@@ -46,6 +44,7 @@ require (
 	github.com/valyala/tcplisten v1.0.0 // indirect
 )
 ```
+Though this does not include the recover middleware, nor the adaptor middleware.
 
 ### Details of criteria
 
