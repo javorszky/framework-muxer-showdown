@@ -3,8 +3,10 @@ package app
 import (
 	"time"
 
+	"github.com/gofiber/adaptor/v2"
 	"github.com/gofiber/fiber/v2"
 	"github.com/rs/zerolog"
+
 	"github.com/suborbital/framework-muxer-showdown/handlers"
 )
 
@@ -28,8 +30,14 @@ func New(l zerolog.Logger, errChan chan error) App {
 		ErrorHandler:      handlers.ErrorHandler(l.With().Str("module", "errorHandler").Logger(), errChan),
 	})
 
+	// Health endpoints
 	f.Get("/health", handlers.Health())
 	f.Options("/health", handlers.Health())
+
+	// Standard library handling
+	f.Post("/std-handler-func", adaptor.HTTPHandlerFunc(handlers.StandardHandlerFunc()))
+	f.Get("/std-handler-iface", adaptor.HTTPHandler(handlers.StandardHandler()))
+	f.Get("/std-handler-iface-raw", adaptor.HTTPHandler(handlers.StdHandler{}))
 
 	return App{
 		logger:  l,

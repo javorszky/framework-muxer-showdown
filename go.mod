@@ -3,6 +3,7 @@ module github.com/suborbital/framework-muxer-showdown
 go 1.19
 
 require (
+	github.com/gofiber/adaptor/v2 v2.1.28
 	github.com/gofiber/fiber/v2 v2.38.1
 	github.com/rs/zerolog v1.28.0
 )

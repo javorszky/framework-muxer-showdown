@@ -55,6 +55,16 @@ It's a custom `*fiber.Ctx` type. Works similarly to gin in that it has `c.Next()
 
 #### Standard library handling
 
+This is super nice! Most other solutions either work like that (gin, chi), or have the wrappers built into the router itself (echo). Fiber's approach is to delegate this to a middleware entirely, so if you don't need it, you don't have the additional code overhead, but if you do need it, it's ready.
+
+Better yet, the middleware [is on their official GitHub org](https://github.com/gofiber/adaptor), and does conversion in both ways:
+
+http handler / handlerfunc <-> fiber handler
+http middleware <-> fiber middleware
+fiber.App -> http handlerfunc
+
+This is super nice! Major props and thumbs up!
+
 #### Accessing raw Request and ResponseWriter
 
 #### Websocket
