@@ -29,7 +29,7 @@ See the implementation here: https://github.com/suborbital/framework-muxer-showd
 
 ### 3. gin
 
-Mostly all right. The way it works is not really comfortable, but it gets the job done, mostly. No standard library context.Context, though there's a flag on the `gin` router that can be set to enable the timeout / deadline / cancel / done methods on it.
+Mostly all right. The way it works is not really comfortable, but it gets the job done. No standard library context.Context, though there's a flag on the `gin` router that can be set to enable the timeout / deadline / cancel / done methods on it.
 
 See the implementation here: https://github.com/suborbital/framework-muxer-showdown/tree/gin
 ### 4. chi
@@ -41,7 +41,7 @@ Between chi and gin, chi wins, because gin can't do a routing we need.
 Between chi and echo though, echo wins because of significantly easier error handling.
 
 See the implementation here: https://github.com/suborbital/framework-muxer-showdown/tree/chi
-### fiber
+### 5. fiber
 
 I **really** like fiber, despite the fact that it has a custom ctx (this seems to be a common theme), despite the fact we can't easily access the http request and response writers, and despite the fact that unit testing doesn't use the NewRecorder, and despite the weird ordering need to make the overlap happen.
 
