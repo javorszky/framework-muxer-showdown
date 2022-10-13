@@ -93,6 +93,19 @@ You can also mount a group to a group. The [documentation on groups](https://doc
 
 #### Overlaps
 
+So this is weird, because it depends on the order you declare the routes. So this one works, the kansas one goes to handler, everything else goes to the dynamic handlers:
+```go
+f.Get("/overlap/kansas", handler)
+f.Get("/overlap/:one", dynamicHandler)
+```
+However, this one doesn't work as expected, every request, including /overlap/kansas goes to the dynamic handler. 
+```go
+f.Get("/overlap/:one", dynamicHandler)
+f.Get("/overlap/kansas", handler)
+```
+
+Also tried it the group way, but did not help, still depended on the order. This might be a bug in fasthttp.
+
 #### General middleware
 
 General middleware looks the same as a handler itself. If it's a middleware, there will be a `c.Next()` call that we can do to go down the chain.

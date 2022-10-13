@@ -54,6 +54,16 @@ func New(l zerolog.Logger, errChan chan error) App {
 	v1 := f.Group("/v1", handlers.GroupRoot())
 	v1.Get("/hello", handlers.Hello())
 
+	// Overlaps
+	f.Get("/overlap/+one", handlers.OverlapDynamic())
+	f.Get("/overlap/kansas", handlers.OverlapStatic())
+	f.Get("/overlap/", handlers.OverlapEveryone())
+
+	// ol := f.Group("/overlap")
+	// ol.Get("/", handlers.OverlapEveryone())
+	// ol.Get("/+one", handlers.OverlapDynamic())
+	// ol.Get("/kansas", handlers.OverlapStatic())
+
 	return App{
 		logger:  l,
 		errChan: errChan,
