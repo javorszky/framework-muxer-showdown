@@ -120,6 +120,8 @@ There's one place to handle all errors, so in this regard it's similar to echo. 
 
 #### Context up and down
 
+Yep, this works, but unlike the others, there's a `.Locals(key, ...values)` method. If you only supply the key, it reads the value stored. If you supply both a key and a value, that sets the value.
+
 #### Unit tests
 
 #### Ecosystem

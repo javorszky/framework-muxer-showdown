@@ -22,3 +22,18 @@ func ErrorHandler(l zerolog.Logger, errChan chan error) fiber.ErrorHandler {
 		return fiber.DefaultErrorHandler(c, err)
 	}
 }
+
+func CtxMiddleware(l zerolog.Logger) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		c.Locals(CtxUpDownKey, CtxMiddlewareValue)
+
+		l.Info().Msgf("set the ctx value to be %s", CtxMiddlewareValue)
+
+		err := c.Next()
+
+		v := c.Locals(CtxUpDownKey)
+		l.Info().Msgf("got the ctx value out after calling handler, it is %s", v)
+
+		return err
+	}
+}

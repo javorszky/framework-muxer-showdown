@@ -64,6 +64,9 @@ func New(l zerolog.Logger, errChan chan error) App {
 	// ol.Get("/+one", handlers.OverlapDynamic())
 	// ol.Get("/kansas", handlers.OverlapStatic())
 
+	// Context up and down
+	f.Get("/ctxupdown", handlers.CtxMiddleware(l.With().Str("module", "ctxmiddleware").Logger()), handlers.CtxUpDown(l.With().Str("module", "ctx handler").Logger()))
+
 	return App{
 		logger:  l,
 		errChan: errChan,
