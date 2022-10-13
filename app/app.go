@@ -53,12 +53,12 @@ func New(l zerolog.Logger, errChan chan error) App {
 	f.Get("/pathvars/:one/metrics/:two", handlers.PathVars())
 
 	// Group variables
-	v1 := f.Group("/v1", handlers.GroupRoot())
+	v1 := f.Group("/v1")
 	v1.Get("/hello", handlers.Hello())
 
 	// Overlaps
-	f.Get("/overlap/+one", handlers.OverlapDynamic())
 	f.Get("/overlap/kansas", handlers.OverlapStatic())
+	f.Get("/overlap/:one", handlers.OverlapDynamic())
 	f.Get("/overlap/", handlers.OverlapEveryone())
 
 	// ol := f.Group("/overlap")
