@@ -45,6 +45,9 @@ func New(l zerolog.Logger, errChan chan error) App {
 	// Path vars
 	r.GET("/pathvars/:one/metrics/:two", handlers.PathVars(handlerLogger))
 
+	// WebSocket
+	r.Handler(http.MethodGet, "/ws", handlers.WSStd(handlerLogger))
+
 	server := &http.Server{
 		Addr:              ":9000",
 		Handler:           r,

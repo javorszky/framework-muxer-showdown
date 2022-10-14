@@ -5,6 +5,7 @@ go 1.19
 require (
 	github.com/julienschmidt/httprouter v1.3.0
 	github.com/rs/zerolog v1.28.0
+	golang.org/x/net v0.0.0-20221014081412-f15817d10f9b
 )
 
 require (

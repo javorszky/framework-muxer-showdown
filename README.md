@@ -36,6 +36,8 @@ Its own handler type has a signature of `func(http.ResponseWriter, *http.Request
 
 #### Websocket
 
+No built in support, but the standard library just works, mostly because it's an `http.Handler`.
+
 #### Path specificity
 
 #### Path variables
