@@ -53,6 +53,11 @@ func New(l zerolog.Logger, errChan chan error) App {
 	r.GET("/spec", handlers.Single())
 	// r.GET("/spec/long/url/here", handlers.Long())
 
+	// Overlaps
+	r.GET("/overlap/:one", handlers.OverlapDynamic())
+	r.GET("/overlap/kansas", handlers.OverlapSpecific())
+	r.GET("/overlap/", handlers.OverlapEveryone())
+
 	server := &http.Server{
 		Addr:              ":9000",
 		Handler:           r,

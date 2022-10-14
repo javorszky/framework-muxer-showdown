@@ -64,6 +64,20 @@ Yep, it supports it. In the `httprouter.Handle` signature, the third parameter i
 
 #### Overlaps
 
+Also does not work, and exits with a panic given the following declaration:
+```go
+	// Overlaps
+	r.GET("/overlap/:one", handlers.OverlapDynamic())
+	r.GET("/overlap/kansas", handlers.OverlapSpecific())
+	r.GET("/overlap/", handlers.OverlapEveryone())
+```
+
+```shell
+panic: 'kansas' in new path '/overlap/kansas' conflicts with existing wildcard ':one' in existing prefix '/overlap/:one'
+
+goroutine 1 [running]:
+```
+
 #### General middleware
 
 Eh, it's ... easy. Sort of. It's missing a lot of the convenience methods like `.Use` as the others have, but you can wrap them inside each other.
