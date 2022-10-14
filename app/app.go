@@ -23,6 +23,7 @@ func New(l zerolog.Logger, errChan chan error) App {
 	r := httprouter.New()
 	r.MethodNotAllowed = handlers.MethodNotHandledHandler()
 	r.HandleMethodNotAllowed = true
+	r.PanicHandler = handlers.Recover()
 
 	// Health endpoint
 	r.GET("/health", handlers.Health(handlerLogger))
@@ -69,6 +70,17 @@ func New(l zerolog.Logger, errChan chan error) App {
 	r.GET("/request-error", handlers.ErrorCatcher(el, errChan)(handlers.ReturnsRequestError()))
 	r.GET("/notfound-error", handlers.ErrorCatcher(el, errChan)(handlers.ReturnsNotFoundError()))
 	r.GET("/shutdown-error", handlers.ErrorCatcher(el, errChan)(handlers.ReturnsShutdownError()))
+
+	// Naked error routes
+	r.GET("/notfound", handlers.E404())
+	r.GET("/forbidden", handlers.E403())
+	r.GET("/unauthed", handlers.E401())
+	r.GET("/server-error", handlers.E500())
+	r.GET("/unavailable", handlers.E503())
+	r.GET("/panics", handlers.Panics())
+
+	// CtxUpDown
+	r.GET("/ctxupdown", handlers.CTXMiddleware(l)(handlers.CTXUpDownHandler(l)))
 
 	server := &http.Server{
 		Addr:              ":9000",

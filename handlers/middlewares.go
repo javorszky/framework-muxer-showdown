@@ -111,3 +111,37 @@ func ErrorCatcher(l zerolog.Logger, shutdownchan chan error) func(httprouter.Han
 		}
 	}
 }
+
+func Recover() func(http.ResponseWriter, *http.Request, interface{}) {
+	return func(w http.ResponseWriter, r *http.Request, i interface{}) {
+		enc, err := json.Marshal(messageResponse{Message: http.StatusText(http.StatusInternalServerError)})
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
+		w.WriteHeader(http.StatusInternalServerError)
+		_, _ = w.Write(enc)
+	}
+}
+
+func CTXMiddleware(l zerolog.Logger) func(httprouter.Handle) httprouter.Handle {
+	l = l.With().Str("what", "ctxmiddleware").Logger()
+	return func(next httprouter.Handle) httprouter.Handle {
+		return func(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+			ctx := r.Context()
+			v := ctx.Value(CTXUpDownKey)
+			l.Info().Msgf("got the value from ctx, it was %#v", v)
+
+			ctx = context.WithValue(ctx, CTXUpDownKey, CTXMiddlewareValue)
+
+			r = r.WithContext(ctx)
+
+			next(w, r, params)
+
+			ctx2 := r.Context()
+			v2 := ctx2.Value(CTXUpDownKey)
+			l.Info().Msgf("got the value back from cx, it was %#v", v2)
+		}
+	}
+}
