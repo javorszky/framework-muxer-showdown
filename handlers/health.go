@@ -13,7 +13,7 @@ const healthResponse = "everything working"
 func Health(l zerolog.Logger) httprouter.Handle {
 	return func(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
 		l.Info().Msg("health called")
-		enc, err := json.Marshal(messageResponse{Message: "everything working"})
+		enc, err := json.Marshal(messageResponse{Message: healthResponse})
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			_, _ = w.Write(nil)
