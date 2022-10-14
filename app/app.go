@@ -55,8 +55,13 @@ func New(l zerolog.Logger, errChan chan error) App {
 
 	// Overlaps
 	r.GET("/overlap/:one", handlers.OverlapDynamic())
-	r.GET("/overlap/kansas", handlers.OverlapSpecific())
+	// r.GET("/overlap/kansas", handlers.OverlapSpecific())
 	r.GET("/overlap/", handlers.OverlapEveryone())
+
+	// Grouping
+	subRouter := httprouter.New()
+	subRouter.GET("/hello", handlers.Hello())
+	r.Handler(http.MethodGet, "/v1", subRouter)
 
 	server := &http.Server{
 		Addr:              ":9000",

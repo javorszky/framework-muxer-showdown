@@ -19,6 +19,7 @@ Makefile has a docker build that produces a utility image with `gci`, `golangci-
 * This is just a router. Ardan Labs's Service uses it.
 * It has a stated aim of routes matching exactly one, or zero routes, which means it will probably fail the specificity and overlap tests, but we'll see
 * Doesn't have its own start / stop, so it goes on the `&http.Server{Handler: routerInstance}`. The upside is that it's easy to start / stop in a standard way.
+* Has good support for CORS things: https://github.com/julienschmidt/httprouter#automatic-options-responses-and-cors
 
 ### Details of criteria
 
@@ -61,6 +62,13 @@ goroutine 1 [running]:
 Yep, it supports it. In the `httprouter.Handle` signature, the third parameter is the parameters in the path, but query parameters aren't contained there.
 
 #### Grouping
+This is ... weird, because it's not even supported as much as net/http. There's an issue: https://github.com/julienschmidt/httprouter/pull/89, in 2016 there was a promise of a "new version", but current version does not support it.
+
+There's a separate middleware? Or a module here: https://github.com/omgnuts/go-subware
+
+But it's... an eeeeehhhh, I'd rather don't want to deal with this.
+
+I tried to mount a sub router to a route, and it does not work.
 
 #### Overlaps
 
