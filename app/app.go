@@ -20,14 +20,22 @@ func New(l zerolog.Logger, errChan chan error) App {
 	handlerLogger := l.With().Str("module", "handlers").Logger()
 
 	r := httprouter.New()
+	r.MethodNotAllowed = handlers.MethodNotHandledHandler()
+	r.HandleMethodNotAllowed = true
 
 	// Health endpoint
 	r.GET("/health", handlers.Health(handlerLogger))
+	r.OPTIONS("/health", handlers.Health(handlerLogger))
 
 	// Standard handlers
 	r.Handler(http.MethodGet, "/std-handler-iface", handlers.StandardHandler())
+	r.Handler(http.MethodOptions, "/std-handler-iface", handlers.StandardHandler())
+
 	r.Handler(http.MethodGet, "/std-handler-iface-raw", handlers.StdHandler{})
+	r.Handler(http.MethodOptions, "/std-handler-iface-raw", handlers.StdHandler{})
+
 	r.HandlerFunc(http.MethodPost, "/std-handler-func", handlers.StandardHandlerFunc())
+	r.HandlerFunc(http.MethodOptions, "/std-handler-func", handlers.StandardHandlerFunc())
 
 	server := &http.Server{
 		Addr:              ":9000",
