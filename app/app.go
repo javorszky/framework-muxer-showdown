@@ -48,6 +48,11 @@ func New(l zerolog.Logger, errChan chan error) App {
 	// WebSocket
 	r.Handler(http.MethodGet, "/ws", handlers.WSStd(handlerLogger))
 
+	// Path specificity
+	r.GET("/spec/*stuff", handlers.Everyone())
+	r.GET("/spec", handlers.Single())
+	// r.GET("/spec/long/url/here", handlers.Long())
+
 	server := &http.Server{
 		Addr:              ":9000",
 		Handler:           r,

@@ -40,6 +40,22 @@ No built in support, but the standard library just works, mostly because it's an
 
 #### Path specificity
 
+There is a concept of wildcard parameters, which works, but you can't also declare a handler for a route that is more specific. Some solutions allow you to declare them, just won't work.
+
+This test fails with the following panic given the route declarations:
+```go
+	// Path specificity
+	r.GET("/spec/*stuff", handlers.Everyone())
+	r.GET("/spec", handlers.Single())
+	r.GET("/spec/long/url/here", handlers.Long())
+```
+```shell
+panic: '/long/url/here' in new path '/spec/long/url/here' conflicts with existing wildcard '/*stuff' in existing prefix '/spec/*stuff'
+
+goroutine 1 [running]:
+<rest of the stacktrace>
+```
+
 #### Path variables
 
 Yep, it supports it. In the `httprouter.Handle` signature, the third parameter is the parameters in the path, but query parameters aren't contained there.
