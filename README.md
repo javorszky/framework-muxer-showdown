@@ -18,14 +18,21 @@ Makefile has a docker build that produces a utility image with `gci`, `golangci-
 
 * This is just a router. Ardan Labs's Service uses it.
 * It has a stated aim of routes matching exactly one, or zero routes, which means it will probably fail the specificity and overlap tests, but we'll see
+* Doesn't have its own start / stop, so it goes on the `&http.Server{Handler: routerInstance}`. The upside is that it's easy to start / stop in a standard way.
 
 ### Details of criteria
 
 #### Context type
 
+Embedded into the standard `*http.Request` type.
+
 #### Standard library handling
 
+There are convenient adapters to deal with it. The parameters are then stored in the request context.
+
 #### Accessing raw Request and ResponseWriter
+
+Its own handler type has a signature of `func(http.ResponseWriter, *http.Request, httprouter.Params) {}`. The raw request and response writers are just... there.
 
 #### Websocket
 

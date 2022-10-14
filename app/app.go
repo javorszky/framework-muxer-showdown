@@ -21,7 +21,13 @@ func New(l zerolog.Logger, errChan chan error) App {
 
 	r := httprouter.New()
 
+	// Health endpoint
 	r.GET("/health", handlers.Health(handlerLogger))
+
+	// Standard handlers
+	r.Handler(http.MethodGet, "/std-handler-iface", handlers.StandardHandler())
+	r.Handler(http.MethodGet, "/std-handler-iface-raw", handlers.StdHandler{})
+	r.HandlerFunc(http.MethodPost, "/std-handler-func", handlers.StandardHandlerFunc())
 
 	server := &http.Server{
 		Addr:              ":9000",
