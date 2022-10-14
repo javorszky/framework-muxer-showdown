@@ -63,6 +63,13 @@ func New(l zerolog.Logger, errChan chan error) App {
 	subRouter.GET("/hello", handlers.Hello())
 	r.Handler(http.MethodGet, "/v1", subRouter)
 
+	// Error handling
+	el := l.With().Str("module", "catcher-in-the-error").Logger()
+	r.GET("/app-error", handlers.ErrorCatcher(el, errChan)(handlers.ReturnsApplicationError()))
+	r.GET("/request-error", handlers.ErrorCatcher(el, errChan)(handlers.ReturnsRequestError()))
+	r.GET("/notfound-error", handlers.ErrorCatcher(el, errChan)(handlers.ReturnsNotFoundError()))
+	r.GET("/shutdown-error", handlers.ErrorCatcher(el, errChan)(handlers.ReturnsShutdownError()))
+
 	server := &http.Server{
 		Addr:              ":9000",
 		Handler:           r,

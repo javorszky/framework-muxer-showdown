@@ -2,9 +2,14 @@ package handlers
 
 import (
 	"context"
+	"encoding/json"
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
+	"github.com/rs/zerolog"
+
+	localErrors "github.com/suborbital/framework-muxer-showdown/errors"
+	"github.com/suborbital/framework-muxer-showdown/web"
 )
 
 // This will be middlewares, so we can check error handling / panic recovery / authentication.
@@ -41,5 +46,68 @@ func Wrap(handler http.Handler) httprouter.Handle {
 			req = req.WithContext(ctx)
 		}
 		handler.ServeHTTP(w, req)
+	}
+}
+
+func ErrorCatcher(l zerolog.Logger, shutdownchan chan error) func(httprouter.Handle) httprouter.Handle {
+	return func(next httprouter.Handle) httprouter.Handle {
+		return func(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+			l.Info().Msg("error middleware, serving embedded handler")
+			next(w, r, params)
+
+			errs := web.GetErrors(r.Context())
+			l.Info().Msgf("this is errs: %#v", errs)
+
+			if errs != nil {
+				first := errs[0]
+				l.Info().Msgf("this is first: %v", first)
+				var er messageResponse
+				var status int
+
+				switch {
+				case localErrors.IsApplicationError(first):
+					l.Warn().Msg("okay, so this is an application error")
+					apperr := localErrors.GetApplicationError(first)
+					er = messageResponse{Message: "app error: " + apperr.Error()}
+					status = http.StatusInternalServerError
+
+				case localErrors.IsRequestError(first):
+					l.Warn().Msg("okay, so this is an request error")
+					rerr := localErrors.GetRequestError(first)
+					er = messageResponse{Message: "bad request " + rerr.Error()}
+					status = http.StatusBadRequest
+
+				case localErrors.IsNotFoundError(first):
+					l.Warn().Msg("okay, so this is a not found error")
+					nferr := localErrors.GetNotFoundError(first)
+					er = messageResponse{Message: "not found: " + nferr.Error()}
+					status = http.StatusNotFound
+
+				case localErrors.IsShutdownError(first):
+					l.Warn().Msg("okay, so this is a shut down error")
+					sderr := localErrors.GetShutdownError(first)
+					er = messageResponse{Message: "well this is bad: " + sderr.Error()}
+					status = http.StatusServiceUnavailable
+					defer func() {
+						l.Error().Msgf("shoving error into shutdownchan")
+						shutdownchan <- sderr
+					}()
+				default:
+					l.Warn().Msg("okay, so this is a default error")
+					er = messageResponse{Message: "weird unexpected error: " + first.Error()}
+					status = http.StatusInternalServerError
+				}
+
+				bts, err := json.Marshal(er)
+				if err != nil {
+					w.WriteHeader(http.StatusInternalServerError)
+					_, _ = w.Write([]byte("json marshal issue: " + err.Error()))
+					return
+				}
+
+				w.WriteHeader(status)
+				_, _ = w.Write(bts)
+			}
+		}
 	}
 }

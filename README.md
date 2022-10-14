@@ -94,6 +94,8 @@ The router has a `.Handle` method that takes a standard http handler interface a
 
 #### Error handling middleware
 
+Same as the net/http solution. Copy pasted the code from there, minimal modification was needed.
+
 #### Context up and down
 
 #### Unit tests
