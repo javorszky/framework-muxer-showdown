@@ -42,6 +42,9 @@ func New(l zerolog.Logger, errChan chan error) App {
 	r.POST("/authed", handlers.Auth(handlers.Wrap(handlers.StandardHandlerFunc())))
 	r.OPTIONS("/authed", handlers.Auth(handlers.Wrap(handlers.StandardHandlerFunc())))
 
+	// Path vars
+	r.GET("/pathvars/:one/metrics/:two", handlers.PathVars(handlerLogger))
+
 	server := &http.Server{
 		Addr:              ":9000",
 		Handler:           r,

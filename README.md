@@ -40,6 +40,8 @@ Its own handler type has a signature of `func(http.ResponseWriter, *http.Request
 
 #### Path variables
 
+Yep, it supports it. In the `httprouter.Handle` signature, the third parameter is the parameters in the path, but query parameters aren't contained there.
+
 #### Grouping
 
 #### Overlaps
