@@ -7,6 +7,7 @@ import (
 
 	"github.com/julienschmidt/httprouter"
 	"github.com/rs/zerolog"
+
 	"github.com/suborbital/framework-muxer-showdown/handlers"
 )
 
@@ -36,6 +37,10 @@ func New(l zerolog.Logger, errChan chan error) App {
 
 	r.HandlerFunc(http.MethodPost, "/std-handler-func", handlers.StandardHandlerFunc())
 	r.HandlerFunc(http.MethodOptions, "/std-handler-func", handlers.StandardHandlerFunc())
+
+	// Auth
+	r.POST("/authed", handlers.Auth(handlers.Wrap(handlers.StandardHandlerFunc())))
+	r.OPTIONS("/authed", handlers.Auth(handlers.Wrap(handlers.StandardHandlerFunc())))
 
 	server := &http.Server{
 		Addr:              ":9000",

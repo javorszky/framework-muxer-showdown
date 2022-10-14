@@ -46,6 +46,10 @@ Its own handler type has a signature of `func(http.ResponseWriter, *http.Request
 
 #### General middleware
 
+Eh, it's ... easy. Sort of. It's missing a lot of the convenience methods like `.Use` as the others have, but you can wrap them inside each other.
+
+The router has a `.Handle` method that takes a standard http handler interface and that provides a wrapper around that so from the outside it looks like an `httprouter.Handle`. I wish that was exported, but at the same time it's about 8 lines, so moved it to the `handlers.Wrap` method.
+
 #### Error handling middleware
 
 #### Context up and down
