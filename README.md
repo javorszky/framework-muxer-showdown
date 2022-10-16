@@ -74,6 +74,8 @@ That said, fasthttp also has this bit in their readme:
 >
 > fasthttp.ListenAndServe(":80", m)
 > ```
+
+All of the above, while undoubtedly amazing when it comes to handling requests, is going to make it really, really difficult to write actual code that we need as a business.
 </details>
 
 ### Details of criteria
