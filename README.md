@@ -94,6 +94,8 @@ Custom thing, has everything we need really.
 
 #### Path variables
 
+Kinda, because even though the context has the `.UserValues(key string)` method, the return type is an `interface{}`, so it's up to us to deal with type checking it, which is inconvenient.
+
 #### Grouping
 
 #### Overlaps

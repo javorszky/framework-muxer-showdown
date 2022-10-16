@@ -18,9 +18,11 @@ func New(l zerolog.Logger, errChan chan error) App {
 
 	r := router.New()
 
-	r.Group("/")
-
+	// Health
 	r.GET("/health", handlers.Health(handlerLogger))
+
+	// Path variables
+	r.GET("/pathvars/{one}/metrics/{two}", handlers.PathVars())
 
 	server := &fasthttp.Server{
 		Handler: r.Handler,
