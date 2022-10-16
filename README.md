@@ -82,6 +82,8 @@ All of the above, while undoubtedly amazing when it comes to handling requests, 
 
 #### Context type
 
+Custom thing, has everything we need really.
+
 #### Standard library handling
 
 #### Accessing raw Request and ResponseWriter
