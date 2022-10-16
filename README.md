@@ -12,68 +12,67 @@ Makefile has a docker build that produces a utility image with `gci`, `golangci-
 * `make lintfix`: runs gci on all `*.go` files recursively minus the `vendor` directory.
 * `make mocks`: runs mockery to generate mocked interfaces in all go files recursively minus the `vendor` directory with config from the [.mockery.yaml](.mockery.yaml) file.
 
-## Implementations and tests
-### 1. net/http
-
-Pretty basic, it gets us to about 80%. Only dependency we really need is when we want to deal with websockets and don't want to use the /x/ standard library.
-
-Major downside is path variables. They _can_ be done, but that's a lot of extra code.
-
-See the tree here: https://github.com/suborbital/framework-muxer-showdown/tree/net/http
-
-### 2. echo implementation
-
-Very clean, very simple to use, supports everything we really need. Only downside is the lack of standard library `context.Context`, but the timeouts can be configured on the echo instance before startup.
-
-See the implementation here: https://github.com/suborbital/framework-muxer-showdown/tree/echo
-
-### 3. gin
-
-Mostly all right. The way it works is not really comfortable, but it gets the job done. No standard library context.Context, though there's a flag on the `gin` router that can be set to enable the timeout / deadline / cancel / done methods on it.
-
-See the implementation here: https://github.com/suborbital/framework-muxer-showdown/tree/gin
-### 4. chi
-
-chi is mostly similar to the standard library net/http implementation with its very very standard signatures, with the added benefit of url params and routing.
-
-Between net/http and chi, chi wins.
-Between chi and gin, chi wins, because gin can't do a routing we need.
-Between chi and echo though, echo wins because of significantly easier error handling.
-
-See the implementation here: https://github.com/suborbital/framework-muxer-showdown/tree/chi
-### 5. fiber
-
-I **really** like fiber, despite the fact that it has a custom ctx (this seems to be a common theme), despite the fact we can't easily access the http request and response writers, and despite the fact that unit testing doesn't use the NewRecorder, and despite the weird ordering need to make the overlap happen.
-
-It makes up for all of those by providing convenience methods and middlewares that just kind of make sense.
-
-It has a really robust configuration option, and grouping and middlewares are excellent, and clear.
-
-See the implementation here: https://github.com/suborbital/framework-muxer-showdown/tree/fiber
-
-### 6. httprouter
-
-This is just a router rather than a web framework. It forms the basis of Gin, and also Ardan Labs's Service starting boilerplate implementation.
-
-It has a bunch of decisions in it, like each request can only match one or none routes, which means the path specificity and overlap tests fail on our end. Whether those are good decisions or not depends on the use case, but I'd wager that it's inconvenient for us.
-
-Grouping is also very problematic. I suppose Gin fixed some of the issues and made it more convenient to work with.
-
-I can't recommend we use it.
-
-See the implementation here: https://github.com/suborbital/framework-muxer-showdown/tree/httprouter
-
-### 7. httptreemux
-
-Just a router, super similar to httprouter. There's only one test that really fails, otherwise everything else is super nice.
-
-I particularly like that I can create a muxer that's either the standard library handlers, or its own signature with the params as a third one.
-
-See the implementation here: https://github.com/suborbital/framework-muxer-showdown/tree/httptreemux
-
-## Template for readme
+## fasthttp implementation
 
 ### General Considerations
+
+There are two things we can refer to as "fasthttp". One of them is merely the handler, which you can find at [https://github.com/valyala/fasthttp](https://github.com/valyala/fasthttp), and the other one is [https://github.com/fasthttp/router](https://github.com/fasthttp/router), a router based on it even though the readme says it's based on `julienschmidt/httprouter`.
+
+The test itself is about the `fasthttp/router`, because the naked handler has the following under here:
+
+<details>
+<summary>Reasons we're not using `valyala/fasthttp`</summary>
+
+Its main focus is on performance and it compares itself to net/http. It also starts with this note:
+
+> ## fasthttp might not be for you!
+>
+> ---
+> fasthttp was design for some high performance edge cases. Unless your server/client needs to handle thousands of small to medium requests per seconds and needs a consistent low millisecond response time fasthttp might not be for you. For most cases net/http is much better as it's easier to use and can handle more cases. For most cases you won't even notice the performance difference.
+
+I feel like in our case we do care about these fast responses, so it might be for us.
+
+That said, fasthttp also has this bit in their readme:
+
+> * Fasthttp doesn't provide [ServeMux](https://golang.org/pkg/net/http/#ServeMux), but there are more powerful third-party routers and web frameworks with fasthttp support:
+>   * [fasthttp-routing](https://github.com/qiangxue/fasthttp-routing)
+>   * [router](https://github.com/fasthttp/router)
+>   * [lu](https://github.com/vincentLiuxiang/lu)
+>   * [atreugo](https://github.com/savsgio/atreugo)
+>   * [Fiber](https://github.com/gofiber/fiber)
+>   * [Gearbox](https://github.com/gogearbox/gearbox)
+>
+> Net/http code with simple ServeMux is trivially converted to fasthttp code:
+>
+> ```go
+> // net/http code
+>
+> m := &http.ServeMux{}
+> m.HandleFunc("/foo", fooHandlerFunc)
+> m.HandleFunc("/bar", barHandlerFunc)
+> m.Handle("/baz", bazHandler)
+>
+> http.ListenAndServe(":80", m)
+> ```
+>
+> ```go
+> // the corresponding fasthttp code
+> m := func(ctx *fasthttp.RequestCtx) {
+> 	switch string(ctx.Path()) {
+> 	case "/foo":
+> 		fooHandlerFunc(ctx)
+> 	case "/bar":
+> 		barHandlerFunc(ctx)
+> 	case "/baz":
+> 		bazHandler.HandlerFunc(ctx)
+> 	default:
+> 		ctx.Error("not found", fasthttp.StatusNotFound)
+> 	}
+> }
+>
+> fasthttp.ListenAndServe(":80", m)
+> ```
+</details>
 
 ### Details of criteria
 
