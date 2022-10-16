@@ -99,5 +99,5 @@ Same as the net/http solution. Copy pasted the code from there, minimal modifica
 #### Context up and down
 
 #### Unit tests
-
+Yep, this works just fine. No issues, mostly same as the others, httptest and `.ServeHTTP` are here to save the day.
 #### Ecosystem
