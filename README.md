@@ -23,6 +23,8 @@ The test itself is about the `fasthttp/router`, because the naked handler has th
 <details>
 <summary>Reasons we're not using `valyala/fasthttp`</summary>
 
+---
+
 Its main focus is on performance and it compares itself to net/http. It also starts with this note:
 
 > ## fasthttp might not be for you!
