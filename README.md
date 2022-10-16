@@ -98,6 +98,8 @@ Same as the net/http solution. Copy pasted the code from there, minimal modifica
 
 #### Context up and down
 
+It works the same way as standard library implementation, no convenience methods to speak of. Can be done, I'm going to give it a `Kinda`.
+
 #### Unit tests
 
 Yep, this works just fine. No issues, mostly same as the others, httptest and `.ServeHTTP` are here to save the day.
