@@ -51,6 +51,18 @@ It has a really robust configuration option, and grouping and middlewares are ex
 
 See the implementation here: https://github.com/suborbital/framework-muxer-showdown/tree/fiber
 
+### 6. httprouter
+
+This is just a router rather than a web framework. It forms the basis of Gin, and also Ardan Labs's Service starting boilerplate implementation.
+
+It has a bunch of decisions in it, like each request can only match one or none routes, which means the path specificity and overlap tests fail on our end. Whether those are good decisions or not depends on the use case, but I'd wager that it's inconvenient for us.
+
+Grouping is also very problematic. I suppose Gin fixed some of the issues and made it more convenient to work with.
+
+I can't recommend we use it.
+
+See the implementation here: https://github.com/suborbital/framework-muxer-showdown/tree/httprouter
+
 ## Template for readme
 
 ### General Considerations
