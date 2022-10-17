@@ -35,6 +35,11 @@ func New(l zerolog.Logger, errChan chan error) App {
 	// Websocket
 	r.GET("/ws", fastws.Upgrade(handlers.WSStd(handlerLogger)))
 
+	// Path specificity
+	r.GET("/spec", handlers.Single())
+	r.GET("/spec/{everyone:*}", handlers.Everyone())
+	r.GET("/spec/long/url/here", handlers.Long())
+
 	server := &fasthttp.Server{
 		Handler: r.Handler,
 	}

@@ -78,6 +78,9 @@ That said, fasthttp also has this bit in their readme:
 All of the above, while undoubtedly amazing when it comes to handling requests, is going to make it really, really difficult to write actual code that we need as a business.
 </details>
 
+#### Additional findings about the router
+* `/spec` and `/spec/` are the same, even when the `RedirectTrailingSlash` setting is set to `false`. There are no other configuration options where this behaviour could be tweaked.
+
 ### Details of criteria
 
 #### Context type
@@ -99,6 +102,13 @@ This is a kinda, because there is a [package available](https://github.com/fasth
 Also, it's a lot more awkward to work with than the standard library websocket or the gobwas implementation, but it can be done.
 
 #### Path specificity
+
+This one fails our requirements.
+
+* ✅ has catch-all parameter in the form of `/path/{somename:*}`, which needs to go at the end of the route
+* ✅ if there's a static route that overlaps with a catch-all, that one gets handled first, regardless of which declaration comes first in the app
+* ❌ does not handle `/spec` and `/spec/` differently. Can't make it handle them differently
+* ❌ `/path/{somename:*}` does not match `GET /path/` where `somename` would be empty. It either redirects to `/path`, without the trailing slash, or gives us a 404
 
 #### Path variables
 
