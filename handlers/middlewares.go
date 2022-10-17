@@ -14,6 +14,8 @@ import (
 	"github.com/suborbital/framework-muxer-showdown/web"
 )
 
+const ctxMiddlewareValue string = "oh lawd he comin"
+
 func Recover(l zerolog.Logger) func(*fasthttp.RequestCtx, interface{}) {
 	return func(c *fasthttp.RequestCtx, i interface{}) {
 		l.Error().Msgf("%s", debug.Stack())
@@ -118,5 +120,21 @@ func Auth(next fasthttp.RequestHandler) fasthttp.RequestHandler {
 		}
 
 		next(c)
+	}
+}
+
+func CtxMiddleware(l zerolog.Logger) func(fasthttp.RequestHandler) fasthttp.RequestHandler {
+	return func(next fasthttp.RequestHandler) fasthttp.RequestHandler {
+		return func(c *fasthttp.RequestCtx) {
+			l.Info().Msgf("MID: setting ctx value to be %s", ctxMiddlewareValue)
+
+			c.SetUserValue(ctxupdownkey, ctxMiddlewareValue)
+
+			next(c)
+
+			v := c.UserValue(ctxupdownkey).(string)
+
+			l.Info().Msgf("MID: getting back ctx value to be %s", v)
+		}
 	}
 }

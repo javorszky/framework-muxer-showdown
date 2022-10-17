@@ -72,6 +72,9 @@ func New(l zerolog.Logger, errChan chan error) App {
 	r.POST("/authed", handlers.Auth(fasthttpadaptor.NewFastHTTPHandlerFunc(handlers.StandardHandlerFunc())))
 	r.OPTIONS("/authed", handlers.Auth(fasthttpadaptor.NewFastHTTPHandlerFunc(handlers.StandardHandlerFunc())))
 
+	// Ctx up and down
+	r.GET("/ctxupdown", handlers.CtxMiddleware(handlerLogger)(handlers.CtxHandler(handlerLogger)))
+
 	server := &fasthttp.Server{
 		Handler: r.Handler,
 	}
