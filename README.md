@@ -117,11 +117,38 @@ Kinda, because even though the context has the `.UserValues(key string)` method,
 #### Grouping
 
 Works as expected, though it can't do the more advanced things like "attach these middlewares to this group only", so because of that it's a `Kinda`, and not a `Yes`.
+
 #### Overlaps
 
 This one works as expected.
 
 #### General middleware
+
+This is an `Eeeehhh` because even though creating middlewares itself is easy, using them is not really without convenience methods. There's no `.Use()` method or anything similar which would allow us to add middlewares globally, or to a group of our choice, so things like logging or tracing / requestid middlewares would need to be attached to each individual route manually, or create a convenience wrapper curried function that would do it for us.
+
+For example:
+```go
+type Middleware func(fasthttp.RequestHandler) fasthttp.RequestHandler
+
+func NewMiddlewareWrapper(mws ...Middleware) Middleware {
+	return func(h fasthttp.RequestHandler) fasthttp.RequestHandler {
+		for _, mw := range mws {
+			h = mw(h)
+		}
+
+		return h
+    }
+}
+```
+And then use this with:
+```go
+func main() {
+	wr := NewMiddlewareWrapper(Logger(), RequestID(), CORS(), Whatever())
+
+	r.Get("/path", wr(handlers.PathHandler()))
+}
+```
+This is easy, but tedious.
 
 #### Error handling middleware
 
