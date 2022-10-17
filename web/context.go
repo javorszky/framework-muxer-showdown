@@ -1,22 +1,22 @@
 package web
 
 import (
-	"context"
+	"github.com/valyala/fasthttp"
 )
 
-type errKey int
+const key string = "weirdErrorKey"
 
-const key errKey = 1
-
-func AddError(ctx context.Context, err error) context.Context {
-	v, _ := ctx.Value(key).([]error)
+func AddError(ctx *fasthttp.RequestCtx, err error) {
+	v, _ := ctx.UserValue(key).([]error)
 	v = append(v, err)
-	return context.WithValue(ctx, key, v)
+
+	ctx.SetUserValue(key, v)
 }
 
-func GetErrors(ctx context.Context) []error {
+func GetErrors(ctx *fasthttp.RequestCtx) []error {
 	if errs, ok := ctx.Value(key).([]error); ok {
 		return errs
 	}
+
 	return nil
 }

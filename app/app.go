@@ -20,6 +20,7 @@ func New(l zerolog.Logger, errChan chan error) App {
 	handlerLogger := l.With().Str("module", "handlers").Logger()
 
 	r := router.New()
+	r.PanicHandler = handlers.Recover(handlerLogger)
 
 	// Health
 	r.GET("/health", handlers.Health(handlerLogger))
@@ -48,6 +49,16 @@ func New(l zerolog.Logger, errChan chan error) App {
 	// Groups
 	g := r.Group("/v1")
 	g.GET("/hello", handlers.Hello())
+
+	// Naked errors
+	r.GET("/panics", handlers.Panics())
+
+	// Error middlewares
+	emw := handlers.ErrorCatcher(handlerLogger, errChan)
+	r.GET("/app-error", emw(handlers.ReturnsApplicationError()))
+	r.GET("/notfound-error", emw(handlers.ReturnsNotFoundError()))
+	r.GET("/request-error", emw(handlers.ReturnsRequestError()))
+	r.GET("/shutdown-error", emw(handlers.ReturnsShutdownError()))
 
 	server := &fasthttp.Server{
 		Handler: r.Handler,

@@ -152,7 +152,19 @@ This is easy, but tedious.
 
 #### Error handling middleware
 
+Divided up into two parts: panic handler, which can be configured on the router, and general error handler, which cannot.
+
+Panic handler just works, the function receives the context and whatever the recovered interface is, and then we're free to do whatever we want, mostly log a lot and send a generic "whoops something went wrong" response back.
+
+The error handler however needs to be a middleware.
+
+The actual error handler middleware is a copy paste from the chi solution with some changes on signatures, but otherwise it's... the same.
+
+You can see how I wrapped everything in [app.go](app/app.go) for the four error middleware routes.
+
 #### Context up and down
+
+Using the `.UserValues()` and `.SetUserValue()` methods on the context it's actually pretty easy.
 
 #### Unit tests
 
