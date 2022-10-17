@@ -52,6 +52,11 @@ func New(l zerolog.Logger, errChan chan error) App {
 
 	// Naked errors
 	r.GET("/panics", handlers.Panics())
+	r.GET("/notfound", handlers.E404())
+	r.GET("/forbidden", handlers.E403())
+	r.GET("/unauthed", handlers.E401())
+	r.GET("/server-error", handlers.E500())
+	r.GET("/unavailable", handlers.E503())
 
 	// Error middlewares
 	emw := handlers.ErrorCatcher(handlerLogger, errChan)
