@@ -75,11 +75,7 @@ func MidTwo(logger zerolog.Logger) echo.MiddlewareFunc {
 	}
 }
 
-type ErrorResponse struct {
-	Message string
-}
-
-func CustomErrorHandler(l zerolog.Logger, errchan chan error) func(err error, c echo.Context) {
+func CustomErrorHandler(_ zerolog.Logger, errchan chan error) func(err error, c echo.Context) {
 	return func(err error, c echo.Context) {
 		if c.Response().Committed {
 			return
@@ -91,27 +87,27 @@ func CustomErrorHandler(l zerolog.Logger, errchan chan error) func(err error, c 
 			return
 		}
 
-		var er ErrorResponse
+		var er messageResponse
 		var status int
 
 		switch {
 		case errors.IsApplicationError(err):
 			appErr := errors.GetApplicationError(err)
-			er = ErrorResponse{
+			er = messageResponse{
 				Message: "app error: " + appErr.Error(),
 			}
 			status = http.StatusInternalServerError
 		case errors.IsNotFoundError(err):
 			nfErr := errors.GetNotFoundError(err)
-			er = ErrorResponse{Message: "not found: " + nfErr.Error()}
+			er = messageResponse{Message: "not found: " + nfErr.Error()}
 			status = http.StatusNotFound
 		case errors.IsRequestError(err):
 			reqErr := errors.GetRequestError(err)
-			er = ErrorResponse{Message: "bad request " + reqErr.Error()}
+			er = messageResponse{Message: "bad request " + reqErr.Error()}
 			status = http.StatusBadRequest
 		case errors.IsShutdownError(err):
 			sderr := errors.GetShutdownError(err)
-			er = ErrorResponse{Message: "well this is bad: " + sderr.Error()}
+			er = messageResponse{Message: "well this is bad: " + sderr.Error()}
 			status = http.StatusServiceUnavailable
 			defer func() {
 				errchan <- sderr
