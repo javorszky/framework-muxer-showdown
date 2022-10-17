@@ -63,6 +63,14 @@ I can't recommend we use it.
 
 See the implementation here: https://github.com/suborbital/framework-muxer-showdown/tree/httprouter
 
+### 7. httptreemux
+
+Just a router, super similar to httprouter. There's only one test that really fails, otherwise everything else is super nice.
+
+I particularly like that I can create a muxer that's either the standard library handlers, or its own signature with the params as a third one.
+
+See the implementation here: https://github.com/suborbital/framework-muxer-showdown/tree/httptreemux
+
 ## Template for readme
 
 ### General Considerations
