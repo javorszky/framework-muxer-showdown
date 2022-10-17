@@ -79,3 +79,5 @@ Standard httptest works. Both with the handlers themselves, without involving th
 The only thing we need to take care of is that while we can use the `router.UseHandler` to specify global middlewares and then use the `router.ServeHTTP` to test handlers with paths, with individual handlers we do need to wrap them up.
 
 #### Ecosystem
+
+This is a `Some`, because it relies heavily on standard library solutions, and there isn't a lot of community around it, because it's non-specific. There are a bunch of other frameworks built on top of the muxer, but they aren't listed anywhere on the readme.
