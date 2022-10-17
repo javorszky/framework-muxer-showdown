@@ -22,6 +22,7 @@ func New(l zerolog.Logger, errChan chan error) App {
 	handleLogger := l.With().Str("module", "handlers").Logger()
 
 	r := chi.NewRouter()
+	r.Use(middleware.RequestID)
 	r.Use(middleware.Logger)
 
 	// Health
@@ -88,6 +89,11 @@ func New(l zerolog.Logger, errChan chan error) App {
 
 	// ctxupdown
 	r.With(handlers.CtxChanger(l.With().Str("middleware", "ctxchanger").Logger())).Get("/ctxupdown", handlers.CtxUpDown(handleLogger))
+
+	// Performance
+	r.With(handlers.Recoverer, handlers.Auth, handlers.ErrorCatcher(handleLogger, errChan)).
+		Get("/performance", handlers.Performance(handleLogger))
+	r.Get("/smol-perf", handlers.StandardHandler().ServeHTTP)
 
 	server := &http.Server{
 		Addr:    ":9000",
