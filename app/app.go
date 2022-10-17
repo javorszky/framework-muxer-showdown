@@ -1,6 +1,7 @@
 package app
 
 import (
+	"github.com/dgrr/fastws"
 	"github.com/fasthttp/router"
 	"github.com/rs/zerolog"
 	"github.com/valyala/fasthttp"
@@ -30,6 +31,9 @@ func New(l zerolog.Logger, errChan chan error) App {
 	r.POST("/std-handler-func", fasthttpadaptor.NewFastHTTPHandlerFunc(handlers.StandardHandlerFunc()))
 	r.GET("/std-handler-iface", fasthttpadaptor.NewFastHTTPHandler(handlers.StandardHandler()))
 	r.GET("/std-handler-iface-raw", fasthttpadaptor.NewFastHTTPHandler(handlers.StdHandler{}))
+
+	// Websocket
+	r.GET("/ws", fastws.Upgrade(handlers.WSStd(handlerLogger)))
 
 	server := &fasthttp.Server{
 		Handler: r.Handler,

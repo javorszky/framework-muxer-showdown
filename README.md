@@ -94,6 +94,10 @@ This is halfway between a kinda and an eeeehhh... It can be done, but not super 
 
 #### Websocket
 
+This is a kinda, because there is a [package available](https://github.com/fasthttp/fastws), but it's a fork, but the go.mod file isn't updated, so we have to require it by the original path, at which point the fork isn't getting used, so whatever difference there is between the two is lost.
+
+Also, it's a lot more awkward to work with than the standard library websocket or the gobwas implementation, but it can be done.
+
 #### Path specificity
 
 #### Path variables

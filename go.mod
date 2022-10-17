@@ -3,6 +3,7 @@ module github.com/suborbital/framework-muxer-showdown
 go 1.19
 
 require (
+	github.com/dgrr/fastws v1.0.4
 	github.com/fasthttp/router v1.4.12
 	github.com/rs/zerolog v1.28.0
 	github.com/valyala/fasthttp v1.40.0
