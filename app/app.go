@@ -57,9 +57,9 @@ func New(l zerolog.Logger, errChan chan error) App {
 
 	// Path specificity
 	getMiddleware := handlers.Methods(http.MethodGet)
-	mux.Handle("/spec", getMiddleware(handlers.SingleRoot()))
-	mux.Handle("/spec/", getMiddleware(handlers.NonSpecificWithPrefix()))
-	mux.Handle("/spec/long/url/here", getMiddleware(handlers.SpecificLongRoute()))
+	mux.Handle("/spec", getMiddleware(handlers.Single()))
+	mux.Handle("/spec/", getMiddleware(handlers.Everyone()))
+	mux.Handle("/spec/long/url/here", getMiddleware(handlers.Long()))
 
 	// Grouping
 	groupMux := http.NewServeMux()
