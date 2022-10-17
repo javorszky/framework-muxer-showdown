@@ -81,7 +81,7 @@ func New(l zerolog.Logger, errChan chan error) App {
 	r.GET("/panics", handlers.Panics())
 
 	// CtxUpDown
-	// r.GET("/ctxupdown", handlers.CTXMiddleware(l)(handlers.CTXUpDownHandler(l)))
+	r.GET("/ctxupdown", handlers.CtxChanger(l)(handlers.CtxUpDown(l)).ServeHTTP)
 
 	server := &http.Server{
 		Addr:              ":9000",

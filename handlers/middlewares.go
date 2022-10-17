@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"context"
 	"encoding/json"
 	"net/http"
 	"runtime/debug"
@@ -13,6 +14,8 @@ import (
 	"github.com/suborbital/framework-muxer-showdown/errors"
 	"github.com/suborbital/framework-muxer-showdown/web"
 )
+
+const ctxMiddlewareValue string = "oh lawd he comin"
 
 // This will be middlewares, so we can check error handling / panic recovery / authentication.
 
@@ -145,6 +148,22 @@ func ErrorCatcher(l zerolog.Logger, shutdownchan chan error) func(next http.Hand
 				w.WriteHeader(status)
 				_, _ = w.Write(bts)
 			}
+		})
+	}
+}
+
+func CtxChanger(l zerolog.Logger) func(next http.Handler) http.Handler {
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			l.Info().Msgf("MID: setting ctx value to be %s", ctxMiddlewareValue)
+
+			ctx := context.WithValue(r.Context(), ctxupdownkey, ctxMiddlewareValue)
+			r = r.WithContext(ctx)
+
+			next.ServeHTTP(w, r)
+
+			v := r.Context().Value(ctxupdownkey)
+			l.Info().Msgf("MID: getting back ctx value to be %s", v)
 		})
 	}
 }

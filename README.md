@@ -70,6 +70,8 @@ No special handling for error handling middleware, so the solution is much like 
 
 #### Context up and down
 
+Same as net/http, need to do the *r = *r.WithContext dance. Otherwise works.
+
 #### Unit tests
 
 #### Ecosystem
