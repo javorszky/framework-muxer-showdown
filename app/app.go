@@ -47,11 +47,11 @@ func New(l zerolog.Logger, errChan chan error) App {
 	r.POST("/authed", handlers.Auth(handlers.StandardHandlerFunc()).ServeHTTP)
 	r.OPTIONS("/authed", handlers.Auth(handlers.StandardHandlerFunc()).ServeHTTP)
 
-	// // Path vars
+	// Path vars
 	r.GET("/pathvars/:one/metrics/:two", handlers.PathVars(handlerLogger))
 
 	// WebSocket
-	// r.Handler(http.MethodGet, "/ws", handlers.WSStd(handlerLogger))
+	r.Handler(http.MethodGet, "/ws", handlers.WSStd(handlerLogger))
 
 	// Path specificity
 	// r.GET("/spec/*stuff", handlers.Everyone())

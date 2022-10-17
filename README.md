@@ -37,6 +37,8 @@ This comes out of the box because it uses the http.Handler and http.HandlerFunc.
 
 #### Websocket
 
+Works the same as the net/http implementation, or the chi implementation.
+
 #### Path specificity
 
 #### Path variables
