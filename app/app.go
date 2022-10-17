@@ -22,7 +22,7 @@ func New(l zerolog.Logger, errChan chan error) App {
 
 	r := httptreemux.NewContextMux()
 	group := r.NewGroup("/v1")
-	group.GET("/v1/:id", handlers.Hello())
+	group.GET("/hello", handlers.Hello())
 
 	// NotFoundHandler, MethodNotAllowedHandler, Panic Handling ??
 	// r.PanicHandler = handlers.Recover()
@@ -32,55 +32,50 @@ func New(l zerolog.Logger, errChan chan error) App {
 	r.OPTIONS("/health", handlers.Health(handlerLogger))
 
 	// Standard handlers
-	r.Handler(http.MethodGet, "/std-handler-iface", handlers.StandardHandler())
-	r.Handler(http.MethodOptions, "/std-handler-iface", handlers.StandardHandler())
+	r.GET("/std-handler-iface", handlers.StandardHandler().ServeHTTP)
+	r.OPTIONS("/std-handler-iface", handlers.StandardHandler().ServeHTTP)
 
-	r.Handler(http.MethodGet, "/std-handler-iface-raw", handlers.StdHandler{})
-	r.Handler(http.MethodOptions, "/std-handler-iface-raw", handlers.StdHandler{})
+	r.GET("/std-handler-iface-raw", handlers.StdHandler{}.ServeHTTP)
+	r.OPTIONS("/std-handler-iface-raw", handlers.StdHandler{}.ServeHTTP)
 
-	r.HandlerFunc(http.MethodPost, "/std-handler-func", handlers.StandardHandlerFunc())
-	r.HandlerFunc(http.MethodOptions, "/std-handler-func", handlers.StandardHandlerFunc())
+	r.POST("/std-handler-func", handlers.StandardHandlerFunc())
+	r.OPTIONS("/std-handler-func", handlers.StandardHandlerFunc())
 
 	// Auth
-	r.POST("/authed", handlers.Auth(handlers.Wrap(handlers.StandardHandlerFunc())))
-	r.OPTIONS("/authed", handlers.Auth(handlers.Wrap(handlers.StandardHandlerFunc())))
+	// r.POST("/authed", handlers.Auth(handlers.Wrap(handlers.StandardHandlerFunc())))
+	// r.OPTIONS("/authed", handlers.Auth(handlers.Wrap(handlers.StandardHandlerFunc())))
 
-	// Path vars
-	r.GET("/pathvars/:one/metrics/:two", handlers.PathVars(handlerLogger))
+	// // Path vars
+	// r.GET("/pathvars/:one/metrics/:two", handlers.PathVars(handlerLogger))
 
 	// WebSocket
-	r.Handler(http.MethodGet, "/ws", handlers.WSStd(handlerLogger))
+	// r.Handler(http.MethodGet, "/ws", handlers.WSStd(handlerLogger))
 
 	// Path specificity
-	r.GET("/spec/*stuff", handlers.Everyone())
-	r.GET("/spec", handlers.Single())
+	// r.GET("/spec/*stuff", handlers.Everyone())
+	// r.GET("/spec", handlers.Single())
 
 	// Overlaps
-	r.GET("/overlap/:one", handlers.OverlapDynamic())
-	r.GET("/overlap/", handlers.OverlapEveryone())
-
-	// Grouping
-	subRouter := httptreemux.New()
-	subRouter.GET("/hello", handlers.Hello())
-	r.Handler(http.MethodGet, "/v1", subRouter)
+	// r.GET("/overlap/:one", handlers.OverlapDynamic())
+	// r.GET("/overlap/", handlers.OverlapEveryone())
 
 	// Error handling
-	el := l.With().Str("module", "catcher-in-the-error").Logger()
-	r.GET("/app-error", handlers.ErrorCatcher(el, errChan)(handlers.ReturnsApplicationError()))
-	r.GET("/request-error", handlers.ErrorCatcher(el, errChan)(handlers.ReturnsRequestError()))
-	r.GET("/notfound-error", handlers.ErrorCatcher(el, errChan)(handlers.ReturnsNotFoundError()))
-	r.GET("/shutdown-error", handlers.ErrorCatcher(el, errChan)(handlers.ReturnsShutdownError()))
+	// el := l.With().Str("module", "catcher-in-the-error").Logger()
+	// r.GET("/app-error", handlers.ErrorCatcher(el, errChan)(handlers.ReturnsApplicationError()))
+	// r.GET("/request-error", handlers.ErrorCatcher(el, errChan)(handlers.ReturnsRequestError()))
+	// r.GET("/notfound-error", handlers.ErrorCatcher(el, errChan)(handlers.ReturnsNotFoundError()))
+	// r.GET("/shutdown-error", handlers.ErrorCatcher(el, errChan)(handlers.ReturnsShutdownError()))
 
 	// Naked error routes
-	r.GET("/notfound", handlers.E404())
-	r.GET("/forbidden", handlers.E403())
-	r.GET("/unauthed", handlers.E401())
-	r.GET("/server-error", handlers.E500())
-	r.GET("/unavailable", handlers.E503())
-	r.GET("/panics", handlers.Panics())
+	// r.GET("/notfound", handlers.E404())
+	// r.GET("/forbidden", handlers.E403())
+	// r.GET("/unauthed", handlers.E401())
+	// r.GET("/server-error", handlers.E500())
+	// r.GET("/unavailable", handlers.E503())
+	// r.GET("/panics", handlers.Panics())
 
 	// CtxUpDown
-	r.GET("/ctxupdown", handlers.CTXMiddleware(l)(handlers.CTXUpDownHandler(l)))
+	// r.GET("/ctxupdown", handlers.CTXMiddleware(l)(handlers.CTXUpDownHandler(l)))
 
 	server := &http.Server{
 		Addr:              ":9000",
