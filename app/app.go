@@ -3,8 +3,10 @@ package app
 import (
 	"github.com/fasthttp/router"
 	"github.com/rs/zerolog"
-	"github.com/suborbital/framework-muxer-showdown/handlers"
 	"github.com/valyala/fasthttp"
+	"github.com/valyala/fasthttp/fasthttpadaptor"
+
+	"github.com/suborbital/framework-muxer-showdown/handlers"
 )
 
 type App struct {
@@ -23,6 +25,11 @@ func New(l zerolog.Logger, errChan chan error) App {
 
 	// Path variables
 	r.GET("/pathvars/{one}/metrics/{two}", handlers.PathVars())
+
+	// Standard handlers
+	r.POST("/std-handler-func", fasthttpadaptor.NewFastHTTPHandlerFunc(handlers.StandardHandlerFunc()))
+	r.GET("/std-handler-iface", fasthttpadaptor.NewFastHTTPHandler(handlers.StandardHandler()))
+	r.GET("/std-handler-iface-raw", fasthttpadaptor.NewFastHTTPHandler(handlers.StdHandler{}))
 
 	server := &fasthttp.Server{
 		Handler: r.Handler,

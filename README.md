@@ -86,6 +86,8 @@ Custom thing, has everything we need really.
 
 #### Standard library handling
 
+Yep, fasthttp provides an adaptor in the module which we can use to wrap both the handler interface implementations, and the handler funcs as well.
+
 #### Accessing raw Request and ResponseWriter
 
 #### Websocket
