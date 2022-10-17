@@ -74,4 +74,8 @@ Same as net/http, need to do the *r = *r.WithContext dance. Otherwise works.
 
 #### Unit tests
 
+Standard httptest works. Both with the handlers themselves, without involving the muxer, or with the muxer itself. In both cases we pass the test request and test recorder to the handler func, the `ServeHTTP` method both on the actual router, and the individual handlers.
+
+The only thing we need to take care of is that while we can use the `router.UseHandler` to specify global middlewares and then use the `router.ServeHTTP` to test handlers with paths, with individual handlers we do need to wrap them up.
+
 #### Ecosystem
