@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"github.com/rs/zerolog"
-	"github.com/rs/zerolog/hlog"
 	"github.com/suborbital/framework-muxer-showdown/errors"
 	"github.com/suborbital/framework-muxer-showdown/handlers"
 )
@@ -26,29 +25,37 @@ func New(l zerolog.Logger, errChan chan error) App {
 
 	mux := http.NewServeMux()
 
-	hlog.NewHandler(handlerLogger)
-
+	// Health
 	mux.Handle("/health", handlers.Health(handlerLogger))
-	mux.Handle("/authed", handlers.Auth(handlers.StandardHandlerFunc()))
+
+	// Authed
+	mux.Handle("/authed", handlers.Methods(http.MethodPost, http.MethodOptions)(handlers.Auth(handlers.StandardHandlerFunc())))
+
+	// Naked errors
 	mux.Handle("/panics", handlers.PanicRecovery(handlers.Panics()))
 	mux.Handle("/notfound", handlers.WillNotFound())
 	mux.Handle("/forbidden", handlers.WillFourOhThree())
 	mux.Handle("/unavailable", handlers.WillFiveOhThree())
 	mux.Handle("/server-error", handlers.WillFiveHundred())
 	mux.Handle("/unauthed", handlers.WillFourOhOne())
+
+	// Standard handlers
 	mux.Handle("/std-handler-func", handlers.StandardHandlerFunc())
 	mux.Handle("/std-handler-iface", handlers.StandardHandler())
 	mux.Handle("/std-handler-iface-raw", handlers.StdHandler{})
+
+	// Websocket
 	mux.Handle("/ws-std", handlers.WSStd(handlerLogger))
 	mux.Handle("/ws", handlers.WS())
 
+	// Error middleware
 	mux.Handle("/app-error", handlers.ErrorCatcher(handlerLogger, errChan)(handlers.ReturnsApplicationError(handlerLogger)))
 	mux.Handle("/notfound-error", handlers.ErrorCatcher(handlerLogger, errChan)(handlers.ReturnsNotFoundError()))
 	mux.Handle("/request-error", handlers.ErrorCatcher(handlerLogger, errChan)(handlers.ReturnRequestError()))
 	mux.Handle("/shutdown-error", handlers.ErrorCatcher(handlerLogger, errChan)(handlers.ReturnsShutdownError()))
 
+	// Path specificity
 	getMiddleware := handlers.Methods(http.MethodGet)
-
 	mux.Handle("/spec", getMiddleware(handlers.SingleRoot()))
 	mux.Handle("/spec/", getMiddleware(handlers.NonSpecificWithPrefix()))
 	mux.Handle("/spec/long/url/here", getMiddleware(handlers.SpecificLongRoute()))
@@ -56,7 +63,6 @@ func New(l zerolog.Logger, errChan chan error) App {
 	// Grouping
 	groupMux := http.NewServeMux()
 	groupMux.Handle("/hello", getMiddleware(handlers.Hello()))
-
 	mux.Handle("/v1/", http.StripPrefix("/v1", groupMux))
 
 	return App{
