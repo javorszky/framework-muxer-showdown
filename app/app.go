@@ -66,6 +66,9 @@ func New(l zerolog.Logger, errChan chan error) App {
 	groupMux.Handle("/hello", getMiddleware(handlers.Hello()))
 	mux.Handle("/v1/", http.StripPrefix("/v1", groupMux))
 
+	// Ctx up and down
+	mux.Handle("/ctxupdown", handlers.CtxChanger(handlerLogger)(handlers.CtxUpDown(handlerLogger)))
+
 	return App{
 		logger:  l,
 		errChan: errChan,
