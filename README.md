@@ -168,6 +168,12 @@ Using the `.UserValues()` and `.SetUserValue()` methods on the context it's actu
 
 #### Unit tests
 
+It's weird, because instead of using the `httptest` package, tests are done using the `fasthttp.RequestCtx` struct. That's where we set all the things we would normally configure in an `httptest.NewRequest` call anyways, and then pass that to the handler.
+
+For the assertions the ctx will have its `Response` property hold all the values after a call.
+
+The good thing is that this way we can test the handler itself, and no need to involve the router.
+
 #### Ecosystem
 
 There are a bunch of things made on top of fasthttp, both the handler, and the router. They are linked from the respective repositories, but none of them are the kind of things we could use in conjunction with the router, for example.
