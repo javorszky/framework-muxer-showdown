@@ -21,9 +21,12 @@ func New(l zerolog.Logger, errChan chan error) App {
 
 	r := router.New()
 	r.PanicHandler = handlers.Recover(handlerLogger)
+	r.HandleMethodNotAllowed = true
+	r.MethodNotAllowed = handlers.MethodNotAllowed()
 
 	// Health
 	r.GET("/health", handlers.Health(handlerLogger))
+	r.OPTIONS("/health", handlers.Health(handlerLogger))
 
 	// Path variables
 	r.GET("/pathvars/{one}/metrics/{two}", handlers.PathVars())
@@ -64,6 +67,10 @@ func New(l zerolog.Logger, errChan chan error) App {
 	r.GET("/notfound-error", emw(handlers.ReturnsNotFoundError()))
 	r.GET("/request-error", emw(handlers.ReturnsRequestError()))
 	r.GET("/shutdown-error", emw(handlers.ReturnsShutdownError()))
+
+	// Authed
+	r.POST("/authed", handlers.Auth(fasthttpadaptor.NewFastHTTPHandlerFunc(handlers.StandardHandlerFunc())))
+	r.OPTIONS("/authed", handlers.Auth(fasthttpadaptor.NewFastHTTPHandlerFunc(handlers.StandardHandlerFunc())))
 
 	server := &fasthttp.Server{
 		Handler: r.Handler,

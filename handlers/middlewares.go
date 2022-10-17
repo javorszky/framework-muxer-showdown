@@ -7,6 +7,7 @@ import (
 	"runtime/debug"
 
 	"github.com/rs/zerolog"
+	"github.com/savsgio/gotils/strconv"
 	"github.com/valyala/fasthttp"
 
 	"github.com/suborbital/framework-muxer-showdown/errors"
@@ -93,5 +94,29 @@ func ErrorCatcher(l zerolog.Logger, shutdownchan chan error) func(fasthttp.Reque
 				c.SetBody(bts)
 			}
 		}
+	}
+}
+
+func MethodNotAllowed() fasthttp.RequestHandler {
+	return func(c *fasthttp.RequestCtx) {
+		c.SetStatusCode(http.StatusMethodNotAllowed)
+	}
+}
+
+func Auth(next fasthttp.RequestHandler) fasthttp.RequestHandler {
+	return func(c *fasthttp.RequestCtx) {
+		v := strconv.B2S(c.Request.Header.Peek("Authorization"))
+
+		if v == "" {
+			c.SetStatusCode(http.StatusUnauthorized)
+			return
+		}
+
+		if v != "icandowhatiwant" {
+			c.SetStatusCode(http.StatusForbidden)
+			return
+		}
+
+		next(c)
 	}
 }
