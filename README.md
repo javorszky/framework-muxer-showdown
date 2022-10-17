@@ -45,6 +45,8 @@ Yep, works, even with the standard handler muxer, because of a helper function: 
 
 #### Grouping
 
+Grouping works, and you can add a bunch of middlewares to each group as well.
+
 #### Overlaps
 
 #### General middleware

@@ -21,6 +21,8 @@ func New(l zerolog.Logger, errChan chan error) App {
 	handlerLogger := l.With().Str("module", "handlers").Logger()
 
 	r := httptreemux.NewContextMux()
+
+	// Grouping
 	group := r.NewGroup("/v1")
 	group.GET("/hello", handlers.Hello())
 
