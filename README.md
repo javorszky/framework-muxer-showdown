@@ -91,8 +91,6 @@ As we can access the raw request and ResponseWriter, it's essentially the same s
 
 #### Path specificity
 
-#### Path specificity
-
 Gin isn't as powerful as [echo](https://github.com/suborbital/framework-muxer-showdown/tree/echo) in this. It handles the single, and everyone else cases, but having these three declarations at the same time causes a panic:
 ```go
 // Path specificity
