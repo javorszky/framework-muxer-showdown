@@ -3,7 +3,10 @@ module github.com/suborbital/framework-muxer-showdown
 go 1.19
 
 require (
+	github.com/gin-contrib/logger v0.2.5
+	github.com/gin-contrib/requestid v0.0.6
 	github.com/gin-gonic/gin v1.8.1
+	github.com/pkg/errors v0.9.1
 	github.com/rs/zerolog v1.28.0
 	github.com/stretchr/testify v1.8.0
 	golang.org/x/net v0.0.0-20221004154528-8021a29435af
@@ -16,6 +19,7 @@ require (
 	github.com/go-playground/universal-translator v0.18.0 // indirect
 	github.com/go-playground/validator/v10 v10.11.1 // indirect
 	github.com/goccy/go-json v0.9.11 // indirect
+	github.com/google/uuid v1.3.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect

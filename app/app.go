@@ -5,6 +5,8 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/gin-contrib/logger"
+	"github.com/gin-contrib/requestid"
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog"
 
@@ -24,7 +26,7 @@ func New(l zerolog.Logger, errChan chan error) App {
 	router.HandleMethodNotAllowed = true
 	router.NoMethod(handlers.NoMethod())
 
-	router.Use(gin.Logger())
+	router.Use(logger.SetLogger())
 
 	router.Use(gin.CustomRecovery(handlers.CustomPanicRecovery(handlerLogger)))
 
@@ -89,6 +91,15 @@ func New(l zerolog.Logger, errChan chan error) App {
 
 	// Context up and down
 	router.GET("/ctxupdown", handlers.CtxUpDown(handlerLogger), handlers.CtxKonami(handlerLogger))
+
+	// Performance
+	router.GET("/performance",
+		requestid.New(),
+		handlers.ErrorHandler(handlerLogger, errChan),
+		handlers.Auth(),
+		handlers.Performance(handlerLogger),
+	)
+	router.GET("/smol-perf", gin.WrapH(handlers.StandardHandler()))
 
 	server := &http.Server{
 		Addr:    ":9000",
