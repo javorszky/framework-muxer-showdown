@@ -90,6 +90,8 @@ Yep, fasthttp provides an adaptor in the module which we can use to wrap both th
 
 #### Accessing raw Request and ResponseWriter
 
+This is halfway between a kinda and an eeeehhh... It can be done, but not super straightforward. If you look into the function definition of the `fasthttpadaptor.NewFastHTTPHandler` you will see that there's a separate exported function to convert a `fasthttp.Context` into an `http.Request` called `fasthttpadaptor.ConvertRequest`, but assembling the writer is a custom unexported thing that also happens to implement the `http.ResponseWriter` interface. That can be replicated locally, but it's a _pain_, unnecessary extra work, so gonna give it an eh.
+
 #### Websocket
 
 #### Path specificity
