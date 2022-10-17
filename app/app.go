@@ -40,6 +40,11 @@ func New(l zerolog.Logger, errChan chan error) App {
 	r.GET("/spec/{everyone:*}", handlers.Everyone())
 	r.GET("/spec/long/url/here", handlers.Long())
 
+	// Overlaps
+	r.GET("/overlap/{one}", handlers.OverlapDynamic())
+	r.GET("/overlap/kansas", handlers.OverlapSingle())
+	r.GET("/overlap/", handlers.OverlapEveryone())
+
 	server := &fasthttp.Server{
 		Handler: r.Handler,
 	}
