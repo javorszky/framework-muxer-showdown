@@ -2,10 +2,7 @@ module github.com/suborbital/framework-muxer-showdown
 
 go 1.19
 
-require (
-	github.com/dimfeld/httptreemux v5.0.1+incompatible
-	github.com/rs/zerolog v1.28.0
-)
+require github.com/rs/zerolog v1.28.0
 
 require (
 	github.com/dimfeld/httptreemux/v5 v5.4.0

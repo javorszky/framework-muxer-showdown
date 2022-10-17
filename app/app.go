@@ -67,11 +67,11 @@ func New(l zerolog.Logger, errChan chan error) App {
 	// r.GET("/shutdown-error", handlers.ErrorCatcher(el, errChan)(handlers.ReturnsShutdownError()))
 
 	// Naked error routes
-	// r.GET("/notfound", handlers.E404())
-	// r.GET("/forbidden", handlers.E403())
-	// r.GET("/unauthed", handlers.E401())
-	// r.GET("/server-error", handlers.E500())
-	// r.GET("/unavailable", handlers.E503())
+	r.GET("/notfound", handlers.E404())
+	r.GET("/forbidden", handlers.E403())
+	r.GET("/unauthed", handlers.E401())
+	r.GET("/server-error", handlers.E500())
+	r.GET("/unavailable", handlers.E503())
 	r.GET("/panics", handlers.Panics())
 
 	// CtxUpDown
