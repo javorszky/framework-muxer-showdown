@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"github.com/rs/zerolog"
 
 	"github.com/suborbital/framework-muxer-showdown/handlers"
@@ -26,6 +27,7 @@ func New(l zerolog.Logger, errChan chan error) App {
 	// Custom error handler that shovels "everything else" to echo's built in default error handler.
 	e.HTTPErrorHandler = handlers.CustomErrorHandler(errorLogger, errChan)
 
+	e.Use(middleware.RequestID())
 	e.Use(handlers.Zerolog(handlerLogger))
 	e.Use(handlers.PanicRecovery())
 
@@ -53,7 +55,7 @@ func New(l zerolog.Logger, errChan chan error) App {
 	e.GET("/unavailable", handlers.ReturnsFiveOhThree())
 
 	// Auth middleware
-	e.Match([]string{http.MethodPost, http.MethodOptions}, "/authed", handlers.Auth(echo.WrapHandler(handlers.StandardHandlerFunc())))
+	e.Match([]string{http.MethodPost, http.MethodOptions}, "/authed", echo.WrapHandler(handlers.StandardHandlerFunc()), handlers.Auth())
 
 	// Grouping
 	g := e.Group("/v1")
@@ -77,6 +79,13 @@ func New(l zerolog.Logger, errChan chan error) App {
 
 	// Context up down
 	e.GET("/ctxupdown", handlers.UpDownHandler(handlerLogger), handlers.ContextUpDown(handlerLogger))
+
+	// Performance
+	e.GET("/performance",
+		handlers.Performance(handlerLogger),
+		handlers.Auth(),
+	)
+	e.GET("/smol-perf", echo.WrapHandler(handlers.StandardHandler()))
 
 	return App{
 		logger:  l,
