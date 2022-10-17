@@ -13,9 +13,7 @@ Makefile has a docker build that produces a utility image with `gci`, `golangci-
 - `make lintfix`: runs gci on all `*.go` files recursively minus the `vendor` directory.
 - `make mocks`: runs mockery to generate mocked interfaces in all go files recursively minus the `vendor` directory with config from the [.mockery.yaml](.mockery.yaml) file.
 
-## Implementations and tests
-
-## httptreemux
+## httptreemux implementation
 
 ### General Considerations
 
@@ -42,6 +40,8 @@ This comes out of the box because it uses the http.Handler and http.HandlerFunc.
 #### Path specificity
 
 #### Path variables
+
+Yep, works, even with the standard handler muxer, because of a helper function: `httptreemux.ContextParams(r.Context())`, so it just works.
 
 #### Grouping
 
