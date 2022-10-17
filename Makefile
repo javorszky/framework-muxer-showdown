@@ -22,7 +22,7 @@ start:
 	go run main.go
 
 hammer:
-	hey -z 30s -m GET -cpus 4 -c 200 http://localhost:9000/performance
+	hey -z 30s -m GET -cpus 4 -c 200 -H "Authorization: icandowhatiwant" http://localhost:9000/performance
 
 hammer-2:
 	hey -z 30s -m GET -cpus 4 -c 200 http://localhost:9000/smol-perf
