@@ -25,7 +25,7 @@ func New(l zerolog.Logger, errChan chan error) App {
 	group.GET("/hello", handlers.Hello())
 
 	// NotFoundHandler, MethodNotAllowedHandler, Panic Handling ??
-	// r.PanicHandler = handlers.Recover()
+	r.PanicHandler = handlers.Recover(handlerLogger)
 
 	// Health endpoint
 	r.GET("/health", handlers.Health(handlerLogger))
@@ -72,7 +72,7 @@ func New(l zerolog.Logger, errChan chan error) App {
 	// r.GET("/unauthed", handlers.E401())
 	// r.GET("/server-error", handlers.E500())
 	// r.GET("/unavailable", handlers.E503())
-	// r.GET("/panics", handlers.Panics())
+	r.GET("/panics", handlers.Panics())
 
 	// CtxUpDown
 	// r.GET("/ctxupdown", handlers.CTXMiddleware(l)(handlers.CTXUpDownHandler(l)))
