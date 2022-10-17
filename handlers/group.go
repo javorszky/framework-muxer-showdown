@@ -10,6 +10,6 @@ const groupResponse = "goodbye"
 
 func Hello() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		return c.String(http.StatusOK, groupResponse)
+		return c.JSON(http.StatusOK, messageResponse{Message: groupResponse})
 	}
 }

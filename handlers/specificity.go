@@ -14,18 +14,18 @@ const (
 
 func Single() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		return c.String(http.StatusOK, single)
+		return c.JSON(http.StatusOK, messageResponse{Message: single})
 	}
 }
 
 func EveryoneElse() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		return c.String(http.StatusOK, everyoneElse)
+		return c.JSON(http.StatusOK, messageResponse{Message: everyoneElse})
 	}
 }
 
 func LongSpecific() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		return c.String(http.StatusOK, longRoute)
+		return c.JSON(http.StatusOK, messageResponse{Message: longRoute})
 	}
 }
