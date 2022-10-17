@@ -66,6 +66,8 @@ You can add middlewares to both the global handler, and also to each of the grou
 
 #### Error handling middleware
 
+No special handling for error handling middleware, so the solution is much like net/http. That said a copy-paste for both the handlers and the middleware was enough to make it work.
+
 #### Context up and down
 
 #### Unit tests

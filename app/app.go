@@ -22,16 +22,15 @@ func New(l zerolog.Logger, errChan chan error) App {
 
 	r := httptreemux.NewContextMux()
 	r.RedirectTrailingSlash = false
+	r.PanicHandler = handlers.Recover(handlerLogger)
 
 	r.UseHandler(handlers.RequestID())
 	r.UseHandler(handlers.Logger(handlerLogger))
+	r.UseHandler(handlers.ErrorCatcher(handlerLogger, errChan))
 
 	// Grouping
 	group := r.NewGroup("/v1")
 	group.GET("/hello", handlers.Hello())
-
-	// NotFoundHandler, MethodNotAllowedHandler, Panic Handling ??
-	r.PanicHandler = handlers.Recover(handlerLogger)
 
 	// Health endpoint
 	r.GET("/health", handlers.Health(handlerLogger))
@@ -68,11 +67,10 @@ func New(l zerolog.Logger, errChan chan error) App {
 	r.GET("/overlap/kansas", handlers.OverlapSingle())
 
 	// Error handling
-	// el := l.With().Str("module", "catcher-in-the-error").Logger()
-	// r.GET("/app-error", handlers.ErrorCatcher(el, errChan)(handlers.ReturnsApplicationError()))
-	// r.GET("/request-error", handlers.ErrorCatcher(el, errChan)(handlers.ReturnsRequestError()))
-	// r.GET("/notfound-error", handlers.ErrorCatcher(el, errChan)(handlers.ReturnsNotFoundError()))
-	// r.GET("/shutdown-error", handlers.ErrorCatcher(el, errChan)(handlers.ReturnsShutdownError()))
+	r.GET("/app-error", handlers.ReturnsApplicationError())
+	r.GET("/request-error", handlers.ReturnsRequestError())
+	r.GET("/notfound-error", handlers.ReturnsNotFoundError())
+	r.GET("/shutdown-error", handlers.ReturnsShutdownError())
 
 	// Naked error routes
 	r.GET("/notfound", handlers.E404())
