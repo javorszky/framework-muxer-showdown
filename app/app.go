@@ -21,6 +21,7 @@ func New(l zerolog.Logger, errChan chan error) App {
 	handlerLogger := l.With().Str("module", "handlers").Logger()
 
 	r := httptreemux.NewContextMux()
+	r.RedirectTrailingSlash = false
 
 	// Grouping
 	group := r.NewGroup("/v1")
@@ -54,12 +55,14 @@ func New(l zerolog.Logger, errChan chan error) App {
 	r.Handler(http.MethodGet, "/ws", handlers.WSStd(handlerLogger))
 
 	// Path specificity
-	// r.GET("/spec/*stuff", handlers.Everyone())
-	// r.GET("/spec", handlers.Single())
+	r.GET("/spec", handlers.Single())
+	r.GET("/spec/*stuff", handlers.Everyone())
+	r.GET("/spec/long/url/here", handlers.Long())
 
 	// Overlaps
-	// r.GET("/overlap/:one", handlers.OverlapDynamic())
-	// r.GET("/overlap/", handlers.OverlapEveryone())
+	r.GET("/overlap/:one", handlers.OverlapDynamic())
+	r.GET("/overlap/", handlers.OverlapEveryone())
+	r.GET("/overlap/kansas", handlers.OverlapSingle())
 
 	// Error handling
 	// el := l.With().Str("module", "catcher-in-the-error").Logger()

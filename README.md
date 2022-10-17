@@ -41,6 +41,11 @@ Works the same as the net/http implementation, or the chi implementation.
 
 #### Path specificity
 
+This is a kinda.
+
+* on one hand, having a catch-all, and a longer static route works. The static route will match every time first, if it can
+* on the other hand, having a single with `/spec`, and the catch-all at `/spec/*stuff`, a request to `GET /spec/` will match the single rather than the catch-all handler
+
 #### Path variables
 
 Yep, works, even with the standard handler muxer, because of a helper function: `httptreemux.ContextParams(r.Context())`, so it just works.
@@ -50,6 +55,8 @@ Yep, works, even with the standard handler muxer, because of a helper function: 
 Grouping works, and you can add a bunch of middlewares to each group as well.
 
 #### Overlaps
+
+This works as expected.
 
 #### General middleware
 
