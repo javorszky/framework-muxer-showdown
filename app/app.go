@@ -23,6 +23,9 @@ func New(l zerolog.Logger, errChan chan error) App {
 	r := httptreemux.NewContextMux()
 	r.RedirectTrailingSlash = false
 
+	r.UseHandler(handlers.RequestID())
+	r.UseHandler(handlers.Logger(handlerLogger))
+
 	// Grouping
 	group := r.NewGroup("/v1")
 	group.GET("/hello", handlers.Hello())

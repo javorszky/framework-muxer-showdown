@@ -4,9 +4,13 @@ import (
 	"encoding/json"
 	"net/http"
 	"runtime/debug"
+	"time"
 
 	"github.com/dimfeld/httptreemux/v5"
+	"github.com/google/uuid"
 	"github.com/rs/zerolog"
+
+	"github.com/suborbital/framework-muxer-showdown/web"
 )
 
 // This will be middlewares, so we can check error handling / panic recovery / authentication.
@@ -43,5 +47,37 @@ func Recover(l zerolog.Logger) httptreemux.PanicHandler {
 
 		w.WriteHeader(http.StatusInternalServerError)
 		_, _ = w.Write(enc)
+	}
+}
+
+func RequestID() Middleware {
+	return func(inner http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			_, ok := web.RequestIDFromContext(r.Context())
+			if !ok {
+				r = r.WithContext(web.ContextWithRequestID(r.Context(), uuid.New().String()))
+			}
+
+			inner.ServeHTTP(w, r)
+		})
+	}
+}
+
+func Logger(l zerolog.Logger) Middleware {
+	return func(inner http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			start := time.Now()
+			rid, ok := web.RequestIDFromContext(r.Context())
+			if !ok {
+				l.Fatal().Msgf("request id should have been on the context. It wasn't")
+			}
+			localL := l.With().Str("path", r.RequestURI).Str("method", r.Method).Str("requestid", rid).Logger()
+
+			localL.Info().Msg("request started")
+
+			inner.ServeHTTP(w, r)
+
+			localL.Info().Msgf("request completed in %s", time.Since(start).String())
+		})
 	}
 }

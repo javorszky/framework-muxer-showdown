@@ -6,7 +6,10 @@ import (
 
 type errKey int
 
-const key errKey = 1
+const (
+	key errKey = iota
+	requestIDKey
+)
 
 func AddError(ctx context.Context, err error) context.Context {
 	v, _ := ctx.Value(key).([]error)
@@ -19,4 +22,13 @@ func GetErrors(ctx context.Context) []error {
 		return errs
 	}
 	return nil
+}
+
+func ContextWithRequestID(ctx context.Context, rid string) context.Context {
+	return context.WithValue(ctx, requestIDKey, rid)
+}
+
+func RequestIDFromContext(ctx context.Context) (string, bool) {
+	rid, ok := ctx.Value(requestIDKey).(string)
+	return rid, ok
 }

@@ -60,6 +60,10 @@ This works as expected.
 
 #### General middleware
 
+I like the way middleware handling works here. As there are two different types of routers, there are also two different ways of handling middlewares when it comes to function signatures. The implementation is with the http handlers.
+
+You can add middlewares to both the global handler, and also to each of the groups. They just work.
+
 #### Error handling middleware
 
 #### Context up and down
