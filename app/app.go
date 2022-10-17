@@ -83,6 +83,10 @@ func New(l zerolog.Logger, errChan chan error) App {
 	// CtxUpDown
 	r.GET("/ctxupdown", handlers.CtxChanger(l)(handlers.CtxUpDown(l)).ServeHTTP)
 
+	// Performance
+	r.GET("/performance", handlers.Auth(handlers.Performance(handlerLogger)).ServeHTTP)
+	r.GET("/smol-perf", handlers.StandardHandler().ServeHTTP)
+
 	server := &http.Server{
 		Addr:              ":9000",
 		Handler:           r,
