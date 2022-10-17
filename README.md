@@ -116,6 +116,7 @@ Kinda, because even though the context has the `.UserValues(key string)` method,
 
 #### Grouping
 
+Works as expected, though it can't do the more advanced things like "attach these middlewares to this group only", so because of that it's a `Kinda`, and not a `Yes`.
 #### Overlaps
 
 This one works as expected.
