@@ -5,7 +5,9 @@ import (
 	"encoding/json"
 	"net/http"
 	"runtime/debug"
+	"time"
 
+	"github.com/google/uuid"
 	"github.com/rs/zerolog"
 
 	localErrors "github.com/suborbital/framework-muxer-showdown/errors"
@@ -64,7 +66,7 @@ func PanicRecovery(l zerolog.Logger) Middleware {
 // we move on to handling other aspects of a request.
 //
 // OPTIONS is always allowed.
-func Methods(methods ...string) func(http.Handler) http.Handler {
+func Methods(methods ...string) Middleware {
 	allowed := map[string]struct{}{
 		http.MethodOptions: {},
 	}
@@ -150,7 +152,7 @@ func ErrorCatcher(l zerolog.Logger, shutdownchan chan error) Middleware {
 	}
 }
 
-func CtxChanger(l zerolog.Logger) func(next http.Handler) http.Handler {
+func CtxChanger(l zerolog.Logger) Middleware {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			l.Info().Msgf("MID: setting ctx value to be %s", ctxMiddlewareValue)
@@ -162,6 +164,38 @@ func CtxChanger(l zerolog.Logger) func(next http.Handler) http.Handler {
 
 			v := r.Context().Value(ctxupdownkey)
 			l.Info().Msgf("MID: getting back ctx value to be %s", v)
+		})
+	}
+}
+
+func RequestID() Middleware {
+	return func(inner http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			_, ok := web.RequestIDFromContext(r.Context())
+			if !ok {
+				r = r.WithContext(web.ContextWithRequestID(r.Context(), uuid.New().String()))
+			}
+
+			inner.ServeHTTP(w, r)
+		})
+	}
+}
+
+func Logger(l zerolog.Logger) Middleware {
+	return func(inner http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			start := time.Now()
+			rid, ok := web.RequestIDFromContext(r.Context())
+			if !ok {
+				l.Fatal().Msgf("request id should have been on the context. It wasn't")
+			}
+			localL := l.With().Str("path", r.RequestURI).Str("method", r.Method).Str("requestid", rid).Logger()
+
+			localL.Info().Msg("request started")
+
+			inner.ServeHTTP(w, r)
+
+			localL.Info().Msgf("request completed in %s", time.Since(start).String())
 		})
 	}
 }

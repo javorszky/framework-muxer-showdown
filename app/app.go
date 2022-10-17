@@ -69,6 +69,22 @@ func New(l zerolog.Logger, errChan chan error) App {
 	// Ctx up and down
 	mux.Handle("/ctxupdown", handlers.CtxChanger(handlerLogger)(handlers.CtxUpDown(handlerLogger)))
 
+	// Performance
+	mux.Handle("/performance",
+		handlers.RequestID()(
+			handlers.Logger(l)(
+				handlers.ErrorCatcher(handlerLogger, errChan)(
+					handlers.Auth(
+						handlers.PanicRecovery(handlerLogger)(
+							handlers.Performance(handlerLogger),
+						),
+					),
+				),
+			),
+		),
+	)
+	mux.Handle("/smol-perf", handlers.StandardHandler())
+
 	return App{
 		logger:  l,
 		errChan: errChan,

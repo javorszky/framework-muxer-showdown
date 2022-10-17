@@ -6,6 +6,7 @@ require github.com/rs/zerolog v1.28.0
 
 require (
 	github.com/gobwas/ws v1.1.0
+	github.com/google/uuid v1.3.0
 	github.com/pkg/errors v0.9.1
 	github.com/stretchr/testify v1.8.0
 	golang.org/x/net v0.0.0-20221004154528-8021a29435af
