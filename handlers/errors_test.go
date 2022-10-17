@@ -9,6 +9,7 @@ import (
 	"github.com/rs/zerolog"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
 	localErrors "github.com/suborbital/framework-muxer-showdown/errors"
 	"github.com/suborbital/framework-muxer-showdown/web"
 )

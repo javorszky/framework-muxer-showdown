@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/rs/zerolog"
+
 	"github.com/suborbital/framework-muxer-showdown/errors"
 	"github.com/suborbital/framework-muxer-showdown/handlers"
 )
@@ -32,7 +33,7 @@ func New(l zerolog.Logger, errChan chan error) App {
 	mux.Handle("/authed", handlers.Methods(http.MethodPost, http.MethodOptions)(handlers.Auth(handlers.StandardHandlerFunc())))
 
 	// Naked errors
-	mux.Handle("/panics", handlers.PanicRecovery(handlers.Panics()))
+	mux.Handle("/panics", handlers.PanicRecovery(handlerLogger)(handlers.Panics()))
 	mux.Handle("/notfound", handlers.WillNotFound())
 	mux.Handle("/forbidden", handlers.WillFourOhThree())
 	mux.Handle("/unavailable", handlers.WillFiveOhThree())

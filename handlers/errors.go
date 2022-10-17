@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/rs/zerolog"
+
 	localErrors "github.com/suborbital/framework-muxer-showdown/errors"
 	"github.com/suborbital/framework-muxer-showdown/web"
 )

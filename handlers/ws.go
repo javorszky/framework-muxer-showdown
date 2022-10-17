@@ -3,11 +3,10 @@ package handlers
 import (
 	"net/http"
 
-	"github.com/rs/zerolog"
-	"golang.org/x/net/websocket"
-
 	"github.com/gobwas/ws"
 	"github.com/gobwas/ws/wsutil"
+	"github.com/rs/zerolog"
+	"golang.org/x/net/websocket"
 )
 
 // This will have a websocket handler.

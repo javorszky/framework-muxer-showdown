@@ -2,11 +2,11 @@ package handlers
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"runtime/debug"
 
 	"github.com/rs/zerolog"
+
 	localErrors "github.com/suborbital/framework-muxer-showdown/errors"
 	"github.com/suborbital/framework-muxer-showdown/web"
 )
@@ -33,21 +33,26 @@ func Auth(h http.Handler) http.Handler {
 	})
 }
 
-func PanicRecovery(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		defer func() {
-			if rec := recover(); rec != nil {
-				// Stack trace will be provided.
-				trace := debug.Stack()
-				err := fmt.Errorf("PANIC [%v] TRACE[%s]", rec, string(trace))
+func PanicRecovery(l zerolog.Logger) Middleware {
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			defer func() {
+				if rec := recover(); rec != nil {
+					// Stack trace will be provided.
+					l.Error().Msgf("%s", debug.Stack())
 
-				w.WriteHeader(http.StatusInternalServerError)
-				_, _ = w.Write([]byte(err.Error()))
-			}
-		}()
+					w.WriteHeader(http.StatusInternalServerError)
+					enc, err := json.Marshal(messageResponse{Message: http.StatusText(http.StatusInternalServerError)})
+					if err != nil {
+						return
+					}
+					_, _ = w.Write(enc)
+				}
+			}()
 
-		next.ServeHTTP(w, r)
-	})
+			next.ServeHTTP(w, r)
+		})
+	}
 }
 
 // Methods is a middleware that restricts the http methods by which a handler can be reached. This is important because
@@ -77,10 +82,6 @@ func Methods(methods ...string) func(http.Handler) http.Handler {
 	}
 }
 
-type ErrorResponse struct {
-	Message string
-}
-
 func ErrorCatcher(l zerolog.Logger, shutdownchan chan error) Middleware {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -93,14 +94,14 @@ func ErrorCatcher(l zerolog.Logger, shutdownchan chan error) Middleware {
 			if errs != nil {
 				first := errs[0]
 				l.Info().Msgf("this is first: %v", first)
-				var er ErrorResponse
+				var er messageResponse
 				var status int
 
 				switch {
 				case localErrors.IsApplicationError(first):
 					l.Warn().Msg("okay, so this is an application error")
 					apperr := localErrors.GetApplicationError(first)
-					er = ErrorResponse{
+					er = messageResponse{
 						Message: "app error: " + apperr.Error(),
 					}
 					status = http.StatusInternalServerError
@@ -108,19 +109,19 @@ func ErrorCatcher(l zerolog.Logger, shutdownchan chan error) Middleware {
 				case localErrors.IsRequestError(first):
 					l.Warn().Msg("okay, so this is an request error")
 					rerr := localErrors.GetRequestError(first)
-					er = ErrorResponse{Message: "bad request " + rerr.Error()}
+					er = messageResponse{Message: "bad request " + rerr.Error()}
 					status = http.StatusBadRequest
 
 				case localErrors.IsNotFoundError(first):
 					l.Warn().Msg("okay, so this is a not found error")
 					nferr := localErrors.GetNotFoundError(first)
-					er = ErrorResponse{Message: "not found: " + nferr.Error()}
+					er = messageResponse{Message: "not found: " + nferr.Error()}
 					status = http.StatusNotFound
 
 				case localErrors.IsShutdownError(first):
 					l.Warn().Msg("okay, so this is a shut down error")
 					sderr := localErrors.GetShutdownError(first)
-					er = ErrorResponse{Message: "well this is bad: " + sderr.Error()}
+					er = messageResponse{Message: "well this is bad: " + sderr.Error()}
 					status = http.StatusServiceUnavailable
 					defer func() {
 						l.Error().Msgf("shoving error into shutdownchan")
@@ -128,21 +129,20 @@ func ErrorCatcher(l zerolog.Logger, shutdownchan chan error) Middleware {
 					}()
 				default:
 					l.Warn().Msg("okay, so this is a default error")
-					er = ErrorResponse{Message: "weird unexpected error: " + first.Error()}
+					er = messageResponse{Message: "weird unexpected error: " + first.Error()}
 					status = http.StatusInternalServerError
 				}
 
 				bts, err := json.Marshal(er)
 				if err != nil {
 					w.WriteHeader(http.StatusInternalServerError)
-					w.Write([]byte("json marshal issue: " + err.Error()))
+					_, _ = w.Write([]byte("json marshal issue: " + err.Error()))
 					return
 				}
 
 				w.WriteHeader(status)
-				w.Write(bts)
+				_, _ = w.Write(bts)
 			}
-
 		})
 	}
 }

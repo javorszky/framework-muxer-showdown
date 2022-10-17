@@ -5,6 +5,7 @@ import (
 	"os/signal"
 
 	"github.com/rs/zerolog"
+
 	"github.com/suborbital/framework-muxer-showdown/app"
 )
 
