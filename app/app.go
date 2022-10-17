@@ -42,8 +42,8 @@ func New(l zerolog.Logger, errChan chan error) App {
 	r.OPTIONS("/std-handler-func", handlers.StandardHandlerFunc())
 
 	// Auth
-	// r.POST("/authed", handlers.Auth(handlers.Wrap(handlers.StandardHandlerFunc())))
-	// r.OPTIONS("/authed", handlers.Auth(handlers.Wrap(handlers.StandardHandlerFunc())))
+	r.POST("/authed", handlers.Auth(handlers.StandardHandlerFunc()).ServeHTTP)
+	r.OPTIONS("/authed", handlers.Auth(handlers.StandardHandlerFunc()).ServeHTTP)
 
 	// // Path vars
 	// r.GET("/pathvars/:one/metrics/:two", handlers.PathVars(handlerLogger))
