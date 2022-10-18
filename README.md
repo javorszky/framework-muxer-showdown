@@ -133,6 +133,26 @@ A middleware is a `func(http.Handler) http.Handler`, same as net/http's case. Se
 
 With chi we can either use the `r.Use()` method, or manually wrap the end handler into the middleware.
 
+I also did a test about middleware ordering:
+```go
+r := chi.NewRouter()
+r.Use(handlers.MidFour())
+r.Use(handlers.MidThree())
+
+r.With(
+    handlers.MidOne(),
+    handlers.MidTwo(),
+).
+    Get("/layer", handlers.StandardHandlerFunc())
+
+r.Get("/layer-no-inline", handlers.StandardHandlerFunc())
+```
+In this case the order is the following:
+```go
+Internet -> Four -> Three -> One -> Two -> Handler
+```
+Generally: first declared, first encountered.
+
 #### Error handling middleware
 
 It's the same situation as the net/http example. The cody is pretty much copy-pasted from there with minor changes.

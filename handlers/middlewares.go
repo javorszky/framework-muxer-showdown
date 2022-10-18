@@ -17,7 +17,9 @@ import (
 // This will be middlewares, so we can check error handling / panic recovery / authentication.
 const ctxMiddlewareValue string = "oh lawd he comin"
 
-func Logger(l zerolog.Logger) func(handler http.Handler) http.Handler {
+type Middleware func(handler http.Handler) http.Handler
+
+func Logger(l zerolog.Logger) Middleware {
 	return func(inner http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			start := time.Now()
@@ -31,7 +33,7 @@ func Logger(l zerolog.Logger) func(handler http.Handler) http.Handler {
 }
 
 // ErrorCatcher is a copy-paste from the net/http implementation with a few things adjusted, like missing types, etc.
-func ErrorCatcher(l zerolog.Logger, shutdownchan chan error) func(next http.Handler) http.Handler {
+func ErrorCatcher(l zerolog.Logger, shutdownchan chan error) Middleware {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			l.Info().Msg("error middleware, serving embedded handler")
@@ -139,7 +141,7 @@ func Recoverer(next http.Handler) http.Handler {
 	return http.HandlerFunc(fn)
 }
 
-func CtxChanger(l zerolog.Logger) func(next http.Handler) http.Handler {
+func CtxChanger(l zerolog.Logger) Middleware {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			l.Info().Msgf("MID: setting ctx value to be %s", ctxMiddlewareValue)
@@ -151,6 +153,62 @@ func CtxChanger(l zerolog.Logger) func(next http.Handler) http.Handler {
 
 			v := r.Context().Value(ctxupdownkey)
 			l.Info().Msgf("MID: getting back ctx value to be %s", v)
+		})
+	}
+}
+
+func MidOne() Middleware {
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			enc, err := json.Marshal(messageResponse{Message: "return from one"})
+			if err != nil {
+				w.WriteHeader(http.StatusInternalServerError)
+				return
+			}
+
+			w.Write(enc)
+		})
+	}
+}
+
+func MidTwo() Middleware {
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			enc, err := json.Marshal(messageResponse{Message: "return from two"})
+			if err != nil {
+				w.WriteHeader(http.StatusInternalServerError)
+				return
+			}
+
+			w.Write(enc)
+		})
+	}
+}
+
+func MidThree() Middleware {
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			enc, err := json.Marshal(messageResponse{Message: "return from three"})
+			if err != nil {
+				w.WriteHeader(http.StatusInternalServerError)
+				return
+			}
+
+			w.Write(enc)
+		})
+	}
+}
+
+func MidFour() Middleware {
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			enc, err := json.Marshal(messageResponse{Message: "return from four"})
+			if err != nil {
+				w.WriteHeader(http.StatusInternalServerError)
+				return
+			}
+
+			w.Write(enc)
 		})
 	}
 }

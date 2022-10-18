@@ -24,6 +24,8 @@ func New(l zerolog.Logger, errChan chan error) App {
 	r := chi.NewRouter()
 	// r.Use(middleware.RequestID)
 	// r.Use(middleware.Logger)
+	// r.Use(handlers.MidFour())
+	// r.Use(handlers.MidThree())
 
 	// Health
 	r.Get("/health", handlers.Health())
@@ -94,6 +96,15 @@ func New(l zerolog.Logger, errChan chan error) App {
 	r.With(middleware.RequestID, middleware.Logger, handlers.Auth, handlers.ErrorCatcher(handleLogger, errChan), handlers.Recoverer).
 		Get("/performance", handlers.Performance(handleLogger))
 	r.Get("/smol-perf", handlers.StandardHandler().ServeHTTP)
+
+	// middleware layering
+	r.With(
+		handlers.MidOne(),
+		handlers.MidTwo(),
+	).
+		Get("/layer", handlers.StandardHandlerFunc())
+
+	r.Get("/layer-no-inline", handlers.StandardHandlerFunc())
 
 	server := &http.Server{
 		Addr:    ":9000",
