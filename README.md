@@ -113,3 +113,16 @@ Some answers on stack overflow to questions of "how do I do X with httprouter" s
 #### Performance
 
 Httrouter has a router configurable panic handler, but no error handler. `/smol-perf` will have the panic handler around it.
+
+##### /performance
+
+[perftests/run1.log](perftests/run1.log):  Requests/sec:	23520.7243
+[perftests/run2.log](perftests/run2.log):  Requests/sec:	23564.2892
+[perftests/run3.log](perftests/run3.log):  Requests/sec:	23591.2075
+[perftests/run4.log](perftests/run4.log):  Requests/sec:	23553.9010
+
+##### /smol-perf
+[perftests/smol-run1.log](perftests/smol-run1.log):  Requests/sec:	23338.1476
+[perftests/smol-run2.log](perftests/smol-run2.log):  Requests/sec:	18502.6608
+[perftests/smol-run3.log](perftests/smol-run3.log):  Requests/sec:	22620.9484
+[perftests/smol-run4.log](perftests/smol-run4.log):  Requests/sec:	18100.7319
