@@ -188,3 +188,20 @@ https://github.com/goccy/go-json
 [perftests/gojson/smol-run2.log](perftests/gojson/smol-run2.log):  Requests/sec:	57425.8480
 [perftests/gojson/smol-run3.log](perftests/gojson/smol-run3.log):  Requests/sec:	36281.0128
 [perftests/gojson/smol-run4.log](perftests/gojson/smol-run4.log):  Requests/sec:	33339.4671
+
+#### segmentio/encoding
+
+https://github.com/segmentio/encoding
+
+##### /performance
+
+[perftests/segmentio/run1.log](perftests/segmentio/run1.log):  Requests/sec:	64487.4839
+[perftests/segmentio/run2.log](perftests/segmentio/run2.log):  Requests/sec:	63546.9936
+[perftests/segmentio/run3.log](perftests/segmentio/run3.log):  Requests/sec:	64454.1790
+[perftests/segmentio/run4.log](perftests/segmentio/run4.log):  Requests/sec:	64752.7318
+
+##### /smol-perf
+[perftests/segmentio/smol-run1.log](perftests/segmentio/smol-run1.log):  Requests/sec:	44554.4475
+[perftests/segmentio/smol-run2.log](perftests/segmentio/smol-run2.log):  Requests/sec:	54500.8237
+[perftests/segmentio/smol-run3.log](perftests/segmentio/smol-run3.log):  Requests/sec:	46608.7463
+[perftests/segmentio/smol-run4.log](perftests/segmentio/smol-run4.log):  Requests/sec:	47782.4312

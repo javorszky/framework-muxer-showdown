@@ -3,13 +3,12 @@ package app
 import (
 	"time"
 
-	"github.com/goccy/go-json"
 	"github.com/gofiber/adaptor/v2"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/requestid"
+	json "github.com/minio/simdjson-go"
 	"github.com/rs/zerolog"
-
 	"github.com/suborbital/framework-muxer-showdown/handlers"
 )
 
