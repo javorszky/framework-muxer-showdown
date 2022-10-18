@@ -172,3 +172,7 @@ Standard `httptest` can be used. Absolutely fine to use, same as every other one
 chi has a few [middlewares built in](https://go-chi.io/#/pages/middleware) ([code here](https://github.com/go-chi/chi/tree/master/middleware)).
 
 There doesn't seem to be any contrib repository, but also they wouldn't be chi specific, because a middleware is just a `func(http.Handler) http.Handler`, which is standard library.
+
+#### Performance
+
+Chi doesn't have a router configurable error or panic handler, so I can selectively attach them to the individual routes, which means the thinner test, `/perf-smol` is going to be very lean.
