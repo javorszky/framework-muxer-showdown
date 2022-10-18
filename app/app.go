@@ -9,6 +9,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/requestid"
 	json "github.com/minio/simdjson-go"
 	"github.com/rs/zerolog"
+
 	"github.com/suborbital/framework-muxer-showdown/handlers"
 )
 
