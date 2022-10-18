@@ -83,15 +83,17 @@ func New(l zerolog.Logger, errChan chan error) App {
 	r.GET("/ctxupdown", handlers.CTXMiddleware(l)(handlers.CTXUpDownHandler(l)))
 
 	// Performance
-	r.GET("/performance", handlers.RequestID()(
-		handlers.LoggerMiddleware(l)(
-			handlers.ErrorCatcher(handlerLogger, errChan)(
-				handlers.Auth(
-					handlers.Performance(handlerLogger),
+	r.GET("/performance",
+		handlers.RequestID()(
+			handlers.LoggerMiddleware(l)(
+				handlers.ErrorCatcher(handlerLogger, errChan)(
+					handlers.Auth(
+						handlers.Performance(handlerLogger),
+					),
 				),
 			),
 		),
-	))
+	)
 	r.Handler(http.MethodGet, "/smol-perf", handlers.StandardHandler())
 
 	server := &http.Server{

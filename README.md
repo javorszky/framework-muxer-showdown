@@ -109,3 +109,7 @@ Yep, this works just fine. No issues, mostly same as the others, httptest and `.
  It's `Some`, because by itself there aren't many 3rd party middlewares. However, there are a bunch of web frameworks built on top of the router, which we can look at and ~~steal code~~ gain inspiration from their solutions.
 
 Some answers on stack overflow to questions of "how do I do X with httprouter" start their answer with "first of all, you use Gin, and ...".
+
+#### Performance
+
+Httrouter has a router configurable panic handler, but no error handler. `/smol-perf` will have the panic handler around it.
