@@ -1,89 +1,97 @@
 hey -z 30s -m GET -cpus 4 -c 200 -H "Authorization: icandowhatiwant" http://localhost:9000/performance
 
 Summary:
-  Total:	30.0052 secs
-  Slowest:	0.0810 secs
+  Total:	30.0053 secs
+  Slowest:	0.0773 secs
   Fastest:	0.0000 secs
-  Average:	0.0081 secs
-  Requests/sec:	24738.0518
+  Average:	0.0080 secs
+  Requests/sec:	24845.7544
   
-  Total data:	88325251 bytes
+  Total data:	88709145 bytes
   Size/request:	119 bytes
 
 Response time histogram:
   0.000 [1]	|
-  0.008 [445126]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.016 [203273]	|■■■■■■■■■■■■■■■■■■
-  0.024 [68672]	|■■■■■■
-  0.032 [19114]	|■■
-  0.041 [4670]	|
-  0.049 [1051]	|
-  0.057 [257]	|
-  0.065 [51]	|
-  0.073 [9]	|
-  0.081 [5]	|
+  0.008 [438047]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.015 [202283]	|■■■■■■■■■■■■■■■■■■
+  0.023 [74168]	|■■■■■■■
+  0.031 [22739]	|■■
+  0.039 [6194]	|■
+  0.046 [1495]	|
+  0.054 [425]	|
+  0.062 [82]	|
+  0.070 [15]	|
+  0.077 [6]	|
 
 
 Latency distribution:
   10% in 0.0011 secs
-  25% in 0.0025 secs
+  25% in 0.0024 secs
   50% in 0.0064 secs
   75% in 0.0116 secs
-  90% in 0.0177 secs
-  95% in 0.0220 secs
-  99% in 0.0313 secs
+  90% in 0.0178 secs
+  95% in 0.0221 secs
+  99% in 0.0315 secs
 
 Details (average, fastest, slowest):
-  DNS+dialup:	0.0000 secs, 0.0000 secs, 0.0810 secs
-  DNS-lookup:	0.0000 secs, 0.0000 secs, 0.0035 secs
-  req write:	0.0000 secs, 0.0000 secs, 0.0014 secs
-  resp wait:	0.0081 secs, 0.0000 secs, 0.0810 secs
-  resp read:	0.0000 secs, 0.0000 secs, 0.0015 secs
+  DNS+dialup:	0.0000 secs, 0.0000 secs, 0.0773 secs
+  DNS-lookup:	0.0000 secs, 0.0000 secs, 0.0040 secs
+  req write:	0.0000 secs, 0.0000 secs, 0.0016 secs
+  resp wait:	0.0080 secs, 0.0000 secs, 0.0773 secs
+  resp read:	0.0000 secs, 0.0000 secs, 0.0013 secs
 
 Status code distribution:
-  [400]	742229 responses
+  [400]	745455 responses
 
 Error distribution:
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50596->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50597->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50602->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50604->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50605->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50606->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50608->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50612->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50613->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50614->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50615->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50617->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50618->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50619->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50620->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50621->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50622->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50623->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50624->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50625->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50626->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50628->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50629->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50632->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50635->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50636->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50638->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50640->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50641->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50642->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50643->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50644->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50645->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50646->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50647->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50648->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50650->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50651->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50654->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50656->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50658->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:50663->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52608->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52614->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52616->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52617->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52618->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52620->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52624->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52625->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52627->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52661->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52667->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52673->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52674->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52675->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52679->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52680->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52683->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52684->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52685->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52686->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52688->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52689->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52690->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52691->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52693->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52694->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52696->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52697->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52699->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52700->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52701->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52703->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52704->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52705->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52707->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52708->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52709->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52710->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52712->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52713->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52715->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52718->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52719->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52720->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52722->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52723->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52724->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52726->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52727->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:52728->127.0.0.1:9000: read: connection reset by peer
 

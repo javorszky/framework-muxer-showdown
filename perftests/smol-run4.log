@@ -1,101 +1,75 @@
 hey -z 30s -m GET -cpus 4 -c 200 http://localhost:9000/smol-perf
 
 Summary:
-  Total:	30.0065 secs
-  Slowest:	0.1909 secs
+  Total:	30.0080 secs
+  Slowest:	0.2579 secs
   Fastest:	0.0000 secs
   Average:	0.0060 secs
-  Requests/sec:	43348.5200
+  Requests/sec:	44093.6048
   
-  Total data:	49425992 bytes
-  Size/request:	49 bytes
+  Total data:	50278978 bytes
+  Size/request:	50 bytes
 
 Response time histogram:
   0.000 [1]	|
-  0.019 [974524]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.038 [21607]	|■
-  0.057 [2519]	|
-  0.076 [535]	|
-  0.095 [154]	|
-  0.115 [42]	|
-  0.134 [214]	|
-  0.153 [204]	|
-  0.172 [0]	|
-  0.191 [200]	|
+  0.026 [985155]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.052 [12311]	|
+  0.077 [1663]	|
+  0.103 [241]	|
+  0.129 [26]	|
+  0.155 [3]	|
+  0.181 [0]	|
+  0.206 [201]	|
+  0.232 [199]	|
+  0.258 [200]	|
 
 
 Latency distribution:
   10% in 0.0011 secs
   25% in 0.0016 secs
-  50% in 0.0025 secs
-  75% in 0.0044 secs
-  90% in 0.0092 secs
-  95% in 0.0132 secs
-  99% in 0.0267 secs
+  50% in 0.0026 secs
+  75% in 0.0046 secs
+  90% in 0.0087 secs
+  95% in 0.0135 secs
+  99% in 0.0304 secs
 
 Details (average, fastest, slowest):
-  DNS+dialup:	0.0000 secs, 0.0000 secs, 0.1909 secs
-  DNS-lookup:	0.0003 secs, 0.0000 secs, 0.1792 secs
-  req write:	0.0000 secs, 0.0000 secs, 0.1794 secs
-  resp wait:	0.0054 secs, 0.0000 secs, 0.1848 secs
-  resp read:	0.0002 secs, 0.0000 secs, 0.1800 secs
+  DNS+dialup:	0.0000 secs, 0.0000 secs, 0.2579 secs
+  DNS-lookup:	0.0004 secs, 0.0000 secs, 0.2490 secs
+  req write:	0.0000 secs, 0.0000 secs, 0.2059 secs
+  resp wait:	0.0055 secs, 0.0000 secs, 0.2555 secs
+  resp read:	0.0002 secs, 0.0000 secs, 0.2485 secs
 
 Status code distribution:
   [200]	1000000 responses
 
 Error distribution:
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64036->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64038->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64042->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64043->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64047->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64048->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64050->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64051->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64052->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64055->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64056->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64057->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64058->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64059->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64061->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64062->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64064->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64065->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64066->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64068->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64070->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64074->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64075->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64076->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64077->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64078->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64079->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64080->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64081->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64082->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64083->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64084->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64085->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64086->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64087->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64088->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64089->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64090->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64091->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64092->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64093->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64094->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64095->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64096->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64097->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64098->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64099->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64100->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64102->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64103->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64105->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64106->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64107->127.0.0.1:9000: read: connection reset by peer
-  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:64109->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:59479->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:59505->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:59506->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:59507->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:59508->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:59509->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:59510->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:59511->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:59512->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:59513->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:59514->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:59515->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:59516->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:59517->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:59518->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:59519->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:59520->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:59521->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:59522->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:59523->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:59524->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:59525->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:59526->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:59527->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:59528->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:59529->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:59530->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/smol-perf": read tcp 127.0.0.1:59531->127.0.0.1:9000: read: connection reset by peer
 
