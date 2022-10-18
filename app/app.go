@@ -3,6 +3,7 @@ package app
 import (
 	"time"
 
+	"github.com/bytedance/sonic"
 	"github.com/gofiber/adaptor/v2"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -30,6 +31,8 @@ func New(l zerolog.Logger, errChan chan error) App {
 		AppName:           "fiber-test",
 		EnablePrintRoutes: true,
 		ErrorHandler:      handlers.ErrorHandler(l.With().Str("module", "errorHandler").Logger(), errChan),
+		JSONEncoder:       sonic.Marshal,
+		JSONDecoder:       sonic.Unmarshal,
 	})
 
 	// f.Use(handlers.Recover())

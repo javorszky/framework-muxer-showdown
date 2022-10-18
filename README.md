@@ -138,3 +138,35 @@ I've upgraded it to `Rich` because of this: https://github.com/gofiber/awesome-f
 #### Performance
 
 Fiber has a router configurable error handler, so that will also wrap the `/smol-perf` route.
+##### With standard json.Marshal/Unmarshaler
+
+###### /performance
+
+[perftests/stdjson/run1.log](perftests/stdjson/run1.log):  Requests/sec:	64937.3429
+[perftests/stdjson/run2.log](perftests/stdjson/run2.log):  Requests/sec:	54957.3747
+[perftests/stdjson/run3.log](perftests/stdjson/run3.log):  Requests/sec:	64256.2797
+[perftests/stdjson/run4.log](perftests/stdjson/run4.log):  Requests/sec:	58466.2158
+
+###### /smol-perf
+[perftests/stdjson/smol-run1.log](perftests/stdjson/smol-run1.log):  Requests/sec:	46897.7520
+[perftests/stdjson/smol-run2.log](perftests/stdjson/smol-run2.log):  Requests/sec:	50371.1567
+[perftests/stdjson/smol-run3.log](perftests/stdjson/smol-run3.log):  Requests/sec:	31360.7054
+[perftests/stdjson/smol-run4.log](perftests/stdjson/smol-run4.log):  Requests/sec:	52037.3624
+
+#### bytedance/sonic
+
+https://github.com/bytedance/sonic
+
+##### /performance
+
+[perftests/sonic/run1.log](perftests/sonic/run1.log):  Requests/sec:	65296.1769
+[perftests/sonic/run2.log](perftests/sonic/run2.log):  Requests/sec:	64270.4320
+[perftests/sonic/run3.log](perftests/sonic/run3.log):  Requests/sec:	63664.6592
+[perftests/sonic/run4.log](perftests/sonic/run4.log):  Requests/sec:	63249.9146
+
+##### /smol-perf
+
+[perftests/sonic/smol-run1.log](perftests/sonic/smol-run1.log):  Requests/sec:	32491.4713
+[perftests/sonic/smol-run2.log](perftests/sonic/smol-run2.log):  Requests/sec:	34704.7958
+[perftests/sonic/smol-run3.log](perftests/sonic/smol-run3.log):  Requests/sec:	29288.5351
+[perftests/sonic/smol-run4.log](perftests/sonic/smol-run4.log):  Requests/sec:	47309.3414
