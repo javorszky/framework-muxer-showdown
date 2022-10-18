@@ -102,3 +102,7 @@ The only thing we need to take care of is that while we can use the `router.UseH
 #### Ecosystem
 
 This is a `Some`, because it relies heavily on standard library solutions, and there isn't a lot of community around it, because it's non-specific. There are a bunch of other frameworks built on top of the muxer, but they aren't listed anywhere on the readme.
+
+#### Performance
+
+httptreemux has router configurable panic handler, so that will be present for `/smol-perf` too.

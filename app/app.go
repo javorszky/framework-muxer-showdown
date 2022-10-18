@@ -86,8 +86,20 @@ func New(l zerolog.Logger, errChan chan error) App {
 	// CtxUpDown
 	r.GET("/ctxupdown", handlers.CtxChanger(l)(handlers.CtxUpDown(l)).ServeHTTP)
 
+	// r.UseHandler(handlers.ErrorCatcher(handlerLogger, errChan))
+
 	// Performance
-	r.GET("/performance", handlers.Auth(handlers.Performance(handlerLogger)).ServeHTTP)
+	r.GET("/performance",
+		handlers.RequestID()(
+			handlers.Logger(handlerLogger)(
+				handlers.ErrorCatcher(handlerLogger, errChan)(
+					handlers.Auth(
+						handlers.Performance(handlerLogger),
+					),
+				),
+			),
+		).ServeHTTP,
+	)
 	r.GET("/smol-perf", handlers.StandardHandler().ServeHTTP)
 
 	// Layering
