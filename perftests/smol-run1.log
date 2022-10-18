@@ -1,0 +1,53 @@
+hey -z 30s -m GET -cpus 4 -c 200 http://localhost:9000/smol-perf
+
+Summary:
+  Total:	30.0019 secs
+  Slowest:	0.1450 secs
+  Fastest:	0.0000 secs
+  Average:	0.0114 secs
+  Requests/sec:	17526.6032
+  
+  Total data:	19979754 bytes
+  Size/request:	38 bytes
+
+Response time histogram:
+  0.000 [1]	|
+  0.015 [392736]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.029 [115680]	|■■■■■■■■■■■■
+  0.044 [13463]	|■
+  0.058 [2994]	|
+  0.072 [623]	|
+  0.087 [178]	|
+  0.101 [67]	|
+  0.116 [29]	|
+  0.130 [9]	|
+  0.145 [3]	|
+
+
+Latency distribution:
+  10% in 0.0021 secs
+  25% in 0.0064 secs
+  50% in 0.0105 secs
+  75% in 0.0146 secs
+  90% in 0.0206 secs
+  95% in 0.0254 secs
+  99% in 0.0407 secs
+
+Details (average, fastest, slowest):
+  DNS+dialup:	0.0000 secs, 0.0000 secs, 0.1450 secs
+  DNS-lookup:	0.0000 secs, 0.0000 secs, 0.0035 secs
+  req write:	0.0000 secs, 0.0000 secs, 0.0166 secs
+  resp wait:	0.0111 secs, 0.0000 secs, 0.1449 secs
+  resp read:	0.0002 secs, 0.0000 secs, 0.0418 secs
+
+Status code distribution:
+  [200]	525783 responses
+
+Error distribution:
+  [1]	Get "http://localhost:9000/smol-perf": dial tcp [::1]:9000: socket: too many open files
+  [43]	Get "http://localhost:9000/smol-perf": dial tcp: lookup localhost: no such host
+  [1]	Get "http://localhost:9000/smol-perf": read tcp [::1]:50224->[::1]:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/smol-perf": read tcp [::1]:50226->[::1]:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/smol-perf": read tcp [::1]:50227->[::1]:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/smol-perf": read tcp [::1]:50228->[::1]:9000: read: connection reset by peer
+

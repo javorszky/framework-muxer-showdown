@@ -1,0 +1,52 @@
+hey -z 30s -m GET -cpus 4 -c 200 -H "Authorization: icandowhatiwant" http://localhost:9000/performance
+
+Summary:
+  Total:	30.0063 secs
+  Slowest:	0.1409 secs
+  Fastest:	0.0000 secs
+  Average:	0.0091 secs
+  Requests/sec:	22045.9410
+  
+  Total data:	78720047 bytes
+  Size/request:	119 bytes
+
+Response time histogram:
+  0.000 [2]	|
+  0.014 [517935]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.028 [121697]	|■■■■■■■■■
+  0.042 [17566]	|■
+  0.056 [3080]	|
+  0.070 [849]	|
+  0.085 [273]	|
+  0.099 [83]	|
+  0.113 [23]	|
+  0.127 [4]	|
+  0.141 [1]	|
+
+
+Latency distribution:
+  10% in 0.0003 secs
+  25% in 0.0029 secs
+  50% in 0.0067 secs
+  75% in 0.0129 secs
+  90% in 0.0200 secs
+  95% in 0.0250 secs
+  99% in 0.0382 secs
+
+Details (average, fastest, slowest):
+  DNS+dialup:	0.0000 secs, 0.0000 secs, 0.1409 secs
+  DNS-lookup:	0.0000 secs, 0.0000 secs, 0.0035 secs
+  req write:	0.0000 secs, 0.0000 secs, 0.0094 secs
+  resp wait:	0.0091 secs, 0.0000 secs, 0.1408 secs
+  resp read:	0.0000 secs, 0.0000 secs, 0.0169 secs
+
+Status code distribution:
+  [400]	661513 responses
+
+Error distribution:
+  [1]	Get "http://localhost:9000/performance": read tcp [::1]:50478->[::1]:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp [::1]:50479->[::1]:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp [::1]:50480->[::1]:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp [::1]:50481->[::1]:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp [::1]:50482->[::1]:9000: read: connection reset by peer
+
