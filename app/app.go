@@ -93,7 +93,13 @@ func New(l zerolog.Logger, errChan chan error) App {
 	r.With(handlers.CtxChanger(l.With().Str("middleware", "ctxchanger").Logger())).Get("/ctxupdown", handlers.CtxUpDown(handleLogger))
 
 	// Performance
-	r.With(middleware.RequestID, middleware.Logger, handlers.Auth, handlers.ErrorCatcher(handleLogger, errChan), handlers.Recoverer).
+	r.With(
+		middleware.RequestID,
+		middleware.Logger,
+		handlers.Auth,
+		handlers.ErrorCatcher(handleLogger, errChan),
+		handlers.Recoverer,
+	).
 		Get("/performance", handlers.Performance(handleLogger))
 	r.Get("/smol-perf", handlers.StandardHandler().ServeHTTP)
 
