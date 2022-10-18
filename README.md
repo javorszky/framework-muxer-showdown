@@ -160,13 +160,13 @@ There's not much to talk about here. Pretty much everything is handmade. Though 
 Standard library muxer does not have any router configurable panic or error handlers.
 
 ##### /performance
-1. 31.7k / sec - [log](perftests/run1.log)
-2. 31.6k / sec - [log](perftests/run2.log)
-3. 31.4k / sec - [log](perftests/run3.log)
-4. 31.0k / sec - [log](perftests/run4.log)
+[perftests/run1.log](perftests/run1.log):  Requests/sec:	25386.6980
+[perftests/run2.log](perftests/run2.log):  Requests/sec:	24801.1679
+[perftests/run3.log](perftests/run3.log):  Requests/sec:	24726.3641
+[perftests/run4.log](perftests/run4.log):  Requests/sec:	24558.7190
 
 ##### /smol-perf
-1. 76.2k / sec - [log](perftests/smol-run1.log)
-2. 53.2k / sec - [log](perftests/smol-run2.log)
-3. 30.8k / sec - [log](perftests/smol-run3.log)
-4. 84.9k / sec - [log](perftests/smol-run4.log)
+[perftests/smol-run1.log](perftests/smol-run1.log):  Requests/sec:	65754.6579
+[perftests/smol-run2.log](perftests/smol-run2.log):  Requests/sec:	54035.5844
+[perftests/smol-run3.log](perftests/smol-run3.log):  Requests/sec:	56846.3588
+[perftests/smol-run4.log](perftests/smol-run4.log):  Requests/sec:	56624.9325
