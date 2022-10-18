@@ -158,3 +158,15 @@ There's not much to talk about here. Pretty much everything is handmade. Though 
 
 #### Performance
 Standard library muxer does not have any router configurable panic or error handlers.
+
+##### /performance
+1. 31.7k / sec - [log](perftests/run1.log)
+2. 31.6k / sec - [log](perftests/run2.log)
+3. 31.4k / sec - [log](perftests/run3.log)
+4. 31.0k / sec - [log](perftests/run4.log)
+
+##### /smol-perf
+1. 76.2k / sec - [log](perftests/smol-run1.log)
+2. 53.2k / sec - [log](perftests/smol-run2.log)
+3. 30.8k / sec - [log](perftests/smol-run3.log)
+4. 84.9k / sec - [log](perftests/smol-run4.log)

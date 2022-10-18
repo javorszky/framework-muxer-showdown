@@ -1,0 +1,52 @@
+hey -z 30s -m GET -cpus 4 -c 200 -H "Authorization: icandowhatiwant" http://localhost:9000/performance
+
+Summary:
+  Total:	30.0047 secs
+  Slowest:	0.0597 secs
+  Fastest:	0.0000 secs
+  Average:	0.0063 secs
+  Requests/sec:	31595.1963
+  
+  Total data:	112765114 bytes
+  Size/request:	119 bytes
+
+Response time histogram:
+  0.000 [1]	|
+  0.006 [544581]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.012 [276028]	|■■■■■■■■■■■■■■■■■■■■
+  0.018 [93038]	|■■■■■■■
+  0.024 [25677]	|■■
+  0.030 [6411]	|
+  0.036 [1437]	|
+  0.042 [329]	|
+  0.048 [85]	|
+  0.054 [14]	|
+  0.060 [5]	|
+
+
+Latency distribution:
+  10% in 0.0009 secs
+  25% in 0.0025 secs
+  50% in 0.0050 secs
+  75% in 0.0089 secs
+  90% in 0.0133 secs
+  95% in 0.0165 secs
+  99% in 0.0234 secs
+
+Details (average, fastest, slowest):
+  DNS+dialup:	0.0000 secs, 0.0000 secs, 0.0597 secs
+  DNS-lookup:	0.0000 secs, 0.0000 secs, 0.0031 secs
+  req write:	0.0000 secs, 0.0000 secs, 0.0021 secs
+  resp wait:	0.0063 secs, 0.0000 secs, 0.0597 secs
+  resp read:	0.0000 secs, 0.0000 secs, 0.0014 secs
+
+Status code distribution:
+  [400]	947606 responses
+
+Error distribution:
+  [18]	Get "http://localhost:9000/performance": dial tcp [::1]:9000: socket: too many open files
+  [377]	Get "http://localhost:9000/performance": dial tcp: lookup localhost: no such host
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:55925->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:55926->127.0.0.1:9000: read: connection reset by peer
+  [1]	Get "http://localhost:9000/performance": read tcp 127.0.0.1:55927->127.0.0.1:9000: read: connection reset by peer
+
