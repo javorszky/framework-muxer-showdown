@@ -27,9 +27,9 @@ func New(l zerolog.Logger, errChan chan error) App {
 	// r.UseHandler(handlers.RequestID())
 	// r.UseHandler(handlers.Logger(handlerLogger))
 	// r.UseHandler(handlers.ErrorCatcher(handlerLogger, errChan))
-
-	r.UseHandler(handlers.MidOne(l))
-	r.UseHandler(handlers.MidTwo(l))
+	//
+	// r.UseHandler(handlers.MidOne(l))
+	// r.UseHandler(handlers.MidTwo(l))
 
 	// Grouping
 	group := r.NewGroup("/v1")
