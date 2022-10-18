@@ -87,7 +87,7 @@ func Logger(l zerolog.Logger) Middleware {
 }
 
 // ErrorCatcher is a copy-paste from the net/http implementation with a few things adjusted, like missing types, etc.
-func ErrorCatcher(l zerolog.Logger, shutdownchan chan error) func(next http.Handler) http.Handler {
+func ErrorCatcher(l zerolog.Logger, shutdownchan chan error) Middleware {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			l.Info().Msg("error middleware, serving embedded handler")
@@ -152,7 +152,7 @@ func ErrorCatcher(l zerolog.Logger, shutdownchan chan error) func(next http.Hand
 	}
 }
 
-func CtxChanger(l zerolog.Logger) func(next http.Handler) http.Handler {
+func CtxChanger(l zerolog.Logger) Middleware {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			l.Info().Msgf("MID: setting ctx value to be %s", ctxMiddlewareValue)
@@ -164,6 +164,50 @@ func CtxChanger(l zerolog.Logger) func(next http.Handler) http.Handler {
 
 			v := r.Context().Value(ctxupdownkey)
 			l.Info().Msgf("MID: getting back ctx value to be %s", v)
+		})
+	}
+}
+
+func MidOne(l zerolog.Logger) Middleware {
+	ll := l.With().Str("mid", "one").Logger()
+	return func(h http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			ll.Info().Msg("red one reporting in")
+
+			h.ServeHTTP(w, r)
+		})
+	}
+}
+
+func MidTwo(l zerolog.Logger) Middleware {
+	ll := l.With().Str("mid", "two").Logger()
+	return func(h http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			ll.Info().Msg("red two reporting in")
+
+			h.ServeHTTP(w, r)
+		})
+	}
+}
+
+func MidThree(l zerolog.Logger) Middleware {
+	ll := l.With().Str("mid", "three").Logger()
+	return func(h http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			ll.Info().Msg("red three reporting in")
+
+			h.ServeHTTP(w, r)
+		})
+	}
+}
+
+func MidFour(l zerolog.Logger) Middleware {
+	ll := l.With().Str("mid", "four").Logger()
+	return func(h http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			ll.Info().Msg("red four reporting in")
+
+			h.ServeHTTP(w, r)
 		})
 	}
 }

@@ -24,9 +24,12 @@ func New(l zerolog.Logger, errChan chan error) App {
 	r.RedirectTrailingSlash = false
 	r.PanicHandler = handlers.Recover(handlerLogger)
 
-	r.UseHandler(handlers.RequestID())
-	r.UseHandler(handlers.Logger(handlerLogger))
-	r.UseHandler(handlers.ErrorCatcher(handlerLogger, errChan))
+	// r.UseHandler(handlers.RequestID())
+	// r.UseHandler(handlers.Logger(handlerLogger))
+	// r.UseHandler(handlers.ErrorCatcher(handlerLogger, errChan))
+
+	r.UseHandler(handlers.MidOne(l))
+	r.UseHandler(handlers.MidTwo(l))
 
 	// Grouping
 	group := r.NewGroup("/v1")
@@ -86,6 +89,15 @@ func New(l zerolog.Logger, errChan chan error) App {
 	// Performance
 	r.GET("/performance", handlers.Auth(handlers.Performance(handlerLogger)).ServeHTTP)
 	r.GET("/smol-perf", handlers.StandardHandler().ServeHTTP)
+
+	// Layering
+	r.GET("/layer",
+		handlers.MidThree(l)(
+			handlers.MidFour(l)(
+				handlers.StandardHandlerFunc(),
+			),
+		).ServeHTTP,
+	)
 
 	server := &http.Server{
 		Addr:              ":9000",

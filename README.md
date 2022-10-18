@@ -64,6 +64,27 @@ I like the way middleware handling works here. As there are two different types 
 
 You can add middlewares to both the global handler, and also to each of the groups. They just work.
 
+Layering test
+```go
+r := httptreemux.NewContextMux()
+r.UseHandler(handlers.MidOne(l))
+r.UseHandler(handlers.MidTwo(l))
+
+r.GET("/layer",
+    handlers.MidThree(l)(
+        handlers.MidFour(l)(
+            handlers.StandardHandlerFunc(),
+        ),
+    ).ServeHTTP,
+)
+```
+```shell
+{"level":"info","component":"app","mid":"one","message":"red one reporting in"}
+{"level":"info","component":"app","mid":"two","message":"red two reporting in"}
+{"level":"info","component":"app","mid":"three","message":"red three reporting in"}
+{"level":"info","component":"app","mid":"four","message":"red four reporting in"}
+```
+
 #### Error handling middleware
 
 No special handling for error handling middleware, so the solution is much like net/http. That said a copy-paste for both the handlers and the middleware was enough to make it work.
