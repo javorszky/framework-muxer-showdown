@@ -7,7 +7,6 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/requestid"
-	json "github.com/minio/simdjson-go"
 	"github.com/rs/zerolog"
 
 	"github.com/suborbital/framework-muxer-showdown/handlers"
@@ -31,8 +30,6 @@ func New(l zerolog.Logger, errChan chan error) App {
 		AppName:           "fiber-test",
 		EnablePrintRoutes: true,
 		ErrorHandler:      handlers.ErrorHandler(l.With().Str("module", "errorHandler").Logger(), errChan),
-		JSONEncoder:       json.Marshal,
-		JSONDecoder:       json.Unmarshal,
 	})
 
 	// f.Use(handlers.Recover())

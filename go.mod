@@ -6,7 +6,6 @@ require (
 	github.com/gofiber/adaptor/v2 v2.1.28
 	github.com/gofiber/fiber/v2 v2.38.1
 	github.com/gofiber/websocket/v2 v2.1.0
-	github.com/minio/simdjson-go v0.4.2
 	github.com/pkg/errors v0.9.1
 	github.com/rs/zerolog v1.28.0
 	github.com/stretchr/testify v1.8.0
@@ -17,7 +16,6 @@ require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/fasthttp/websocket v1.5.0 // indirect
 	github.com/klauspost/compress v1.15.11 // indirect
-	github.com/klauspost/cpuid/v2 v2.0.9 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.16 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
