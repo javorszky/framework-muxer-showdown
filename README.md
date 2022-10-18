@@ -178,13 +178,13 @@ There doesn't seem to be any contrib repository, but also they wouldn't be chi s
 Chi doesn't have a router configurable error or panic handler, so I can selectively attach them to the individual routes, which means the thinner test, `/perf-smol` is going to be very lean.
 
 ##### /performance
-1. 22.8k / sec - [log](perftests/run1.log)
-2. 22.0k / sec - [log](perftests/run2.log)
-3. 22.2k / sec - [log](perftests/run3.log)
-4. 21.5k / sec - [log](perftests/run4.log)
+[perftests/run1.log](perftests/run1.log):  Requests/sec:	25712.9639
+[perftests/run2.log](perftests/run2.log):  Requests/sec:	27242.4208
+[perftests/run3.log](perftests/run3.log):  Requests/sec:	26532.3891
+[perftests/run4.log](perftests/run4.log):  Requests/sec:	26917.5733
 
 ##### /smol-perf
-1. 17.5k / sec - [log](perftests/smol-run1.log)
-2. 20.4k / sec - [log](perftests/smol-run1.log)
-3. 21.1k / sec - [log](perftests/smol-run1.log)
-4. 21.4k / sec - [log](perftests/smol-run1.log)
+[perftests/smol-run1.log](perftests/smol-run1.log):  Requests/sec:	18947.2857
+[perftests/smol-run2.log](perftests/smol-run2.log):  Requests/sec:	15651.2475
+[perftests/smol-run3.log](perftests/smol-run3.log):  Requests/sec:	20169.3368
+[perftests/smol-run4.log](perftests/smol-run4.log):  Requests/sec:	21124.5751
