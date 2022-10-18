@@ -106,3 +106,15 @@ This is a `Some`, because it relies heavily on standard library solutions, and t
 #### Performance
 
 httptreemux has router configurable panic handler, so that will be present for `/smol-perf` too.
+
+##### /performance
+[perftests/run1.log](perftests/run1.log):  Requests/sec:	22492.1095
+[perftests/run2.log](perftests/run2.log):  Requests/sec:	22290.5159
+[perftests/run3.log](perftests/run3.log):  Requests/sec:	22238.6294
+[perftests/run4.log](perftests/run4.log):  Requests/sec:	22591.5592
+
+##### /smol-perf
+[perftests/smol-run1.log](perftests/smol-run1.log):  Requests/sec:	14754.3833
+[perftests/smol-run2.log](perftests/smol-run2.log):  Requests/sec:	21348.5404
+[perftests/smol-run3.log](perftests/smol-run3.log):  Requests/sec:	22246.9219
+[perftests/smol-run4.log](perftests/smol-run4.log):  Requests/sec:	15226.8435
