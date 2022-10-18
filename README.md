@@ -142,16 +142,16 @@ Fiber has a router configurable error handler, so that will also wrap the `/smol
 
 ###### /performance
 
-[perftests/stdjson/run1.log](perftests/stdjson/run1.log):  Requests/sec:	64937.3429
-[perftests/stdjson/run2.log](perftests/stdjson/run2.log):  Requests/sec:	54957.3747
-[perftests/stdjson/run3.log](perftests/stdjson/run3.log):  Requests/sec:	64256.2797
-[perftests/stdjson/run4.log](perftests/stdjson/run4.log):  Requests/sec:	58466.2158
+* [perftests/stdjson/run1.log](perftests/stdjson/run1.log):  Requests/sec:	64937.3429
+* [perftests/stdjson/run2.log](perftests/stdjson/run2.log):  Requests/sec:	54957.3747
+* [perftests/stdjson/run3.log](perftests/stdjson/run3.log):  Requests/sec:	64256.2797
+* [perftests/stdjson/run4.log](perftests/stdjson/run4.log):  Requests/sec:	58466.2158
 
 ###### /smol-perf
-[perftests/stdjson/smol-run1.log](perftests/stdjson/smol-run1.log):  Requests/sec:	46897.7520
-[perftests/stdjson/smol-run2.log](perftests/stdjson/smol-run2.log):  Requests/sec:	50371.1567
-[perftests/stdjson/smol-run3.log](perftests/stdjson/smol-run3.log):  Requests/sec:	31360.7054
-[perftests/stdjson/smol-run4.log](perftests/stdjson/smol-run4.log):  Requests/sec:	52037.3624
+* [perftests/stdjson/smol-run1.log](perftests/stdjson/smol-run1.log):  Requests/sec:	46897.7520
+* [perftests/stdjson/smol-run2.log](perftests/stdjson/smol-run2.log):  Requests/sec:	50371.1567
+* [perftests/stdjson/smol-run3.log](perftests/stdjson/smol-run3.log):  Requests/sec:	31360.7054
+* [perftests/stdjson/smol-run4.log](perftests/stdjson/smol-run4.log):  Requests/sec:	52037.3624
 
 #### bytedance/sonic
 
@@ -159,17 +159,17 @@ https://github.com/bytedance/sonic
 
 ##### /performance
 
-[perftests/sonic/run1.log](perftests/sonic/run1.log):  Requests/sec:	65296.1769
-[perftests/sonic/run2.log](perftests/sonic/run2.log):  Requests/sec:	64270.4320
-[perftests/sonic/run3.log](perftests/sonic/run3.log):  Requests/sec:	63664.6592
-[perftests/sonic/run4.log](perftests/sonic/run4.log):  Requests/sec:	63249.9146
+* [perftests/sonic/run1.log](perftests/sonic/run1.log):  Requests/sec:	65296.1769
+* [perftests/sonic/run2.log](perftests/sonic/run2.log):  Requests/sec:	64270.4320
+* [perftests/sonic/run3.log](perftests/sonic/run3.log):  Requests/sec:	63664.6592
+* [perftests/sonic/run4.log](perftests/sonic/run4.log):  Requests/sec:	63249.9146
 
 ##### /smol-perf
 
-[perftests/sonic/smol-run1.log](perftests/sonic/smol-run1.log):  Requests/sec:	32491.4713
-[perftests/sonic/smol-run2.log](perftests/sonic/smol-run2.log):  Requests/sec:	34704.7958
-[perftests/sonic/smol-run3.log](perftests/sonic/smol-run3.log):  Requests/sec:	29288.5351
-[perftests/sonic/smol-run4.log](perftests/sonic/smol-run4.log):  Requests/sec:	47309.3414
+* [perftests/sonic/smol-run1.log](perftests/sonic/smol-run1.log):  Requests/sec:	32491.4713
+* [perftests/sonic/smol-run2.log](perftests/sonic/smol-run2.log):  Requests/sec:	34704.7958
+* [perftests/sonic/smol-run3.log](perftests/sonic/smol-run3.log):  Requests/sec:	29288.5351
+* [perftests/sonic/smol-run4.log](perftests/sonic/smol-run4.log):  Requests/sec:	47309.3414
 
 #### goccy/go-json
 
@@ -177,17 +177,17 @@ https://github.com/goccy/go-json
 
 ##### /performance
 
-[perftests/gojson/run1.log](perftests/gojson/run1.log):  Requests/sec:	63601.0865
-[perftests/gojson/run2.log](perftests/gojson/run2.log):  Requests/sec:	62191.1575
-[perftests/gojson/run3.log](perftests/gojson/run3.log):  Requests/sec:	60996.7687
-[perftests/gojson/run4.log](perftests/gojson/run4.log):  Requests/sec:	63513.8218
+* [perftests/gojson/run1.log](perftests/gojson/run1.log):  Requests/sec:	63601.0865
+* [perftests/gojson/run2.log](perftests/gojson/run2.log):  Requests/sec:	62191.1575
+* [perftests/gojson/run3.log](perftests/gojson/run3.log):  Requests/sec:	60996.7687
+* [perftests/gojson/run4.log](perftests/gojson/run4.log):  Requests/sec:	63513.8218
 
 ##### /smol-perf
 
-[perftests/gojson/smol-run1.log](perftests/gojson/smol-run1.log):  Requests/sec:	40644.1276
-[perftests/gojson/smol-run2.log](perftests/gojson/smol-run2.log):  Requests/sec:	57425.8480
-[perftests/gojson/smol-run3.log](perftests/gojson/smol-run3.log):  Requests/sec:	36281.0128
-[perftests/gojson/smol-run4.log](perftests/gojson/smol-run4.log):  Requests/sec:	33339.4671
+* [perftests/gojson/smol-run1.log](perftests/gojson/smol-run1.log):  Requests/sec:	40644.1276
+* [perftests/gojson/smol-run2.log](perftests/gojson/smol-run2.log):  Requests/sec:	57425.8480
+* [perftests/gojson/smol-run3.log](perftests/gojson/smol-run3.log):  Requests/sec:	36281.0128
+* [perftests/gojson/smol-run4.log](perftests/gojson/smol-run4.log):  Requests/sec:	33339.4671
 
 #### segmentio/encoding
 
@@ -195,13 +195,13 @@ https://github.com/segmentio/encoding
 
 ##### /performance
 
-[perftests/segmentio/run1.log](perftests/segmentio/run1.log):  Requests/sec:	64487.4839
-[perftests/segmentio/run2.log](perftests/segmentio/run2.log):  Requests/sec:	63546.9936
-[perftests/segmentio/run3.log](perftests/segmentio/run3.log):  Requests/sec:	64454.1790
-[perftests/segmentio/run4.log](perftests/segmentio/run4.log):  Requests/sec:	64752.7318
+* [perftests/segmentio/run1.log](perftests/segmentio/run1.log):  Requests/sec:	64487.4839
+* [perftests/segmentio/run2.log](perftests/segmentio/run2.log):  Requests/sec:	63546.9936
+* [perftests/segmentio/run3.log](perftests/segmentio/run3.log):  Requests/sec:	64454.1790
+* [perftests/segmentio/run4.log](perftests/segmentio/run4.log):  Requests/sec:	64752.7318
 
 ##### /smol-perf
-[perftests/segmentio/smol-run1.log](perftests/segmentio/smol-run1.log):  Requests/sec:	44554.4475
-[perftests/segmentio/smol-run2.log](perftests/segmentio/smol-run2.log):  Requests/sec:	54500.8237
-[perftests/segmentio/smol-run3.log](perftests/segmentio/smol-run3.log):  Requests/sec:	46608.7463
-[perftests/segmentio/smol-run4.log](perftests/segmentio/smol-run4.log):  Requests/sec:	47782.4312
+* [perftests/segmentio/smol-run1.log](perftests/segmentio/smol-run1.log):  Requests/sec:	44554.4475
+* [perftests/segmentio/smol-run2.log](perftests/segmentio/smol-run2.log):  Requests/sec:	54500.8237
+* [perftests/segmentio/smol-run3.log](perftests/segmentio/smol-run3.log):  Requests/sec:	46608.7463
+* [perftests/segmentio/smol-run4.log](perftests/segmentio/smol-run4.log):  Requests/sec:	47782.4312
