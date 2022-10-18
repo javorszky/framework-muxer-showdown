@@ -155,3 +155,6 @@ See the code at [handlers/errors_test.go](handlers/errors_test.go)!
 #### Ecosystem
 
 There's not much to talk about here. Pretty much everything is handmade. Though the examples for most things, like loggers etc, are given in standard library, so copying-pasting should be readily available.
+
+#### Performance
+Standard library muxer does not have any router configurable panic or error handlers.
