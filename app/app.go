@@ -26,8 +26,8 @@ func New(l zerolog.Logger, errChan chan error) App {
 	router.HandleMethodNotAllowed = true
 	router.NoMethod(handlers.NoMethod())
 
-	router.Use(handlers.MidOne(l))
-	router.Use(handlers.MidTwo(l))
+	// router.Use(handlers.MidOne(l))
+	// router.Use(handlers.MidTwo(l))
 
 	// router.Use(logger.SetLogger())
 
