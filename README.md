@@ -170,3 +170,21 @@ https://github.com/bytedance/sonic
 [perftests/sonic/smol-run2.log](perftests/sonic/smol-run2.log):  Requests/sec:	34704.7958
 [perftests/sonic/smol-run3.log](perftests/sonic/smol-run3.log):  Requests/sec:	29288.5351
 [perftests/sonic/smol-run4.log](perftests/sonic/smol-run4.log):  Requests/sec:	47309.3414
+
+#### goccy/go-json
+
+https://github.com/goccy/go-json
+
+##### /performance
+
+[perftests/gojson/run1.log](perftests/gojson/run1.log):  Requests/sec:	63601.0865
+[perftests/gojson/run2.log](perftests/gojson/run2.log):  Requests/sec:	62191.1575
+[perftests/gojson/run3.log](perftests/gojson/run3.log):  Requests/sec:	60996.7687
+[perftests/gojson/run4.log](perftests/gojson/run4.log):  Requests/sec:	63513.8218
+
+##### /smol-perf
+
+[perftests/gojson/smol-run1.log](perftests/gojson/smol-run1.log):  Requests/sec:	40644.1276
+[perftests/gojson/smol-run2.log](perftests/gojson/smol-run2.log):  Requests/sec:	57425.8480
+[perftests/gojson/smol-run3.log](perftests/gojson/smol-run3.log):  Requests/sec:	36281.0128
+[perftests/gojson/smol-run4.log](perftests/gojson/smol-run4.log):  Requests/sec:	33339.4671
