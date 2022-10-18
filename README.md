@@ -183,3 +183,15 @@ They're more a case of "if you want something more full featured, you should use
 #### Performance
 
 fasthttp router has a router configurable panic handler, but no error handler. The `/smol-perf` request will have the panic handler around it as a result.
+
+##### /performance
+[perftests/run1.log](perftests/run1.log):  Requests/sec:	24738.0518
+[perftests/run2.log](perftests/run2.log):  Requests/sec:	24694.7091
+[perftests/run3.log](perftests/run3.log):  Requests/sec:	24604.4618
+[perftests/run4.log](perftests/run4.log):  Requests/sec:	24617.0214
+
+##### /smol-perf
+[perftests/smol-run1.log](perftests/smol-run1.log):  Requests/sec:	32599.5566
+[perftests/smol-run2.log](perftests/smol-run2.log):  Requests/sec:	34165.8158
+[perftests/smol-run3.log](perftests/smol-run3.log):  Requests/sec:	33969.4429
+[perftests/smol-run4.log](perftests/smol-run4.log):  Requests/sec:	43348.5200

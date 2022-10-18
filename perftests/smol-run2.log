@@ -1,0 +1,47 @@
+hey -z 30s -m GET -cpus 4 -c 200 http://localhost:9000/smol-perf
+
+Summary:
+  Total:	30.0072 secs
+  Slowest:	0.1628 secs
+  Fastest:	0.0000 secs
+  Average:	0.0060 secs
+  Requests/sec:	34165.8158
+  
+  Total data:	38958360 bytes
+  Size/request:	38 bytes
+
+Response time histogram:
+  0.000 [1]	|
+  0.016 [908257]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.033 [72613]	|■■■
+  0.049 [13903]	|■
+  0.065 [3823]	|
+  0.081 [1044]	|
+  0.098 [265]	|
+  0.114 [69]	|
+  0.130 [19]	|
+  0.147 [3]	|
+  0.163 [3]	|
+
+
+Latency distribution:
+  10% in 0.0010 secs
+  25% in 0.0014 secs
+  50% in 0.0024 secs
+  75% in 0.0061 secs
+  90% in 0.0154 secs
+  95% in 0.0222 secs
+  99% in 0.0406 secs
+
+Details (average, fastest, slowest):
+  DNS+dialup:	0.0000 secs, 0.0000 secs, 0.1628 secs
+  DNS-lookup:	0.0000 secs, 0.0000 secs, 0.0090 secs
+  req write:	0.0000 secs, 0.0000 secs, 0.0276 secs
+  resp wait:	0.0058 secs, 0.0000 secs, 0.1628 secs
+  resp read:	0.0001 secs, 0.0000 secs, 0.0328 secs
+
+Status code distribution:
+  [200]	1000000 responses
+
+
+
