@@ -147,11 +147,28 @@ Implemented two different groups: one for the path specificity, the other for th
 
 Also just kinda work, the gin documentation (readme) also calls it out.
 
-<<<<<<< HEAD
 #### General middleware
 
-=======
->>>>>>> 70da6bc (Add entry for 3rd party stuff to readme)
+Middlewares and handlers are the same signature, the only difference is that in a middleware you can call `c.Next()`, which will call the next handler in the chain.
+
+Layering test with the following:
+```go
+router := gin.New()
+router.Use(handlers.MidOne(logger))
+router.Use(handlers.MidTwo(logger))
+router.GET("/layer",
+	handlers.MidThree(logger),
+	handlers.MidFour(logger),
+	gin.WrapH(handlers.StandardHandler()),
+)
+```
+```shell
+{"level":"info","component":"app","mid":"one","message":"red one reporting in"}
+{"level":"info","component":"app","mid":"two","message":"red two reporting in"}
+{"level":"info","component":"app","mid":"three","message":"red three reporting in"}
+{"level":"info","component":"app","mid":"four","message":"red four reporting in"}
+```
+
 #### Error handling middleware
 
 I put this down as `Kinda`. It's a lot more clunky than I would like. Gin has the concept of errors on context, you can grab the errors from the context, but it's going to be a slice, and then you need to sort through all of them and figure out which one is the most important to return to the client.
@@ -176,3 +193,7 @@ There are plenty of middlewares and whatnot.
 
 * examples live here: https://github.com/gin-gonic/examples
 * 3rd party middlewares: https://github.com/gin-contrib (includes logging with rs/zerolog, a cors middleware, authz, and requestID)
+
+#### Performance
+
+Gin doesn't have router configurable panic or error handlers.

@@ -102,3 +102,39 @@ func CtxUpDown(l zerolog.Logger) gin.HandlerFunc {
 		mwLogger.Info().Msgf("fetched the context value out, and it's '%s'", vOut)
 	}
 }
+
+func MidOne(l zerolog.Logger) gin.HandlerFunc {
+	ll := l.With().Str("mid", "one").Logger()
+	return func(c *gin.Context) {
+		ll.Info().Msg("red one reporting in")
+
+		c.Next()
+	}
+}
+
+func MidTwo(l zerolog.Logger) gin.HandlerFunc {
+	ll := l.With().Str("mid", "two").Logger()
+	return func(c *gin.Context) {
+		ll.Info().Msg("red two reporting in")
+
+		c.Next()
+	}
+}
+
+func MidThree(l zerolog.Logger) gin.HandlerFunc {
+	ll := l.With().Str("mid", "three").Logger()
+	return func(c *gin.Context) {
+		ll.Info().Msg("red three reporting in")
+
+		c.Next()
+	}
+}
+
+func MidFour(l zerolog.Logger) gin.HandlerFunc {
+	ll := l.With().Str("mid", "four").Logger()
+	return func(c *gin.Context) {
+		ll.Info().Msg("red four reporting in")
+
+		c.Next()
+	}
+}

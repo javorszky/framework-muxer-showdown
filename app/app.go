@@ -26,9 +26,12 @@ func New(l zerolog.Logger, errChan chan error) App {
 	router.HandleMethodNotAllowed = true
 	router.NoMethod(handlers.NoMethod())
 
-	router.Use(logger.SetLogger())
+	router.Use(handlers.MidOne(l))
+	router.Use(handlers.MidTwo(l))
 
-	router.Use(gin.CustomRecovery(handlers.CustomPanicRecovery(handlerLogger)))
+	// router.Use(logger.SetLogger())
+
+	// router.Use(gin.CustomRecovery(handlers.CustomPanicRecovery(handlerLogger)))
 
 	// Health endpoint
 	router.GET("/health", handlers.Health(handlerLogger))
@@ -95,11 +98,16 @@ func New(l zerolog.Logger, errChan chan error) App {
 	// Performance
 	router.GET("/performance",
 		requestid.New(),
+		logger.SetLogger(),
 		handlers.ErrorHandler(handlerLogger, errChan),
 		handlers.Auth(),
+		gin.CustomRecovery(handlers.CustomPanicRecovery(handlerLogger)),
 		handlers.Performance(handlerLogger),
 	)
 	router.GET("/smol-perf", gin.WrapH(handlers.StandardHandler()))
+
+	// Layering
+	router.GET("/layer", handlers.MidThree(l), handlers.MidFour(l), gin.WrapH(handlers.StandardHandler()))
 
 	server := &http.Server{
 		Addr:    ":9000",
