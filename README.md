@@ -146,13 +146,14 @@ Echo has a router configurable error handler, which means every route is going t
 
 ##### /performance
 
-[perftests/run1.log](perftests/run1.log):  Requests/sec:	17555.1314
-[perftests/run2.log](perftests/run2.log):  Requests/sec:	13237.3025
-[perftests/run3.log](perftests/run3.log):  Requests/sec:	18746.8773
-[perftests/run4.log](perftests/run4.log):  Requests/sec:	17661.6309
+* [perftests/run1.log](perftests/run1.log):  Requests/sec:	17555.1314
+* [perftests/run2.log](perftests/run2.log):  Requests/sec:	13237.3025
+* [perftests/run3.log](perftests/run3.log):  Requests/sec:	18746.8773
+* [perftests/run4.log](perftests/run4.log):  Requests/sec:	17661.6309
 
 ##### /smol-perf
-[perftests/smol-run1.log](perftests/smol-run1.log):  Requests/sec:	16632.8158
-[perftests/smol-run2.log](perftests/smol-run2.log):  Requests/sec:	19324.6546
-[perftests/smol-run3.log](perftests/smol-run3.log):  Requests/sec:	15797.3107
-[perftests/smol-run4.log](perftests/smol-run4.log):  Requests/sec:	17393.1447
+
+* [perftests/smol-run1.log](perftests/smol-run1.log):  Requests/sec:	16632.8158
+* [perftests/smol-run2.log](perftests/smol-run2.log):  Requests/sec:	19324.6546
+* [perftests/smol-run3.log](perftests/smol-run3.log):  Requests/sec:	15797.3107
+* [perftests/smol-run4.log](perftests/smol-run4.log):  Requests/sec:	17393.1447
