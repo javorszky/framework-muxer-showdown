@@ -5,6 +5,8 @@ import (
 
 	"github.com/gofiber/adaptor/v2"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v2/middleware/requestid"
 	"github.com/rs/zerolog"
 
 	"github.com/suborbital/framework-muxer-showdown/handlers"
@@ -86,6 +88,15 @@ func New(l zerolog.Logger, errChan chan error) App {
 	f.Get("/notfound-error", handlers.ReturnsNotFoundError())
 	f.Get("/request-error", handlers.ReturnsRequestError())
 	f.Get("/shutdown-error", handlers.ReturnsShutdownError())
+
+	// Performance
+	f.Get("/performance",
+		requestid.New(),
+		logger.New(),
+		handlers.Auth(),
+		handlers.Performance(handleLogger),
+	)
+	f.Get("/smol-perf", adaptor.HTTPHandler(handlers.StandardHandler()))
 
 	return App{
 		logger:  l,

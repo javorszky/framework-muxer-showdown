@@ -9,7 +9,6 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/rs/zerolog"
-
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
