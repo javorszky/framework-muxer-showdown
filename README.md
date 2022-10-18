@@ -105,7 +105,7 @@ So given the following example routes:
 /logout
 /shop
 ```
-You only want to place an auth middleware on `account` and `dashboard`, but not the others. The two existing solutions so far have been either to attache the middleware to the individual handlers, which is a lot of code duplication, or to change those routes to `/admin/*`, and attach the middleware to the admin group.
+You only want to place an auth middleware on `account` and `dashboard`, but not the others. The two existing solutions so far have been either to attach the middleware to the individual handlers, which is a lot of code duplication, or to change those routes to `/admin/*`, and attach the middleware to the admin group.
 
 With chi's groups you can do this:
 ```go
