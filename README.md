@@ -134,3 +134,7 @@ See the [errors_test.go](handlers/errors_test.go) file for more details.
 [Fiber's GitHub org](https://github.com/gofiber) has a bunch of useful repositories, middlewares. But other than that I've not seen extensive support / list of community bits. They do have a [discord however](https://docs.gofiber.io/extra/faq#does-fiber-have-a-community-chat).
 
 I've upgraded it to `Rich` because of this: https://github.com/gofiber/awesome-fiber.
+
+#### Performance
+
+Fiber has a router configurable error handler, so that will also wrap the `/smol-perf` route.

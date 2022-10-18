@@ -32,7 +32,7 @@ func New(l zerolog.Logger, errChan chan error) App {
 		ErrorHandler:      handlers.ErrorHandler(l.With().Str("module", "errorHandler").Logger(), errChan),
 	})
 
-	f.Use(handlers.Recover())
+	// f.Use(handlers.Recover())
 
 	// Health endpoints
 	f.Get("/health", handlers.Health())
@@ -94,6 +94,7 @@ func New(l zerolog.Logger, errChan chan error) App {
 		requestid.New(),
 		logger.New(),
 		handlers.Auth(),
+		handlers.Recover(),
 		handlers.Performance(handleLogger),
 	)
 	f.Get("/smol-perf", adaptor.HTTPHandler(handlers.StandardHandler()))
