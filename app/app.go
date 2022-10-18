@@ -27,9 +27,9 @@ func New(l zerolog.Logger, errChan chan error) App {
 	// Custom error handler that shovels "everything else" to echo's built in default error handler.
 	e.HTTPErrorHandler = handlers.CustomErrorHandler(errorLogger, errChan)
 
-	e.Use(middleware.RequestID())
-	e.Use(handlers.Zerolog(handlerLogger))
-	e.Use(handlers.PanicRecovery())
+	// e.Use(middleware.RequestID())
+	// e.Use(handlers.Zerolog(handlerLogger))
+	// e.Use(handlers.PanicRecovery())
 
 	// Match allows you to list multiple methods. Other options are either the singular e.GET, e.POST, e.PUT, e.DELETE,
 	// e.PATCH, e.OPTIONS, e.HEAD
@@ -83,7 +83,10 @@ func New(l zerolog.Logger, errChan chan error) App {
 	// Performance
 	e.GET("/performance",
 		handlers.Performance(handlerLogger),
+		middleware.RequestID(),
+		handlers.Zerolog(handlerLogger),
 		handlers.Auth(),
+		handlers.PanicRecovery(),
 	)
 	e.GET("/smol-perf", echo.WrapHandler(handlers.StandardHandler()))
 

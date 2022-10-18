@@ -139,3 +139,7 @@ This one is kind of awkward, but in the end it's a `Yes`, rather than a `Kinda`.
 There are tonnes of community written middlewares, from wrapping zerolog into echo's own logger, to cors implementations, jwt, whatever we want really.
 
 Take a gander: https://github.com/labstack/echo#third-party-middlewares
+
+#### Performance
+
+Echo has a router configurable error handler, which means every route is going to have that, including the thinner `/smol-perf` route.
