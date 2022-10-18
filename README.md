@@ -197,3 +197,17 @@ There are plenty of middlewares and whatnot.
 #### Performance
 
 Gin doesn't have router configurable panic or error handlers.
+
+##### /performance
+
+[perftests/run1.log](perftests/run1.log):  Requests/sec:	30864.4914
+[perftests/run2.log](perftests/run2.log):  Requests/sec:	32513.2556
+[perftests/run3.log](perftests/run3.log):  Requests/sec:	32970.2756
+[perftests/run4.log](perftests/run4.log):  Requests/sec:	32800.8955
+
+##### /smol-perf
+
+[perftests/smol-run1.log](perftests/smol-run1.log):  Requests/sec:	23343.5163
+[perftests/smol-run2.log](perftests/smol-run2.log):  Requests/sec:	15332.3898
+[perftests/smol-run3.log](perftests/smol-run3.log):  Requests/sec:	21377.7060
+[perftests/smol-run4.log](perftests/smol-run4.log):  Requests/sec:	21775.2100
