@@ -76,15 +76,17 @@ func New(l zerolog.Logger, errChan chan error) App {
 	r.GET("/ctxupdown", handlers.CtxMiddleware(handlerLogger)(handlers.CtxHandler(handlerLogger)))
 
 	// Performance
-	r.GET("/performance", handlers.RequestID()(
-		handlers.LoggerMiddleware(l)(
-			handlers.ErrorCatcher(handlerLogger, errChan)(
-				handlers.Auth(
-					handlers.Performance(handlerLogger),
+	r.GET("/performance",
+		handlers.RequestID()(
+			handlers.LoggerMiddleware(l)(
+				handlers.ErrorCatcher(handlerLogger, errChan)(
+					handlers.Auth(
+						handlers.Performance(handlerLogger),
+					),
 				),
 			),
 		),
-	))
+	)
 	r.GET("/smol-perf", fasthttpadaptor.NewFastHTTPHandler(handlers.StandardHandler()))
 
 	server := &fasthttp.Server{

@@ -179,3 +179,7 @@ The good thing is that this way we can test the handler itself, and no need to i
 There are a bunch of things made on top of fasthttp, both the handler, and the router. They are linked from the respective repositories, but none of them are the kind of things we could use in conjunction with the router, for example.
 
 They're more a case of "if you want something more full featured, you should use this other thing rather than this thing".
+
+#### Performance
+
+fasthttp router has a router configurable panic handler, but no error handler. The `/smol-perf` request will have the panic handler around it as a result.
