@@ -37,3 +37,6 @@ yeet:
 	$(MAKE) hammer-2 > perftests/smol-run3.log
 	$(MAKE) hammer > perftests/run4.log
 	$(MAKE) hammer-2 > perftests/smol-run4.log
+
+reqs:
+	@grep -rw "Requests/sec" perftests/*
