@@ -3,7 +3,9 @@ module github.com/suborbital/framework-muxer-showdown
 go 1.19
 
 require (
+	github.com/google/uuid v1.3.0
 	github.com/julienschmidt/httprouter v1.3.0
+	github.com/pkg/errors v0.9.1
 	github.com/rs/zerolog v1.28.0
 	github.com/stretchr/testify v1.8.0
 	golang.org/x/net v0.0.0-20221014081412-f15817d10f9b

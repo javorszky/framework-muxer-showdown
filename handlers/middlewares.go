@@ -4,7 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
+	"time"
 
+	"github.com/google/uuid"
 	"github.com/julienschmidt/httprouter"
 	"github.com/rs/zerolog"
 
@@ -142,6 +144,38 @@ func CTXMiddleware(l zerolog.Logger) func(httprouter.Handle) httprouter.Handle {
 			ctx2 := r.Context()
 			v2 := ctx2.Value(CTXUpDownKey)
 			l.Info().Msgf("got the value back from cx, it was %#v", v2)
+		}
+	}
+}
+
+func RequestID() func(httprouter.Handle) httprouter.Handle {
+	return func(next httprouter.Handle) httprouter.Handle {
+		return func(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+			_, ok := web.RequestIDFromContext(r.Context())
+			if !ok {
+				r = r.WithContext(web.ContextWithRequestID(r.Context(), uuid.New().String()))
+			}
+
+			next(w, r, params)
+		}
+	}
+}
+
+func LoggerMiddleware(l zerolog.Logger) func(httprouter.Handle) httprouter.Handle {
+	return func(next httprouter.Handle) httprouter.Handle {
+		return func(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+			start := time.Now()
+			rid, ok := web.RequestIDFromContext(r.Context())
+			if !ok {
+				l.Fatal().Msgf("request id should have been on the context. It wasn't")
+			}
+			localL := l.With().Str("path", r.RequestURI).Str("method", r.Method).Str("requestid", rid).Logger()
+
+			localL.Info().Msg("request started")
+
+			next(w, r, params)
+
+			localL.Info().Msgf("request completed in %s", time.Since(start).String())
 		}
 	}
 }
