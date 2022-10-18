@@ -5,12 +5,15 @@ import (
 	"encoding/json"
 	"net/http"
 	"runtime/debug"
+	"time"
 
+	"github.com/google/uuid"
+	"github.com/pkg/errors"
 	"github.com/rs/zerolog"
 	"github.com/savsgio/gotils/strconv"
 	"github.com/valyala/fasthttp"
 
-	"github.com/suborbital/framework-muxer-showdown/errors"
+	localErrors "github.com/suborbital/framework-muxer-showdown/errors"
 	"github.com/suborbital/framework-muxer-showdown/web"
 )
 
@@ -49,29 +52,29 @@ func ErrorCatcher(l zerolog.Logger, shutdownchan chan error) func(fasthttp.Reque
 				var status int
 
 				switch {
-				case errors.IsApplicationError(first):
+				case localErrors.IsApplicationError(first):
 					l.Warn().Msg("okay, so this is an application error")
-					apperr := errors.GetApplicationError(first)
+					apperr := localErrors.GetApplicationError(first)
 					er = messageResponse{
 						Message: "app error: " + apperr.Error(),
 					}
 					status = http.StatusInternalServerError
 
-				case errors.IsRequestError(first):
+				case localErrors.IsRequestError(first):
 					l.Warn().Msg("okay, so this is an request error")
-					rerr := errors.GetRequestError(first)
+					rerr := localErrors.GetRequestError(first)
 					er = messageResponse{Message: "bad request " + rerr.Error()}
 					status = http.StatusBadRequest
 
-				case errors.IsNotFoundError(first):
+				case localErrors.IsNotFoundError(first):
 					l.Warn().Msg("okay, so this is a not found error")
-					nferr := errors.GetNotFoundError(first)
+					nferr := localErrors.GetNotFoundError(first)
 					er = messageResponse{Message: "not found: " + nferr.Error()}
 					status = http.StatusNotFound
 
-				case errors.IsShutdownError(first):
+				case localErrors.IsShutdownError(first):
 					l.Warn().Msg("okay, so this is a shut down error")
-					sderr := errors.GetShutdownError(first)
+					sderr := localErrors.GetShutdownError(first)
 					er = messageResponse{Message: "well this is bad: " + sderr.Error()}
 					status = http.StatusServiceUnavailable
 					defer func() {
@@ -135,6 +138,44 @@ func CtxMiddleware(l zerolog.Logger) func(fasthttp.RequestHandler) fasthttp.Requ
 			v := c.UserValue(ctxupdownkey).(string)
 
 			l.Info().Msgf("MID: getting back ctx value to be %s", v)
+		}
+	}
+}
+
+func RequestID() func(fasthttp.RequestHandler) fasthttp.RequestHandler {
+	return func(next fasthttp.RequestHandler) fasthttp.RequestHandler {
+		return func(c *fasthttp.RequestCtx) {
+			_, ok := web.GetRequestID(c)
+			if !ok {
+				web.SetRequestID(c, uuid.New().String())
+			}
+
+			next(c)
+		}
+	}
+}
+
+func LoggerMiddleware(l zerolog.Logger) func(fasthttp.RequestHandler) fasthttp.RequestHandler {
+	return func(next fasthttp.RequestHandler) fasthttp.RequestHandler {
+		return func(c *fasthttp.RequestCtx) {
+			rid, ok := web.GetRequestID(c)
+			if !ok {
+				web.AddError(c, localErrors.NewShutdownError(errors.New("no request id on the request")))
+				return
+			}
+
+			localL := l.With().
+				Str("requestid", rid).
+				Bytes("method", c.Method()).
+				Bytes("path", c.Path()).
+				Logger()
+
+			start := time.Now()
+
+			localL.Info().Msg("starting request")
+			next(c)
+
+			localL.Info().Msgf("request finished in %s", time.Since(start).String())
 		}
 	}
 }
