@@ -44,6 +44,19 @@ server.ListenAndServer()
 
 It's the embedded standard context into the *http.Request
 
+#### Ca I use router as http.Handler?
+
+Yes
+```go
+var chiAsHandler http.Handler
+
+r := chi.NewRouter()
+
+chiAsHandler = r
+
+r.Mount("/router-as-handler", chiAsHandler)
+```
+
 #### Standard library handling
 
 That's what the handlers are, so uh... yeah, it supports it.

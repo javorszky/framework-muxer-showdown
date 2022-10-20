@@ -27,6 +27,12 @@ func New(l zerolog.Logger, errChan chan error) App {
 	// r.Use(handlers.MidFour())
 	// r.Use(handlers.MidThree())
 
+	var chiAsHandler http.Handler
+
+	chiAsHandler = r
+
+	r.Mount("/router-as-handler", chiAsHandler)
+
 	// Health
 	r.Get("/health", handlers.Health())
 	r.Options("/health", handlers.Health())
