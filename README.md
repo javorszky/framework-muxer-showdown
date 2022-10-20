@@ -26,6 +26,18 @@ API is nice, has a match-any method, a match-some method, and a match-single met
 
 It's a custom thing. :( Even though the standard `context.Context` is an interface. Technically, because both the std context, and echo's context are interfaces, we _could_ merge them both into a custom context and use that, but that's a bit annoying.
 
+#### Can I use router as http.Handler?
+
+Yes
+```go
+e := echo.New()
+
+var echoIsAHandler http.Handler
+
+echoIsAHandler = e
+
+e.Any("/router-is-handler", echo.WrapHandler(echoIsAHandler))
+```
 #### Standard library handling
 
 Yep, there's an `echo.WrapHandler(http.Handler)` that's readily available. Super easy to use.

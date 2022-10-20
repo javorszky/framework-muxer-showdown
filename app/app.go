@@ -27,6 +27,12 @@ func New(l zerolog.Logger, errChan chan error) App {
 	// Custom error handler that shovels "everything else" to echo's built in default error handler.
 	e.HTTPErrorHandler = handlers.CustomErrorHandler(errorLogger, errChan)
 
+	var echoIsAHandler http.Handler
+
+	echoIsAHandler = e
+
+	e.Any("/router-is-handler", echo.WrapHandler(echoIsAHandler))
+
 	// e.Use(middleware.RequestID())
 	// e.Use(handlers.Zerolog(handlerLogger))
 	// e.Use(handlers.PanicRecovery())
