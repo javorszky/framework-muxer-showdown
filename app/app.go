@@ -26,6 +26,12 @@ func New(l zerolog.Logger, errChan chan error) App {
 	router.HandleMethodNotAllowed = true
 	router.NoMethod(handlers.NoMethod())
 
+	var ginIsHandler http.Handler
+
+	ginIsHandler = router
+
+	router.Any("/router-is-handler", gin.WrapH(ginIsHandler))
+
 	// router.Use(handlers.MidOne(l))
 	// router.Use(handlers.MidTwo(l))
 

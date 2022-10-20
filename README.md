@@ -75,6 +75,18 @@ It's their own context, and not even an interface, like in the case of echo, but
 
 Granted it has a LOT of moving parts and capabilities, from storing the original request and ResponseWriter, to shorthands for sending data back to the client, to aborting the request due to an error, to setting / getting values up and down the chain, and storing the chain of handlers for a given request.
 
+#### Can I use it as http.Handler?
+Yes
+```go
+router := gin.New()
+
+var ginIsHandler http.Handler
+
+ginIsHandler = router
+
+router.Any("/router-is-handler", gin.WrapH(ginIsHandler))
+```
+
 #### Standard library handling
 
 Yes, gin provides `WrapF(f http.HandlerFunc)` and `WrapH(h http.Handler)` functions that turn both into a `gin.HandlerFunc(c *gin.Context) {}`, so this is straightforward.
