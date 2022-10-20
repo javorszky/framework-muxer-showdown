@@ -25,6 +25,12 @@ func New(l zerolog.Logger, errChan chan error) App {
 	r.HandleMethodNotAllowed = true
 	r.PanicHandler = handlers.Recover()
 
+	var httprouterIsHandler http.Handler
+
+	httprouterIsHandler = r
+
+	r.Handler(http.MethodGet, "/router-is-handler", httprouterIsHandler)
+
 	// Health endpoint
 	r.GET("/health", handlers.Health(handlerLogger))
 	r.OPTIONS("/health", handlers.Health(handlerLogger))

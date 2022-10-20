@@ -27,6 +27,17 @@ Makefile has a docker build that produces a utility image with `gci`, `golangci-
 
 Embedded into the standard `*http.Request` type.
 
+#### Can I use it http.Handler?
+
+```go
+r := httprouter.New()
+
+var httprouterIsHandler http.Handler
+
+httprouterIsHandler = r
+
+r.Handler(http.MethodGet, "/router-is-handler", httprouterIsHandler)
+```
 #### Standard library handling
 
 There are convenient adapters to deal with it. The parameters are then stored in the request context.
