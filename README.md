@@ -27,6 +27,17 @@ There are two ways of working with this - httptreemux.New() or httptreemux.NewCo
 
 This is an embedded context into the http request.
 
+#### Can I use it as http.Handler
+Yes
+```go
+r := httptreemux.NewContextMux()
+
+var treemuxIsHandler http.Handler
+
+treemuxIsHandler = r
+
+r.GET("/router-is-handler", treemuxIsHandler.ServeHTTP)
+```
 #### Standard library handling
 
 This comes out of the box because we are using the NewContextMux.

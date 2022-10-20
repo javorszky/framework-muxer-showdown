@@ -24,6 +24,12 @@ func New(l zerolog.Logger, errChan chan error) App {
 	r.RedirectTrailingSlash = false
 	r.PanicHandler = handlers.Recover(handlerLogger)
 
+	var treemuxIsHandler http.Handler
+
+	treemuxIsHandler = r
+
+	r.GET("/router-is-handler", treemuxIsHandler.ServeHTTP)
+
 	r.UseHandler(handlers.RequestID())
 	r.UseHandler(handlers.Logger(handlerLogger))
 	r.UseHandler(handlers.ErrorCatcher(handlerLogger, errChan))
