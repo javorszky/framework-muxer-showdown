@@ -25,6 +25,7 @@ Observations, in no particular order:
 * The `Prefork` option is super interesting!
 * `StrictRouting` needs to be set to true, otherwise `/spec` and `/spec/` are treated as the same.
 * Mercedes-Benz is a GitHub sponsor for them (yes, the car company)
+* has lots of unsafe in there :(
 
 Dependency graph is small! The entire `go.mod` file of fiber is this:
 ```go
@@ -51,6 +52,20 @@ Though this does not include the recover middleware, nor the adaptor middleware.
 #### Context type
 
 It's a custom `*fiber.Ctx` type. Works similarly to gin in that it has `c.Next()`.
+
+#### Can I use this as a standard library handler?
+
+Yes, though you do need the `adaptor` package.
+
+```go
+var fiberAsHandler http.Handler
+
+f := fiber.New()
+
+fiberAsHandler = adaptor.FiberApp(f)
+
+f.All("/router-is-http", adaptor.HTTPHandler(fiberAsHandler))
+```
 
 #### Standard library handling
 

@@ -1,6 +1,7 @@
 package app
 
 import (
+	"net/http"
 	"time"
 
 	"github.com/gofiber/adaptor/v2"
@@ -31,6 +32,12 @@ func New(l zerolog.Logger, errChan chan error) App {
 		EnablePrintRoutes: true,
 		ErrorHandler:      handlers.ErrorHandler(l.With().Str("module", "errorHandler").Logger(), errChan),
 	})
+
+	var fiberAsHandler http.Handler
+
+	fiberAsHandler = adaptor.FiberApp(f)
+
+	f.All("/router-is-http", adaptor.HTTPHandler(fiberAsHandler))
 
 	// f.Use(handlers.Recover())
 
