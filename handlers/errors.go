@@ -3,7 +3,7 @@ package handlers
 import (
 	"github.com/labstack/echo/v4"
 
-	localErrors "github.com/suborbital/framework-muxer-showdown/errors"
+	localErrors "github.com/javorszky/framework-muxer-showdown/errors"
 )
 
 func ReturnsAppError() echo.HandlerFunc {

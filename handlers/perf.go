@@ -5,7 +5,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog"
 
-	localErrors "github.com/suborbital/framework-muxer-showdown/errors"
+	localErrors "github.com/javorszky/framework-muxer-showdown/errors"
 )
 
 func Performance(l zerolog.Logger) echo.HandlerFunc {

@@ -16,7 +16,7 @@ Makefile has a docker build that produces a utility image with `gci`, `golangci-
 
 ### General Considerations
 
-See the tree here: https://github.com/suborbital/framework-muxer-showdown/tree/echo
+See the tree here: https://github.com/javorszky/framework-muxer-showdown/tree/echo
 
 API is nice, has a match-any method, a match-some method, and a match-single method handler.
 
@@ -87,7 +87,7 @@ I am very pleased with it!
 
 #### General middleware
 
-Super easy to use, works a lot similar to the [middleware situation in the net/http](https://github.com/suborbital/framework-muxer-showdown/tree/net/http#middlewares-easy) implementation.
+Super easy to use, works a lot similar to the [middleware situation in the net/http](https://github.com/javorszky/framework-muxer-showdown/tree/net/http#middlewares-easy) implementation.
 
 This is essentially what it looks like:
 

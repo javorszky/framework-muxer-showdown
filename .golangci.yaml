@@ -21,8 +21,8 @@ linters-settings:
     sections:
       - standard
       - default
-      - prefix(github.com/suborbital)
-      - prefix(github.com/suborbital/framework-muxer-showdown)
+      - prefix(github.com/javorszky)
+      - prefix(github.com/javorszky/framework-muxer-showdown)
   revive:
     max-open-files: 2048
     ignore-generated-header: true

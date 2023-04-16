@@ -8,7 +8,7 @@ import (
 	"github.com/labstack/gommon/log"
 	"github.com/rs/zerolog"
 
-	"github.com/suborbital/framework-muxer-showdown/errors"
+	"github.com/javorszky/framework-muxer-showdown/errors"
 )
 
 const (
