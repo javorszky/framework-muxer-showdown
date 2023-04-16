@@ -17,7 +17,7 @@ Makefile has a docker build that produces a utility image with `gci`, `golangci-
 
 ### General Considerations
 
-See the implementation here: https://github.com/suborbital/framework-muxer-showdown/tree/httptreemux
+See the implementation here: https://github.com/javorszky/framework-muxer-showdown/tree/httptreemux
 
 There are two ways of working with this - httptreemux.New() or httptreemux.NewContextMux(). The later uses http.Handler and http.HandlerFunc. The former uses its own function signature with a third map[string]string for params.
 
