@@ -1,21 +1,21 @@
 version: "3.9"
 services:
   linter:
-    image: suborbital/muxer-util:latest
+    image: javorszky/muxer-util:latest
     volumes:
       - .:/app:rw
     working_dir: /app
     command: golangci-lint run -v ./...
 
   lintfixer:
-    image: suborbital/muxer-util:latest
+    image: javorszky/muxer-util:latest
     volumes:
       - .:/app:rw
     working_dir: /app
     command: ["./ops/gci.sh"]
 
   mocks:
-   image: suborbital/muxer-util:latest
+   image: javorszky/muxer-util:latest
    volumes:
       - .:/app:rw
    working_dir: /app

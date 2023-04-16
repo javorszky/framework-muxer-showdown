@@ -6,7 +6,7 @@ import (
 
 	"github.com/rs/zerolog"
 
-	"github.com/suborbital/framework-muxer-showdown/app"
+	"github.com/javorszky/framework-muxer-showdown/app"
 )
 
 func main() {

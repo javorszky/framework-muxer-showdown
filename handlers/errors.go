@@ -5,8 +5,8 @@ import (
 
 	"github.com/rs/zerolog"
 
-	localErrors "github.com/suborbital/framework-muxer-showdown/errors"
-	"github.com/suborbital/framework-muxer-showdown/web"
+	localErrors "github.com/javorszky/framework-muxer-showdown/errors"
+	"github.com/javorszky/framework-muxer-showdown/web"
 )
 
 func ReturnsApplicationError(l zerolog.Logger) http.Handler {
