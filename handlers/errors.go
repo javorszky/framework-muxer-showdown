@@ -3,7 +3,7 @@ package handlers
 import (
 	"github.com/gofiber/fiber/v2"
 
-	"github.com/suborbital/framework-muxer-showdown/errors"
+	"github.com/javorszky/framework-muxer-showdown/errors"
 )
 
 func ReturnsApplicationError() fiber.Handler {

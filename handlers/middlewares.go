@@ -10,7 +10,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/rs/zerolog"
 
-	localErrors "github.com/suborbital/framework-muxer-showdown/errors"
+	localErrors "github.com/javorszky/framework-muxer-showdown/errors"
 )
 
 // This will be middlewares, so we can check error handling / panic recovery / authentication.
