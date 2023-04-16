@@ -3,8 +3,8 @@ package handlers
 import (
 	"net/http"
 
-	"github.com/suborbital/framework-muxer-showdown/errors"
-	"github.com/suborbital/framework-muxer-showdown/web"
+	"github.com/javorszky/framework-muxer-showdown/errors"
+	"github.com/javorszky/framework-muxer-showdown/web"
 )
 
 func ReturnsApplicationError() http.HandlerFunc {

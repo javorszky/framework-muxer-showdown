@@ -10,8 +10,8 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/rs/zerolog"
 
-	"github.com/suborbital/framework-muxer-showdown/errors"
-	"github.com/suborbital/framework-muxer-showdown/web"
+	"github.com/javorszky/framework-muxer-showdown/errors"
+	"github.com/javorszky/framework-muxer-showdown/web"
 )
 
 // This will be middlewares, so we can check error handling / panic recovery / authentication.

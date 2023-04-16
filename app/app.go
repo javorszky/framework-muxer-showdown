@@ -9,7 +9,7 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/rs/zerolog"
 
-	"github.com/suborbital/framework-muxer-showdown/handlers"
+	"github.com/javorszky/framework-muxer-showdown/handlers"
 )
 
 type App struct {
