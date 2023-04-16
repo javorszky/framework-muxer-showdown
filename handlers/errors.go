@@ -5,8 +5,8 @@ import (
 
 	"github.com/julienschmidt/httprouter"
 
-	localErrors "github.com/suborbital/framework-muxer-showdown/errors"
-	"github.com/suborbital/framework-muxer-showdown/web"
+	localErrors "github.com/javorszky/framework-muxer-showdown/errors"
+	"github.com/javorszky/framework-muxer-showdown/web"
 )
 
 func ReturnsApplicationError() httprouter.Handle {

@@ -7,8 +7,8 @@ import (
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog"
 
-	localErrors "github.com/suborbital/framework-muxer-showdown/errors"
-	"github.com/suborbital/framework-muxer-showdown/web"
+	localErrors "github.com/javorszky/framework-muxer-showdown/errors"
+	"github.com/javorszky/framework-muxer-showdown/web"
 )
 
 func Performance(l zerolog.Logger) httprouter.Handle {
