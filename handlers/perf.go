@@ -5,8 +5,8 @@ import (
 	"github.com/rs/zerolog"
 	"github.com/valyala/fasthttp"
 
-	localErrors "github.com/suborbital/framework-muxer-showdown/errors"
-	"github.com/suborbital/framework-muxer-showdown/web"
+	localErrors "github.com/javorszky/framework-muxer-showdown/errors"
+	"github.com/javorszky/framework-muxer-showdown/web"
 )
 
 func Performance(l zerolog.Logger) fasthttp.RequestHandler {

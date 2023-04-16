@@ -7,7 +7,7 @@ test:
 	go test ./...
 
 build:
-	docker build -f ops/Dockerfile -t suborbital/muxer-util:latest .
+	docker build -f ops/Dockerfile -t javorszky/muxer-util:latest .
 
 lint: build
 	docker compose up linter

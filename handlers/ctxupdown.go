@@ -7,7 +7,7 @@ import (
 	"github.com/rs/zerolog"
 	"github.com/valyala/fasthttp"
 
-	"github.com/suborbital/framework-muxer-showdown/web"
+	"github.com/javorszky/framework-muxer-showdown/web"
 )
 
 const ctxupdownkey string = "____ctxupdownkey"

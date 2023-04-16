@@ -1,4 +1,4 @@
-module github.com/suborbital/framework-muxer-showdown
+module github.com/javorszky/framework-muxer-showdown
 
 go 1.19
 

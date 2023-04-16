@@ -7,7 +7,7 @@ import (
 	"github.com/valyala/fasthttp"
 	"github.com/valyala/fasthttp/fasthttpadaptor"
 
-	"github.com/suborbital/framework-muxer-showdown/handlers"
+	"github.com/javorszky/framework-muxer-showdown/handlers"
 )
 
 type App struct {
