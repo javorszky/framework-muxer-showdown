@@ -19,19 +19,19 @@ Pretty basic, it gets us to about 80%. Only dependency we really need is when we
 
 Major downside is path variables. They _can_ be done, but that's a lot of extra code.
 
-See the tree here: https://github.com/suborbital/framework-muxer-showdown/tree/net/http
+See the tree here: https://github.com/javorszky/framework-muxer-showdown/tree/net/http
 
 ### 2. echo implementation
 
 Very clean, very simple to use, supports everything we really need. Only downside is the lack of standard library `context.Context`, but the timeouts can be configured on the echo instance before startup.
 
-See the implementation here: https://github.com/suborbital/framework-muxer-showdown/tree/echo
+See the implementation here: https://github.com/javorszky/framework-muxer-showdown/tree/echo
 
 ### 3. gin
 
 Mostly all right. The way it works is not really comfortable, but it gets the job done. No standard library context.Context, though there's a flag on the `gin` router that can be set to enable the timeout / deadline / cancel / done methods on it.
 
-See the implementation here: https://github.com/suborbital/framework-muxer-showdown/tree/gin
+See the implementation here: https://github.com/javorszky/framework-muxer-showdown/tree/gin
 ### 4. chi
 
 chi is mostly similar to the standard library net/http implementation with its very very standard signatures, with the added benefit of url params and routing.
@@ -40,7 +40,7 @@ Between net/http and chi, chi wins.
 Between chi and gin, chi wins, because gin can't do a routing we need.
 Between chi and echo though, echo wins because of significantly easier error handling.
 
-See the implementation here: https://github.com/suborbital/framework-muxer-showdown/tree/chi
+See the implementation here: https://github.com/javorszky/framework-muxer-showdown/tree/chi
 ### 5. fiber
 
 I **really** like fiber, despite the fact that it has a custom ctx (this seems to be a common theme), despite the fact we can't easily access the http request and response writers, and despite the fact that unit testing doesn't use the NewRecorder, and despite the weird ordering need to make the overlap happen.
@@ -49,7 +49,7 @@ It makes up for all of those by providing convenience methods and middlewares th
 
 It has a really robust configuration option, and grouping and middlewares are excellent, and clear.
 
-See the implementation here: https://github.com/suborbital/framework-muxer-showdown/tree/fiber
+See the implementation here: https://github.com/javorszky/framework-muxer-showdown/tree/fiber
 
 ### 6. httprouter
 
@@ -61,7 +61,7 @@ Grouping is also very problematic. I suppose Gin fixed some of the issues and ma
 
 I can't recommend we use it.
 
-See the implementation here: https://github.com/suborbital/framework-muxer-showdown/tree/httprouter
+See the implementation here: https://github.com/javorszky/framework-muxer-showdown/tree/httprouter
 
 ### 7. httptreemux
 
@@ -69,7 +69,7 @@ Just a router, super similar to httprouter. There's only one test that really fa
 
 I particularly like that I can create a muxer that's either the standard library handlers, or its own signature with the params as a third one.
 
-See the implementation here: https://github.com/suborbital/framework-muxer-showdown/tree/httptreemux
+See the implementation here: https://github.com/javorszky/framework-muxer-showdown/tree/httptreemux
 
 ## Template for readme
 
