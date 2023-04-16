@@ -15,7 +15,7 @@ Makefile has a docker build that produces a utility image with `gci`, `golangci-
 ## gin implementation
 ### General considerations
 #### paths with multiple http verbs
-Gin is... kind of weird to get started with. Compared to [echo](https://github.com/suborbital/framework-muxer-showdown/tree/echo), the only two ways to define a route with multiple verbs are
+Gin is... kind of weird to get started with. Compared to [echo](https://github.com/javorszky/framework-muxer-showdown/tree/echo), the only two ways to define a route with multiple verbs are
 * either multiple single declarations, like `gin.GET` and `gin.OPTIONS` for the same route, or
 * `gin.Any()`, which will enable the route for all verbs, and then put a configured middleware on that one specific route
 
@@ -103,7 +103,7 @@ As we can access the raw request and ResponseWriter, it's essentially the same s
 
 #### Path specificity
 
-Gin isn't as powerful as [echo](https://github.com/suborbital/framework-muxer-showdown/tree/echo) in this. It handles the single, and everyone else cases, but having these three declarations at the same time causes a panic:
+Gin isn't as powerful as [echo](https://github.com/javorszky/framework-muxer-showdown/tree/echo) in this. It handles the single, and everyone else cases, but having these three declarations at the same time causes a panic:
 ```go
 // Path specificity
 router.GET("/spec", handlers.Single())
@@ -111,9 +111,9 @@ router.GET("/spec/*thing", handlers.Everyone())
 router.GET("/spec/long/url/here", handlers.LongRoute())
 ```
 ```shell
-[GIN-debug] GET    /spec                     --> github.com/suborbital/framework-muxer-showdown/handlers.Single.func1 (3 handlers)
-[GIN-debug] GET    /spec/*thing              --> github.com/suborbital/framework-muxer-showdown/handlers.Everyone.func1 (3 handlers)
-[GIN-debug] GET    /spec/long/url/here       --> github.com/suborbital/framework-muxer-showdown/handlers.LongRoute.func1 (3 handlers)
+[GIN-debug] GET    /spec                     --> github.com/javorszky/framework-muxer-showdown/handlers.Single.func1 (3 handlers)
+[GIN-debug] GET    /spec/*thing              --> github.com/javorszky/framework-muxer-showdown/handlers.Everyone.func1 (3 handlers)
+[GIN-debug] GET    /spec/long/url/here       --> github.com/javorszky/framework-muxer-showdown/handlers.LongRoute.func1 (3 handlers)
 panic: '/long/url/here' in new path '/spec/long/url/here' conflicts with existing wildcard '/*thing' in existing prefix '/spec/*thing'
 
 goroutine 1 [running]:
