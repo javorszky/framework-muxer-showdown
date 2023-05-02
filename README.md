@@ -1,7 +1,5 @@
 # framework-muxer-showdown
 
-A companion repository to the muxer/framework showdown notion page.
-
 ## Scaffolding
 
 Makefile has a docker build that produces a utility image with `gci`, `golangci-lint`, and `mockery` in it. The docker compose file then uses that image to run the various tools, so you don't need to have any of them installed locally.
